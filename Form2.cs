@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace up
@@ -47,7 +42,7 @@ namespace up
             string[] line;
 
             int i = -1;
-            f1.exception_name.Clear();
+            f1.easy.exception_name.Clear();
             foreach (Match m in words)
             {
                 i++;
@@ -57,14 +52,14 @@ namespace up
                 if (i == 1)
                     if (line[1] != "")
                     {
-                        f1.exception_any_side = Convert.ToUInt32(line[1]);
-                        f1.exception_sum_side = Convert.ToUInt32(line[2]);
-                        f1.exception_weight = Convert.ToUInt32(line[3]);
+                        f1.easy.exception_any_side = Convert.ToUInt32(line[1]);
+                        f1.easy.exception_sum_side = Convert.ToUInt32(line[2]);
+                        f1.easy.exception_weight = Convert.ToUInt32(line[3]);
                     }
-                if (line[0] != "") f1.exception_name.Add(line[0]);
+                if (line[0] != "") f1.easy.exception_name.Add(line[0]);
             }
             richTextBox1.Text = "";
-            foreach (string str in f1.exception_name)
+            foreach (string str in f1.easy.exception_name)
                 richTextBox1.Text = richTextBox1.Text + "\r\n " + str;
 
             //----------------------------------------чтение исключающих данных ----------------------------------------
@@ -77,7 +72,7 @@ namespace up
 
         private void Prefix_for_id_Leave(object sender, EventArgs e)
         {
-            f1.easy.prefix_for_id = f1.full.prefix_for_id = prefix_for_id.Text;
+            f1.easy.prefix_for_id = prefix_for_id.Text;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -93,8 +88,8 @@ namespace up
 
         private void Correction_of_quantity_CheckedChanged(object sender, EventArgs e)
         {
-            if (correction_of_quantity.Checked) f1.easy.quantity_change = true;
-            else f1.easy.quantity_change = false;
+            if (correction_of_quantity.Checked) f1.easy.get_min_sale = true;
+            else f1.easy.get_min_sale = false;
         }
 
         private void Use_base_price_CheckedChanged(object sender, EventArgs e)
@@ -137,7 +132,7 @@ namespace up
                 if (line[0] != "") f1.easy.coefficient.Add(coeff);
             }
             foreach (float[] str in f1.easy.coefficient)
-                richTextBox1.Text = richTextBox1.Text + str[0] + ":" + str[1] + ":" + str[2] + "\r\n";
+                richTextBox1.Text = richTextBox1.Text + str[0] + ":" + str[1] + " : " + str[2] + "\r\n";
             //  ---------------------------------------- чтение исключающих данных ----------------------------------------
         }
 
@@ -186,6 +181,21 @@ namespace up
             foreach (string[] str in f1.easy.quality_correct)
                 richTextBox1.Text = richTextBox1.Text + str[0] + ":" + str[1] + "\r\n";
             //  ---------------------------------------- чтение исключающих данных ----------------------------------------
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            //var pt = f1.set_easy.Owner;
+            //f1.set_easy.Dispose(false);
+            //f1.set_easy = new Form2();
+            //f1.set_easy.Owner = pt;
+            //f1.set_easy.Hide(); // f1.set_easy.Show();
+
+
+            foreach (Control control in f1.set_easy.Controls)
+                f1.ctrl(control);
+
+            f1.f.clear_configure("easy");
         }
     }
 }

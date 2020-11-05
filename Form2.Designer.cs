@@ -41,12 +41,13 @@
             this.exception_rules_xml = new System.Windows.Forms.ListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.clear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label5
             // 
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label5.Location = new System.Drawing.Point(15, 318);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(113, 42);
@@ -55,8 +56,8 @@
             // 
             // label4
             // 
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label4.Location = new System.Drawing.Point(15, 265);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(110, 39);
@@ -66,9 +67,6 @@
             // correction_quantity
             // 
             this.correction_quantity.AllowDrop = true;
-            this.correction_quantity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.correction_quantity.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.correction_quantity.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.correction_quantity.FormattingEnabled = true;
@@ -82,9 +80,6 @@
             // new_price
             // 
             this.new_price.AllowDrop = true;
-            this.new_price.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.new_price.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.new_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.new_price.FormattingEnabled = true;
@@ -136,8 +131,8 @@
             // 
             // prefix_for_id
             // 
-            this.prefix_for_id.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.prefix_for_id.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.prefix_for_id.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.prefix_for_id.Location = new System.Drawing.Point(133, 12);
             this.prefix_for_id.Name = "prefix_for_id";
             this.prefix_for_id.Size = new System.Drawing.Size(220, 20);
@@ -188,13 +183,24 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(292, 366);
+            this.button1.Location = new System.Drawing.Point(330, 366);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 33;
             this.button1.Text = "Ок";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
+            // clear
+            // 
+            this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
+            this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.clear.Location = new System.Drawing.Point(640, 366);
+            this.clear.Name = "clear";
+            this.clear.Size = new System.Drawing.Size(23, 23);
+            this.clear.TabIndex = 34;
+            this.clear.UseVisualStyleBackColor = true;
+            this.clear.Click += new System.EventHandler(this.Button2_Click);
             // 
             // Form2
             // 
@@ -203,6 +209,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
             this.ClientSize = new System.Drawing.Size(679, 401);
             this.ControlBox = false;
+            this.Controls.Add(this.clear);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label5);
@@ -230,16 +237,17 @@
 
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ListBox correction_quantity;
-        private System.Windows.Forms.ListBox new_price;
-        private System.Windows.Forms.CheckBox use_base_price;
-        private System.Windows.Forms.CheckBox correction_of_quantity;
-        private System.Windows.Forms.CheckBox exclude_in_other_store;
-        private System.Windows.Forms.TextBox prefix_for_id;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox exception_rules_xml;
         public System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.CheckBox use_base_price;
+        public System.Windows.Forms.CheckBox correction_of_quantity;
+        public System.Windows.Forms.CheckBox exclude_in_other_store;
+        public System.Windows.Forms.ListBox correction_quantity;
+        public System.Windows.Forms.ListBox new_price;
+        public System.Windows.Forms.TextBox prefix_for_id;
+        public System.Windows.Forms.ListBox exception_rules_xml;
+        private System.Windows.Forms.Button clear;
     }
 }
