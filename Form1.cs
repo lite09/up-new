@@ -797,7 +797,7 @@ namespace up
                                     //option = ops_csv.Find(op => op.id == Convert.ToInt32(offer.id));
                                     foreach (var item in ops_csv)
                                     {
-                                        if (offer.id == item.id.ToString())
+                                        if (offer.id == item.artnumber)
                                         {
                                             option = new Options();
                                             option = item;
@@ -806,7 +806,8 @@ namespace up
                                     }
                                 }
 
-                                if (mode.data_in_csv && (option != null)/* && (Convert.ToInt32(offer.id) == option.id)*/)
+                                //  option поле из фаила описания
+                                if (mode.data_in_csv && option != null && option.WEIGHT != "")/* && (Convert.ToInt32(offer.id) == option.id))*/
                                 {
                                     //offer.packing_size = option.WIDTH_PACK + " см × " + option.LENGTH_PACK + " см × " + option.HEIGHT_PACK + " см";
                                     offer.weight = option.WEIGHT_V;
@@ -912,7 +913,8 @@ namespace up
                                             offer.type_of_package = option.DELIVERY_PACKAGE_TYPE;
                                             offer.composition_of_package = option.DELIVERY_PACKAGE;
                                         }
-                                        else {}
+                                        else {
+                                        }
                                     }
                                     else
                                     {
@@ -924,7 +926,6 @@ namespace up
                                 if ((a + b + c) >= mode.exception_sum_side)
                                     continue;
                                 //  --------------------------- фильтр исключений -------------------------------------
-
                                 offer.a = a * 10; offer.b = b * 10; offer.c = c * 10;
 
                                 //  --------------------------- фильтр исключений -------------------------------------
@@ -1012,7 +1013,12 @@ namespace up
                                     }
 
                                     offer.id_with_prefix = option.ID;
-                                    offer.product_color = option.PRODUCT_COLOR;
+                                    //  ------------------------------  Получение цвета ------------------------------
+                                    if (option.PRODUCT_COLOR != "")
+                                        offer.product_color = option.PRODUCT_COLOR;
+                                    else
+                                        offer.product_color = f.color_from_name(offer.name);
+                                    //  ------------------------------  Получение цвета ------------------------------
                                     offer.type_of_package = option.DELIVERY_PACKAGE_TYPE;
                                     offer.composition = option.DELIVERY_PACKAGE;
                                 }
@@ -1026,8 +1032,12 @@ namespace up
                                     offer.size = (string)i.FirstOrDefault();
                                 }
 
-                                if (option != null)
+                                //  ------------------------------  Получение цвета ------------------------------
+                                if (option != null && option.PRODUCT_COLOR != "")
                                     offer.product_color = option.PRODUCT_COLOR;
+                                else
+                                    offer.product_color = f.color_from_name(offer.name);
+                                //  ------------------------------  Получение цвета ------------------------------
 
 
                                 //i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Индивидуальная упаковка");
@@ -2316,8 +2326,8 @@ public partial class file_line
             if (line_csv_folder[index].Text == "")
                 name_csv = Path.GetDirectoryName(line_xml_file[index].Text) + "\\" + name_csv;
             else
-                // name_csv = line_csv_folder[index].Text.ToString() + "\\" + name_csv;
-                name_csv = line_csv_folder[index].Text.ToString();
+                name_csv = line_csv_folder[index].Text.ToString() + "\\" + name_csv;
+                // name_csv = line_csv_folder[index].Text.ToString();
         }
 
         try
@@ -2332,6 +2342,13 @@ public partial class file_line
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     csv.Configuration.Delimiter = ";";
+                    csv.Configuration.HeaderValidated = null;
+                    csv.Configuration.MissingFieldFound = null;
+                    csv.Configuration.Encoding = Encoding.GetEncoding(1251);
+                    var info = new List<string>();
+                    csv.Configuration.BadDataFound = data => { 
+                        info.Add(data.RawRecord);
+                    };
 
                     var l = csv.GetRecords<Options>();
                     options_csv = l.ToList();
@@ -2376,8 +2393,8 @@ public partial class file_line
 
             return clear_csv;
         }
-        catch {
-            MessageBox.Show("Укажите правильный путь к папке с дополнительными файлами");
+        catch/*(BadDataException i)*/ {
+            //MessageBox.Show(i.ToString());
             return null;
         }
     }
