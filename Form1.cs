@@ -429,7 +429,7 @@ namespace up
             {
                 if ((offer.id_with_prefix == offer.id) && mode.prefix_for_id != "") {
                     offer.id_with_prefix = mode.prefix_for_id + offer.id;
-                }
+                } 
 
 
                 //  ------------------------------  Получение цвета ------------------------------
@@ -906,8 +906,8 @@ namespace up
                                     {
                                         if ((option.WIDTH_PACK != "") && (option.LENGTH_PACK != "") && (option.HEIGHT_PACK != ""))
                                         {
-                                            a = Convert.ToSingle(option.WIDTH_PACK);
-                                            b = Convert.ToSingle(option.LENGTH_PACK);
+                                            a = Convert.ToSingle(option.LENGTH_PACK);
+                                            b = Convert.ToSingle(option.WIDTH_PACK);
                                             c = Convert.ToSingle(option.HEIGHT_PACK);
 
                                             offer.type_of_package = option.DELIVERY_PACKAGE_TYPE;
@@ -986,10 +986,12 @@ namespace up
 
                                     if (option.MATERIAL != "")
                                         offer.composition = option.MATERIAL;
+                                    else if (option.SOSTAV != "")
+                                        offer.composition = option.MATERIAL = option.SOSTAV;
                                     else
                                     {
                                         i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Состав");
-                                        offer.composition = (string)i.FirstOrDefault();
+                                        offer.composition = option.MATERIAL = (string)i.FirstOrDefault();
                                     }
 
                                     if (mode.use_xml_description)
@@ -1012,15 +1014,17 @@ namespace up
                                         }
                                     }
 
-                                    offer.id_with_prefix = option.ID;
+                                    if (option.artnumber != "")
+                                        offer.id_with_prefix = option.artnumber;
                                     //  ------------------------------  Получение цвета ------------------------------
                                     if (option.PRODUCT_COLOR != "")
                                         offer.product_color = option.PRODUCT_COLOR;
                                     else
-                                        offer.product_color = f.color_from_name(offer.name);
+                                        if (mode.color_from_YML)
+                                            offer.product_color = f.color_from_name(offer.name);
                                     //  ------------------------------  Получение цвета ------------------------------
-                                    offer.type_of_package = option.DELIVERY_PACKAGE_TYPE;
-                                    offer.composition = option.DELIVERY_PACKAGE;
+                                    // offer.type_of_package = option.DELIVERY_PACKAGE_TYPE;       //  дубль
+                                    // offer.composition = option.MATERIAL;
                                 }
 
                                 //offer.vendorCode = el.Element("vendorCode").Value;
@@ -1036,7 +1040,8 @@ namespace up
                                 if (option != null && option.PRODUCT_COLOR != "")
                                     offer.product_color = option.PRODUCT_COLOR;
                                 else
-                                    offer.product_color = f.color_from_name(offer.name);
+                                    if (mode.color_from_YML)
+                                        offer.product_color = f.color_from_name(offer.name);
                                 //  ------------------------------  Получение цвета ------------------------------
 
 
@@ -1414,8 +1419,8 @@ namespace up
         timer_st tm = new timer_st();
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            string load = null;
             ThreadPool.GetAvailableThreads(out threads_avariable, out threads_all);
+            //string load = null;
 
             //if (threads_all - threads_avariable == 0)
             //{
