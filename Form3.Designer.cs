@@ -68,6 +68,8 @@
             this.gred = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tre_folder_label = new System.Windows.Forms.Label();
+            this.tre_folder = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -76,7 +78,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(343, 569);
+            this.button1.Location = new System.Drawing.Point(341, 618);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 46;
@@ -89,7 +91,7 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox1.Location = new System.Drawing.Point(374, 8);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(364, 211);
+            this.richTextBox1.Size = new System.Drawing.Size(364, 204);
             this.richTextBox1.TabIndex = 45;
             this.richTextBox1.Text = "";
             // 
@@ -147,9 +149,9 @@
             this.groupBox2.Controls.Add(this.del_not_full_packing_size);
             this.groupBox2.Controls.Add(this.transform_packing_size);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox2.Location = new System.Drawing.Point(374, 225);
+            this.groupBox2.Location = new System.Drawing.Point(374, 218);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(364, 206);
+            this.groupBox2.Size = new System.Drawing.Size(364, 213);
             this.groupBox2.TabIndex = 48;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Правила габаритов YML";
@@ -158,7 +160,7 @@
             // 
             this.label7.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label7.Location = new System.Drawing.Point(6, 112);
+            this.label7.Location = new System.Drawing.Point(6, 121);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(147, 20);
             this.label7.TabIndex = 54;
@@ -169,7 +171,7 @@
             // 
             this.label6.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label6.Location = new System.Drawing.Point(6, 81);
+            this.label6.Location = new System.Drawing.Point(6, 90);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(147, 20);
             this.label6.TabIndex = 49;
@@ -179,7 +181,7 @@
             // composition_of_package
             // 
             this.composition_of_package.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.composition_of_package.Location = new System.Drawing.Point(159, 113);
+            this.composition_of_package.Location = new System.Drawing.Point(159, 122);
             this.composition_of_package.Name = "composition_of_package";
             this.composition_of_package.Size = new System.Drawing.Size(189, 21);
             this.composition_of_package.TabIndex = 53;
@@ -188,7 +190,7 @@
             // type_of_package
             // 
             this.type_of_package.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.type_of_package.Location = new System.Drawing.Point(159, 86);
+            this.type_of_package.Location = new System.Drawing.Point(159, 95);
             this.type_of_package.Name = "type_of_package";
             this.type_of_package.Size = new System.Drawing.Size(189, 21);
             this.type_of_package.TabIndex = 49;
@@ -198,7 +200,7 @@
             // 
             this.label1.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label1.Location = new System.Drawing.Point(12, 158);
+            this.label1.Location = new System.Drawing.Point(12, 163);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(141, 39);
             this.label1.TabIndex = 52;
@@ -211,7 +213,7 @@
             this.coefficient_package_mass.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.coefficient_package_mass.FormattingEnabled = true;
             this.coefficient_package_mass.ItemHeight = 15;
-            this.coefficient_package_mass.Location = new System.Drawing.Point(159, 158);
+            this.coefficient_package_mass.Location = new System.Drawing.Point(159, 163);
             this.coefficient_package_mass.Name = "coefficient_package_mass";
             this.coefficient_package_mass.Size = new System.Drawing.Size(189, 32);
             this.coefficient_package_mass.TabIndex = 52;
@@ -315,7 +317,7 @@
             // 
             this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
             this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.clear.Location = new System.Drawing.Point(715, 569);
+            this.clear.Location = new System.Drawing.Point(715, 618);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(23, 23);
             this.clear.TabIndex = 51;
@@ -566,13 +568,37 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Размеры и размерные сетки";
             // 
+            // tre_folder_label
+            // 
+            this.tre_folder_label.AutoSize = true;
+            this.tre_folder_label.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tre_folder_label.ForeColor = System.Drawing.Color.DarkGreen;
+            this.tre_folder_label.Location = new System.Drawing.Point(12, 582);
+            this.tre_folder_label.Name = "tre_folder_label";
+            this.tre_folder_label.Size = new System.Drawing.Size(122, 19);
+            this.tre_folder_label.TabIndex = 52;
+            this.tre_folder_label.Text = "Структура папок";
+            // 
+            // tre_folder
+            // 
+            this.tre_folder.AllowDrop = true;
+            this.tre_folder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tre_folder.Location = new System.Drawing.Point(161, 579);
+            this.tre_folder.Name = "tre_folder";
+            this.tre_folder.Size = new System.Drawing.Size(564, 20);
+            this.tre_folder.TabIndex = 53;
+            this.tre_folder.DragDrop += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragDrop);
+            this.tre_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragEnter);
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(747, 600);
+            this.ClientSize = new System.Drawing.Size(747, 653);
             this.ControlBox = false;
+            this.Controls.Add(this.tre_folder);
+            this.Controls.Add(this.tre_folder_label);
             this.Controls.Add(this.clear);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -640,5 +666,7 @@
         public System.Windows.Forms.CheckBox gred;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label tre_folder_label;
+        private System.Windows.Forms.TextBox tre_folder;
     }
 }

@@ -437,5 +437,22 @@ namespace up
 
             f.f.clear_configure("full");
         }
+
+        private void tre_folder_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void tre_folder_DragDrop(object sender, DragEventArgs e)
+        {
+            //tre_folder.Text = (string)sender;
+            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            Regex l = new Regex(@".*\\.*\.(.*)$");
+
+            if (l.Match(file_name[0]).Groups[1].Value == "")
+                tre_folder.Text = file_name[0];
+            else
+                tre_folder.Text = Path.GetDirectoryName(file_name[0]);
+        }
     }
 }
