@@ -36,6 +36,8 @@ public class Options
     public string AROMATIZIROVANNYYE { get { return aromatizirovannyye; } set { aromatizirovannyye = value; } }
     public string artnumber;
     public string ARTNUMBER { get { return artnumber; } set { artnumber = value; } }
+    public string artnumber_post;
+    public string ARTNUMBER_POST { get { return artnumber_post; } set { artnumber_post = value; } }
     public string bokovye_stenki;
     public string BOKOVYE_STENKI { get { return bokovye_stenki; } set { bokovye_stenki = value; } }
     public string v_komplekte;

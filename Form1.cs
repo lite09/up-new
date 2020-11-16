@@ -174,7 +174,7 @@ namespace up
 
             string[] line_info = { line.line_xml_file[int_index].Text.ToString(), line.line_csv_save_file[int_index].Text.ToString(),
                                     line.line_old_itms_remove[int_index].Checked.ToString(), line.line_data_Live[int_index].Text.ToString(),
-                                    line.line_modification_categories_file[int_index].Tag.ToString() };
+                                    line.line_modification_categories_file[int_index].Tag.ToString(), line.line_csv_folder[int_index].Text.ToString() };
 
 
             IEnumerable<xml_offer> param = null;
@@ -369,7 +369,7 @@ namespace up
             if (mode.mode == "easy")
                 line_head = "ID;AVAILABLE;QUANTITY;MIN_QUANTITY";
             else
-                line_head = "ID;ARTNUMBER;FULL_NAME;proizvoditel;MATERIAL;ID_CATEGORY;AVAILABLE;QUANTITY;MIN_QUANTITY;WEIGHT_V;WEIGHT;PRODUCT_COLOR;SIZE";
+                line_head = "ID;Торговые предложения;ARTNUMBER;FULL_NAME;proizvoditel;MATERIAL;ID_CATEGORY;AVAILABLE;QUANTITY;MIN_QUANTITY;WEIGHT_V;WEIGHT;PRODUCT_COLOR;SIZE";
             StringBuilder sb = new StringBuilder();
 
 
@@ -422,6 +422,34 @@ namespace up
                 line_head += ";DATE_OF_CREATION;DEACTIVATION_PERIOD";
                 date = DateTime.Now.ToString("dd/MM/yyyy");
             }
+
+            // ------------------------------ добавление полей заголовка из дополнительного фаила ------------------------------
+            List<string> op_head_list = new List<string>();
+            if (line_info[5] != "")
+            {
+                string op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default);
+                if (op_head != "" || op_head != null)
+                {
+                    Regex line = new Regex("(.*)\r\n");
+                    string head_time = line.Match(op_head).Groups[1].Value;
+
+                    string[] tmp_head_xml = line_head.Split(';');
+                    string[] tmp_head_op  = head_time.ToString().Split(';');
+
+                    //  получение полей заголовка фаила описания (доп фаила)
+
+                    //op_head = op_head.Remove(op_head.Length - 3, 3);
+                    var l = tmp_head_op.Except(tmp_head_xml);
+                    op_head_list = l.ToList();
+                    //  получение полей заголовка фаила описания (доп фаила)
+                    op_head = "";
+                    foreach (string item in l)
+                        op_head += item + ";";
+
+                    line_head += ";" + op_head.Remove(op_head.Length - 1, 1);
+                }
+            }
+            // ------------------------------ добавление полей заголовка из дополнительного фаила ------------------------------
 
             sb.AppendLine(line_head);
 
@@ -589,8 +617,8 @@ namespace up
                     offer.c_new = Convert.ToSingle(Math.Round(offer.c * coefficient, 2));
 
                     bool no_coeffecient = true;
-                    if (offer.weight_new == 0)
-                    {
+                    //if (offer.weight_new == 0)
+                    //{
                         offer.weight_new = Convert.ToSingle(offer.weight, CultureInfo.InvariantCulture);
 
                         foreach (var item in mode.coefficient_package_mass)
@@ -613,7 +641,7 @@ namespace up
 
                         if (no_coeffecient)
                             offer.weight_new = Convert.ToSingle(Math.Round(offer.weight_new * coefficient, 2));
-                    }
+                    //}
                         
                     //  ---------------------   корректирова массы и габаритов   ---------------------
 
@@ -649,7 +677,14 @@ namespace up
 
 
                     //  --------------------------     вывод информации     --------------------------
-                    line_csv = offer.id_with_prefix + ";" + offer.id + ";" + offer.name + ";" + offer.vendor + ";" + offer.composition + ";" +
+                    Options op = new Options();     // строка из дополнительного фаила соответсвующии текущей записи из хмл фаила
+                    try { op = options.Find(l => l.artnumber == offer.id); }
+                    catch {}
+                    if (op != null && op.torg_predl != "")
+                        line_csv = offer.id_with_prefix + ";" + op.torg_predl + ";";
+                    else
+                        line_csv = offer.id_with_prefix + ";;";
+                    line_csv += offer.id + ";" + offer.name + ";" + offer.vendor + ";" + offer.composition + ";" +
                         offer.categoryId + ";" + offer.available + ";" + offer.in_stock + ";";
 
                     if (offer.min_quantity != 0)
@@ -698,6 +733,21 @@ namespace up
 
                     if (line_info[2] == "True")
                         line_csv += ";" + date + ";" + line_info[3];
+
+                    line_csv += ";";
+                    foreach (string tl in op_head_list)
+                    {
+                        if (op != null)
+                        {
+                            string value = op.get_property(tl.ToLower(), op);
+                            line_csv += value + ";";
+                            //if (tl == "TORCEVOJ_KARMAN")
+                            //{
+                            //}
+                        }
+                        else
+                            break;
+                    }
 
                     sb.AppendLine(line_csv);
                     //  --------------------------     вывод информации     --------------------------
