@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 //using System.Windows.Forms;
 
-public class Options
+public class Options_up
 {
     public string proizvoditel;// { get; set; }
     public string PROIZVODITEL { get { return proizvoditel; } set { proizvoditel = value; } }
@@ -828,14 +828,14 @@ public class Options
 
 
 
-    public string get_property(string property, Options op)
+    public string get_property(string property, Options_up op)
     {
         if (property == "")
         {
         }
         try
         {
-            FieldInfo i = typeof(Options).GetField(property.ToLower());
+            FieldInfo i = typeof(Options_up).GetField(property.ToLower());
             if (i == null)
                 return "";
 

@@ -443,16 +443,25 @@ namespace up
             e.Effect = DragDropEffects.All;
         }
 
+        //  отбрасывает имя фаила и берет только каталог
         private void tre_folder_DragDrop(object sender, DragEventArgs e)
         {
-            //tre_folder.Text = (string)sender;
             string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            Regex l = new Regex(@".*\\.*\.(.*)$");
+            //Regex l = new Regex(@".*\\.*\.(.*)$");
+            //if (l.Match(file_name[0]).Groups[1].Value == "")
+            //    tre_folder.Text = file_name[0];
+            //else
+            //    tre_folder.Text = Path.GetDirectoryName(file_name[0]);
 
-            if (l.Match(file_name[0]).Groups[1].Value == "")
-                tre_folder.Text = file_name[0];
+            if (Directory.Exists(file_name[0]))
+                tre_folder.Text = f.full.tre_folder = /*f.easy.tre_folder =*/ file_name[0];
             else
-                tre_folder.Text = Path.GetDirectoryName(file_name[0]);
+                tre_folder.Text = f.full.tre_folder = /*f.easy.tre_folder =*/ Path.GetDirectoryName(file_name[0]);
+        }
+
+        private void tre_folder_Leave(object sender, EventArgs e)
+        {
+            f.full.tre_folder = tre_folder.Text;
         }
     }
 }

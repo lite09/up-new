@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using up;
+using stl;
 
 
 namespace up
@@ -29,6 +30,7 @@ namespace up
     {
         List<Thread> th_s = new List<Thread>();
 
+        Form_stl stl = new Form_stl();
         public Form2 set_easy = new Form2();
         public Form3 set_full = new Form3();
         public functions f;
@@ -101,7 +103,7 @@ namespace up
         // Добавить локацию файла csv, line_info)
         public void thead_offer(object info)
         {
-            List<Options> options_csv = new List<Options>();
+            List<Options_up> options_csv = new List<Options_up>();
             object[] inf = info as object[];
             int int_index = Convert.ToInt32(inf[0]);
             string type = Convert.ToString(inf[1]);
@@ -355,7 +357,7 @@ namespace up
             }
         }
 
-        void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options> options = null)
+        void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options_up> options = null)
         {
             //int i = 0;
             bool categories = true;
@@ -677,7 +679,7 @@ namespace up
 
 
                     //  --------------------------     вывод информации     --------------------------
-                    Options op = new Options();     // строка из дополнительного фаила соответсвующии текущей записи из хмл фаила
+                    Options_up op = new Options_up();     // строка из дополнительного фаила соответсвующии текущей записи из хмл фаила
                     try { op = options.Find(l => l.artnumber == offer.id); }
                     catch {}
                     if (op != null && op.torg_predl != "")
@@ -814,7 +816,7 @@ namespace up
             }
         }
 
-        IEnumerable<xml_offer> offer(StringReader string_xml, configure mode, List<Options> ops_csv)
+        IEnumerable<xml_offer> offer(StringReader string_xml, configure mode, List<Options_up> ops_csv)
         {
             if (mode.mode != "full") Close();
 
@@ -840,16 +842,16 @@ namespace up
                                 IEnumerable<XElement> i;
                                 offer.id = offer.id_with_prefix = el.Attribute("id").Value;
 
-                                Options option = null;
+                                Options_up option = null;
                                 if (ops_csv != null)
                                 {
-                                    //option = new Options();
+                                    //option = new Options_up();
                                     //option = ops_csv.Find(op => op.id == Convert.ToInt32(offer.id));
                                     foreach (var item in ops_csv)
                                     {
                                         if (offer.id == item.artnumber)
                                         {
-                                            option = new Options();
+                                            option = new Options_up();
                                             option = item;
                                             break;
                                         }
@@ -1212,6 +1214,7 @@ namespace up
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //
             //Form cli = new Form();
             //cli.Show();
             //cli.ControlBox = false;
@@ -1557,6 +1560,12 @@ namespace up
         }
 
         bool timer_logic = false;
+
+        private void test_Click(object sender, EventArgs e)
+        {
+            stl.make_op(@"C:\Users\и\source\repos\stl\bin\Debug\xml\kanctovary.xml", @"C:\Users\и\source\repos\stl\bin\Debug\csv", @"C:\Users\и\Desktop\", @"C:\Users\и\source\repos\stl\bin\Debug\cfg");
+        }
+
         private void Shed_Click(object sender, EventArgs e)
         {
             if (!timer_logic)
@@ -1936,6 +1945,8 @@ public class functions
 
         if (data.f.color_from_YML)
             try { f.color_from_YML.Checked = true; } catch {}
+        if (data.f.tre_folder != "")
+            f.tre_folder.Text = data.f.tre_folder;
         // ---------------------------------------------------------- full ----------------------------------------------------------
 
     }
@@ -2114,34 +2125,35 @@ public class configure
 
     public string mode;
     public string prefix_for_id = "";
-    public string file_to_create_new_price;     // файл с данными для формирования розничных цен
-    public string file_to_create_new_quality;   // файл с корректировкой количества прописью в цифры
-    public string exception_rules_xml;          // файл с исключающими данными
-    public string gred_file;                    // файл с размерными сетками
-    public string file_coefficient_package_mass;// файл с коэффициентами габаритов и массы
-    public string file_colors;                   // фаил с заменой цветов
+    public string file_to_create_new_price;         // файл с данными для формирования розничных цен
+    public string file_to_create_new_quality;       // файл с корректировкой количества прописью в цифры
+    public string exception_rules_xml;              // файл с исключающими данными
+    public string gred_file;                        // файл с размерными сетками
+    public string file_coefficient_package_mass;    // файл с коэффициентами габаритов и массы
+    public string file_colors;                      // фаил с заменой цветов
+    public string tre_folder;                       // основная папка с хмл, доп фаилами, результирующей папкой ...
 
     // Коэффициенты для габаритов и массы
     public List<coefficient_of_package>
         coefficient_package_mass = new List<coefficient_of_package>();
     public string type_of_package;              // Тип упаковки, DELIVERY_PACKAGE_TYPE
-    public string composition_of_package;       // Состав упаковки, DELIVERY_PACKAGE
+    public string composition_of_package;           // Состав упаковки, DELIVERY_PACKAGE
 
     public bool color_YML;
-    public bool color_from_YML;                 // получение цвета из имени
+    public bool color_from_YML;                     // получение цвета из имени
     public bool gred;
-    public bool data_in_csv;                    // приоритет данных из дополнительного csv файла
+    public bool data_in_csv;                        // приоритет данных из дополнительного csv файла
     public bool use_short_name;
     public bool add_articule_to_short_name;
-    public bool check_delivery_options;         // исключит товар с других складов
-    public bool get_min_sale;                   // умножать стоимость на мин. кол-во
-    public bool output_base_price;              // вывод базовой цены в результирующий файл
-    // public bool quantity_change;                // замена слов на цифры
+    public bool check_delivery_options;             // исключит товар с других складов
+    public bool get_min_sale;                       // умножать стоимость на мин. кол-во
+    public bool output_base_price;                  // вывод базовой цены в результирующий файл
+    // public bool quantity_change;                 // замена слов на цифры
     public bool no_watermark;
-    public bool use_xml_description;            // вкл - описание берется из xml и csv, выкл - только csv
-    //public bool use_xml_color;                  // отключенна
-    public bool transform_packing_size;         // Изменение данных упаковки из xml, корректировка не полных габаритов
-    public bool del_not_full_packing_size;      // Удаление не полных габаритов
+    public bool use_xml_description;                // вкл - описание берется из xml и csv, выкл - только csv
+    //public bool use_xml_color;                    // отключенна
+    public bool transform_packing_size;             // Изменение данных упаковки из xml, корректировка не полных габаритов
+    public bool del_not_full_packing_size;          // Удаление не полных габаритов
 
     //public bool date_of_deactivation;
     //public int duration_of_deactivation;
@@ -2226,7 +2238,7 @@ public partial class file_line
 {
     public List<TextBox> line_xml_file;
     public List<TextBox> line_csv_folder;
-    public List<Options> options_csv;
+    public List<Options_up> options_csv;
     public List<TextBox> line_csv_save_file;
     public List<CheckBox> line_old_itms_remove;
     public List<TextBox> line_data_Live;
@@ -2239,7 +2251,7 @@ public partial class file_line
     {
         line_xml_file = new List<TextBox>();
         line_csv_folder = new List<TextBox>();
-        options_csv = new List<Options>();
+        options_csv = new List<Options_up>();
         line_csv_save_file = new List<TextBox>();
         line_old_itms_remove = new List<CheckBox>();
         line_data_Live = new List<TextBox>();
@@ -2352,7 +2364,7 @@ public partial class file_line
         f.Height += line_step;
         line_count++;
     }
-    public List<Options> take_options_csv(int index, Form1 f)
+    public List<Options_up> take_options_csv(int index, Form1 f)
     {
         string name_xml = Path.GetFileNameWithoutExtension(line_xml_file[index].Text);
         string name_csv = name_xml + ".csv";
@@ -2405,7 +2417,7 @@ public partial class file_line
                         info.Add(data.RawRecord);
                     };
 
-                    var l = csv.GetRecords<Options>();
+                    var l = csv.GetRecords<Options_up>();
                     options_csv = l.ToList();
                 }
 
@@ -2426,14 +2438,14 @@ public partial class file_line
 
             //DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
 
-            //foreach (Options item in options_csv)
+            //foreach (Options_up item in options_csv)
             //{
             //    Regex id_tmpl = new Regex(@"(\d*)$");
             //    Match id_m = id_tmpl.Match(item.ID);
             //    item.id = Convert.ToInt32(id_m.Groups[0].Value);
             //}
 
-            List<Options> clear_csv = new List<Options>();
+            List<Options_up> clear_csv = new List<Options_up>();
 
             clear_csv = options_csv.FindAll((op) =>
             {

@@ -212,5 +212,11 @@
   <ItemGroup>
     <None Include="Resources\72.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\stl\stl.csproj">
+      <Project>{8ac7dcdb-dcc3-4ec7-98be-01ebfacec03a}</Project>
+      <Name>stl</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

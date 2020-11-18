@@ -63,6 +63,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.test = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -303,6 +304,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.test);
             this.groupBox1.Controls.Add(this.shed);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
@@ -350,6 +352,16 @@
             this.groupBox3.Size = new System.Drawing.Size(1008, 39);
             this.groupBox3.TabIndex = 79;
             this.groupBox3.TabStop = false;
+            // 
+            // test
+            // 
+            this.test.Location = new System.Drawing.Point(691, 103);
+            this.test.Name = "test";
+            this.test.Size = new System.Drawing.Size(75, 23);
+            this.test.TabIndex = 77;
+            this.test.Text = "i";
+            this.test.UseVisualStyleBackColor = true;
+            this.test.Click += new System.EventHandler(this.test_Click);
             // 
             // Form1
             // 
@@ -426,6 +438,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button test;
     }
 }
 

@@ -589,6 +589,7 @@
             this.tre_folder.TabIndex = 53;
             this.tre_folder.DragDrop += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragDrop);
             this.tre_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragEnter);
+            this.tre_folder.Leave += new System.EventHandler(this.tre_folder_Leave);
             // 
             // Form3
             // 
@@ -667,6 +668,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label tre_folder_label;
-        private System.Windows.Forms.TextBox tre_folder;
+        public System.Windows.Forms.TextBox tre_folder;
     }
 }
