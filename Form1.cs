@@ -29,6 +29,7 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
+        List<Thread> th_s_op = new List<Thread>();
 
         Form_stl stl = new Form_stl();
         public Form2 set_easy = new Form2();
@@ -46,10 +47,10 @@ namespace up
         int threads = Environment.ProcessorCount;
         int threads_avariable, threads_all;
 
-        public static List<string> prepositions = new List<string> {
+        public static List<string> prepositions = new List<string> {                            // список предлогов для обрывки фразы
             "A"/*латиница*/, "А"
         };
-        public static List<string> stop_words = new List<string>
+        public static List<string> stop_words = new List<string>                                // список стоп слов для обрывки фразы
         {
             "d\\s*=", "h\\s*=", "r\\s*=", "А\\.", "№", "SchE",
             "ш\\."
@@ -1563,7 +1564,27 @@ namespace up
 
         private void test_Click(object sender, EventArgs e)
         {
-            stl.make_op(@"C:\Users\и\source\repos\stl\bin\Debug\xml\kanctovary.xml", @"C:\Users\и\source\repos\stl\bin\Debug\csv", @"C:\Users\и\Desktop\", @"C:\Users\и\source\repos\stl\bin\Debug\cfg");
+            cfg_data cfg = new cfg_data();
+            cfg.options = full.head_options;
+            cfg.prepositions = prepositions;
+            cfg.stop_words = stop_words;
+            cfg.coefficients = full.coefficient;
+            cfg.coefficients_volume_and_mass = full.coefficient_package_mass;
+
+            string[] files_xml = Directory.GetDirectories(full.tre_folder + "\\XML");
+
+            var th = ThreadPool.SetMaxThreads(threads, threads);
+
+
+            foreach (string dir in files_xml)
+            {
+                Thread th_time = new Thread(new ParameterizedThreadStart(stl.make_op));
+                th_s_op.Add(th_time);
+                object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
+                ThreadPool.QueueUserWorkItem(stl.make_op, hi);
+                Thread.Sleep(1700);
+                // stl.make_op(Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg");            
+            }
         }
 
         private void Shed_Click(object sender, EventArgs e)
@@ -1947,6 +1968,11 @@ public class functions
             try { f.color_from_YML.Checked = true; } catch {}
         if (data.f.tre_folder != "")
             f.tre_folder.Text = data.f.tre_folder;
+        if (data.f.file_head_options != null)
+        {
+            f.options_lb.Items.Clear();
+            f.options_lb.Items.Add(Path.GetFileName(data.f.file_head_options));
+        }
         // ---------------------------------------------------------- full ----------------------------------------------------------
 
     }
@@ -2073,20 +2099,22 @@ class xml_offer
 
 }
 
-[Serializable]
-public struct coefficient_of_package
-{
-    public int category_id;    public float coefficient_of_massa;     public float coefficient_of_dimensions;
-}
+//[Serializable]
+//public struct coefficient_of_package
+//{
+//    public int category_id;    public float coefficient_of_massa;     public float coefficient_of_dimensions;
+//}
 
 
 [Serializable]
 public class configure
 {
-    public List<float[]> coefficient = new List<float[]> {};
-    public List<string[]> quality_correct = new List<string[]> {};
-    public List<string> exception_name = new List<string>();
-    public List<string[]> color = new List<string[]>();
+    public List<float[]>  coefficient       = new List<float[]>();
+    public List<string[]> quality_correct   = new List<string[]>();
+    public List<string>   exception_name    = new List<string>();
+    public List<string[]> color             = new List<string[]>();
+    public List<string[]> head_options      = new List<string[]>();     // список полей заголовка для замены на латиницу
+
 
     [NonSerialized] public Dictionary<string[], List<string>> gred_list = new Dictionary<string[], List<string>>();
     public string gls;
@@ -2132,10 +2160,11 @@ public class configure
     public string file_coefficient_package_mass;    // файл с коэффициентами габаритов и массы
     public string file_colors;                      // фаил с заменой цветов
     public string tre_folder;                       // основная папка с хмл, доп фаилами, результирующей папкой ...
+    public string file_head_options;                // фаил со списоком полей заголовка для замены на латиницу
 
     // Коэффициенты для габаритов и массы
-    public List<coefficient_of_package>
-        coefficient_package_mass = new List<coefficient_of_package>();
+    public List<cfg_data.coefficient_of_package>
+        coefficient_package_mass = new List<cfg_data.coefficient_of_package>();
     public string type_of_package;              // Тип упаковки, DELIVERY_PACKAGE_TYPE
     public string composition_of_package;           // Состав упаковки, DELIVERY_PACKAGE
 

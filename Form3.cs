@@ -77,6 +77,7 @@ namespace up
         private void Button1_Click(object sender, EventArgs e)
         {
             Visible = false;
+            richTextBox1.Text = "";
         }
 
         private void Exclude_in_other_store_CheckedChanged(object sender, EventArgs e)
@@ -286,7 +287,7 @@ namespace up
             {
                 if (i == 0) { i++; continue; }
                 line = sub_string.Split(m.Groups[1].Value);
-                coefficient_of_package info = new coefficient_of_package();
+                cfg_data.coefficient_of_package info = new cfg_data.coefficient_of_package();
                 if (line[0] != "")
                 {
                     info.category_id = Convert.ToInt32(line[0]);
@@ -462,6 +463,47 @@ namespace up
         private void tre_folder_Leave(object sender, EventArgs e)
         {
             f.full.tre_folder = tre_folder.Text;
+        }
+
+        private void options_lb_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void options_lb_DragDrop(object sender, DragEventArgs e)
+        {
+            // --------------------------- обнуление ---------------------------
+            options_lb.Items.Clear();
+            f.full.head_options.Clear();
+            richTextBox1.Text = "";
+            // --------------------------- обнуление ---------------------------
+
+            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            f.full.file_head_options = file_name[0];
+            options_lb.Items.Add(Path.GetFileName(f.full.file_head_options));
+
+            string fileText = System.IO.File.ReadAllText(file_name[0], Encoding.Default);
+
+            Regex get_line = new Regex("(.*)\r\n");
+            MatchCollection words = get_line.Matches(fileText);
+            Regex sub_string = new Regex(";");
+            string[] line;
+
+            int i = 0;
+            foreach (Match m in words)
+            {
+                if (i == 0) { i++; continue; }
+
+                line = sub_string.Split(m.Groups[1].Value);
+                string[] ops = new string[2];
+                if (line[0] != "")
+                {
+                    ops[0] = line[0];
+                    ops[1] = line[1];
+                    f.full.head_options.Add(ops);
+                    richTextBox1.Text += "Значение:\t" + ops[0] + " : " + ops[1] + "\r\n";
+                }
+            }
         }
     }
 }

@@ -56,6 +56,7 @@
             this.ya = new System.Windows.Forms.CheckBox();
             this.shed = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.test = new System.Windows.Forms.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile_token = new System.Windows.Forms.OpenFileDialog();
@@ -63,7 +64,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.test = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -313,6 +313,18 @@
             this.groupBox1.TabIndex = 77;
             this.groupBox1.TabStop = false;
             // 
+            // test
+            // 
+            this.test.BackColor = System.Drawing.Color.Bisque;
+            this.test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.test.Location = new System.Drawing.Point(597, 83);
+            this.test.Name = "test";
+            this.test.Size = new System.Drawing.Size(175, 45);
+            this.test.TabIndex = 77;
+            this.test.Text = "Сформировать дополнительные фаилы";
+            this.test.UseVisualStyleBackColor = false;
+            this.test.Click += new System.EventHandler(this.test_Click);
+            // 
             // openFile
             // 
             this.openFile.FileName = "save.sav";
@@ -352,16 +364,6 @@
             this.groupBox3.Size = new System.Drawing.Size(1008, 39);
             this.groupBox3.TabIndex = 79;
             this.groupBox3.TabStop = false;
-            // 
-            // test
-            // 
-            this.test.Location = new System.Drawing.Point(691, 103);
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(75, 23);
-            this.test.TabIndex = 77;
-            this.test.Text = "i";
-            this.test.UseVisualStyleBackColor = true;
-            this.test.Click += new System.EventHandler(this.test_Click);
             // 
             // Form1
             // 
