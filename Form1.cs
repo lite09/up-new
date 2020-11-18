@@ -46,7 +46,7 @@ namespace up
         int threads = Environment.ProcessorCount;
         int threads_avariable, threads_all;
 
-        public static List<string> prepositions = new List<string> {
+        public static List<string> prepositions = new List<string> {.
             "A"/*латиница*/, "А"
         };
         public static List<string> stop_words = new List<string>
