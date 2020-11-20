@@ -72,6 +72,9 @@
             this.tre_folder = new System.Windows.Forms.TextBox();
             this.options_lb = new System.Windows.Forms.ListBox();
             this.options_label = new System.Windows.Forms.Label();
+            this.label_mod_catalog = new System.Windows.Forms.Label();
+            this.list_mod_catalog = new System.Windows.Forms.ListBox();
+            this.bool_mod_catalog = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -599,7 +602,7 @@
             this.options_lb.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.options_lb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.options_lb.FormattingEnabled = true;
-            this.options_lb.Location = new System.Drawing.Point(162, 605);
+            this.options_lb.Location = new System.Drawing.Point(162, 615);
             this.options_lb.Name = "options_lb";
             this.options_lb.Size = new System.Drawing.Size(191, 28);
             this.options_lb.TabIndex = 54;
@@ -610,11 +613,47 @@
             // 
             this.options_label.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.options_label.ForeColor = System.Drawing.Color.DarkGreen;
-            this.options_label.Location = new System.Drawing.Point(14, 613);
+            this.options_label.Location = new System.Drawing.Point(14, 623);
             this.options_label.Name = "options_label";
             this.options_label.Size = new System.Drawing.Size(113, 20);
             this.options_label.TabIndex = 55;
             this.options_label.Text = "Таблица свойств";
+            // 
+            // label_mod_catalog
+            // 
+            this.label_mod_catalog.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_mod_catalog.ForeColor = System.Drawing.Color.DarkGreen;
+            this.label_mod_catalog.Location = new System.Drawing.Point(386, 623);
+            this.label_mod_catalog.Name = "label_mod_catalog";
+            this.label_mod_catalog.Size = new System.Drawing.Size(139, 20);
+            this.label_mod_catalog.TabIndex = 56;
+            this.label_mod_catalog.Text = "Соотнесение категорий";
+            // 
+            // list_mod_catalog
+            // 
+            this.list_mod_catalog.AllowDrop = true;
+            this.list_mod_catalog.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.list_mod_catalog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.list_mod_catalog.FormattingEnabled = true;
+            this.list_mod_catalog.Location = new System.Drawing.Point(533, 615);
+            this.list_mod_catalog.Name = "list_mod_catalog";
+            this.list_mod_catalog.Size = new System.Drawing.Size(192, 28);
+            this.list_mod_catalog.TabIndex = 57;
+            this.list_mod_catalog.DragDrop += new System.Windows.Forms.DragEventHandler(this.list_mod_catalog_DragDrop);
+            this.list_mod_catalog.DragEnter += new System.Windows.Forms.DragEventHandler(this.list_mod_catalog_DragEnter);
+            // 
+            // bool_mod_catalog
+            // 
+            this.bool_mod_catalog.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.bool_mod_catalog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.bool_mod_catalog.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.bool_mod_catalog.ForeColor = System.Drawing.Color.DarkGreen;
+            this.bool_mod_catalog.Location = new System.Drawing.Point(369, 619);
+            this.bool_mod_catalog.Name = "bool_mod_catalog";
+            this.bool_mod_catalog.Size = new System.Drawing.Size(17, 22);
+            this.bool_mod_catalog.TabIndex = 56;
+            this.bool_mod_catalog.UseVisualStyleBackColor = false;
+            this.bool_mod_catalog.CheckedChanged += new System.EventHandler(this.bool_mod_catalog_CheckedChanged);
             // 
             // Form3
             // 
@@ -623,6 +662,9 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
             this.ClientSize = new System.Drawing.Size(747, 695);
             this.ControlBox = false;
+            this.Controls.Add(this.bool_mod_catalog);
+            this.Controls.Add(this.list_mod_catalog);
+            this.Controls.Add(this.label_mod_catalog);
             this.Controls.Add(this.options_label);
             this.Controls.Add(this.options_lb);
             this.Controls.Add(this.tre_folder);
@@ -698,5 +740,8 @@
         public System.Windows.Forms.TextBox tre_folder;
         private System.Windows.Forms.Label options_label;
         public System.Windows.Forms.ListBox options_lb;
+        public System.Windows.Forms.ListBox list_mod_catalog;
+        public System.Windows.Forms.CheckBox bool_mod_catalog;
+        public System.Windows.Forms.Label label_mod_catalog;
     }
 }

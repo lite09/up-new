@@ -505,5 +505,62 @@ namespace up
                 }
             }
         }
+
+        private void bool_mod_catalog_CheckedChanged(object sender, EventArgs e)
+        {
+            if (bool_mod_catalog.Checked)
+            {
+                f.full.tre_bool_mod_catalog = true;
+                label_mod_catalog.Enabled = true;
+                list_mod_catalog.Enabled  = true;
+            }
+            else
+            {
+                f.full.tre_bool_mod_catalog = false;
+                label_mod_catalog.Enabled = false;
+                list_mod_catalog.Enabled = false;
+            }
+        }
+
+        private void list_mod_catalog_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void list_mod_catalog_DragDrop(object sender, DragEventArgs e)
+        {
+            // ----------------------------- обнуление -----------------------------
+            f.full.tre_list_categoryes.Clear();
+            list_mod_catalog.Items.Clear();
+            richTextBox1.Text = "";
+            // ----------------------------- обнуление -----------------------------
+
+            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+            f.full.file_list_mod_catalog = file_name[0];
+            list_mod_catalog.Items.Add(Path.GetFileName(f.full.file_list_mod_catalog));
+
+            string catalogs = File.ReadAllText(f.full.file_list_mod_catalog, Encoding.Default);
+
+            Regex get_line = new Regex("(.*)\r\n");
+            MatchCollection words = get_line.Matches(catalogs);
+            Regex sub_string = new Regex(";");
+            string[] line;
+
+            foreach (Match m in words)
+            {
+                line = sub_string.Split(m.Groups[1].Value);
+                string[] cats = new string[2];
+                if (line[0] != "")
+                {
+                    cats[0] = line[0];
+                    cats[1] = line[1];
+                    f.full.tre_list_categoryes.Add(cats);
+                    //richTextBox1.Text += "Значение:\t" + cats[0] + " : " + cats[1] + "\r\n";
+                }
+
+            }
+            richTextBox1.Text += "Загруженно " + Convert.ToString(Convert.ToInt32(words.Count) - 1) + " значений";
+            f.full.tre_list_categoryes.RemoveAt(0);
+        }
     }
 }

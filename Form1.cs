@@ -29,7 +29,6 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        List<Thread> th_s_op = new List<Thread>();
 
         Form_stl stl = new Form_stl();
         public Form2 set_easy = new Form2();
@@ -39,6 +38,7 @@ namespace up
         public configure easy;
         public configure full;
         public file_line line;
+
 
         public string token = null;
         //public List<string> exception_name = new List<string>();
@@ -210,6 +210,67 @@ namespace up
                 lock (am)
                 {
                     richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += Path.GetFileName(line.line_xml_file[int_index].Text.ToString()) + "\tcount:  " + p.Count + "\t" +
+                    "время:  " + (int)((end - start) / 60) + ":" + (end - start) % 60 + "\r\n"));
+                }
+
+                p.Clear();
+                //i = 0;
+            }
+        }
+
+        public void tre_thread_offer(object info)
+        {
+            functions fn = new functions();
+            List<Options_up> options_csv = new List<Options_up>();
+
+            // хмл, фаил с опциями, режим
+            object[] inf = info as object[];
+            string file_xml     = Convert.ToString(inf[0]);
+            string file_options = Convert.ToString(inf[1]);
+            string type         = Convert.ToString(inf[2]);
+
+            if (file_xml == "") return;
+
+            try     { file_xml = File.ReadAllText(file_xml, Encoding.UTF8); }
+            catch   { MessageBox.Show("Ошибка чтения xml файла"); }
+                    
+            
+            if (type == "full") options_csv = fn.take_options(file_options);
+
+            // xml, папка для сохранения результирующего фаила, удаление старых товаров(checkbox), сроки деактивации, папка с фаилами описания дополнительных полеи
+            string[] line_info = { file_xml, "" , "", "", "", Path.GetDirectoryName(file_options) };
+
+
+            IEnumerable<xml_offer> param = null;
+            if (file_xml != "")
+            {
+
+                if (type == "easy")
+                    param = offer_min(new StringReader(file_xml), easy);
+                else
+                    param = offer(new StringReader(file_xml), full, options_csv);
+
+
+                DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
+
+                List<xml_offer> p = param.ToList();
+                param = null;
+                object am = new object();
+
+                file_xml = null;
+
+
+                if (type == "easy")
+                    processing(ref p, easy, line_info);
+                else
+                    processing(ref p, full, line_info, options_csv);
+
+
+                dto = DateTimeOffset.Now; long end = dto.ToUnixTimeSeconds();
+
+                lock (am)
+                {
+                    richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += Path.GetFileName(file_xml) + "\tcount:  " + p.Count + "\t" +
                     "время:  " + (int)((end - start) / 60) + ":" + (end - start) % 60 + "\r\n"));
                 }
 
@@ -430,7 +491,11 @@ namespace up
             List<string> op_head_list = new List<string>();
             if (line_info[5] != "")
             {
-                string op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default);
+                string op_head = "";
+                try
+                { op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default); }
+                catch { MessageBox.Show("Фаил с описанием дополнительных полей не наиден"); }
+
                 if (op_head != "" || op_head != null)
                 {
                     Regex line = new Regex("(.*)\r\n");
@@ -1578,13 +1643,18 @@ namespace up
 
             foreach (string dir in files_xml)
             {
-                Thread th_time = new Thread(new ParameterizedThreadStart(stl.make_op));
-                th_s_op.Add(th_time);
+                //Thread th_time = new Thread(new ParameterizedThreadStart(stl.make_op));
+                //th_s_op.Add(th_time);
                 object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
                 ThreadPool.QueueUserWorkItem(stl.make_op, hi);
-                Thread.Sleep(1700);
+                Thread.Sleep(1800);
                 // stl.make_op(Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg");            
             }
+        }
+
+        private void hi_Click(object sender, EventArgs e)
+        {
+            //
         }
 
         private void Shed_Click(object sender, EventArgs e)
@@ -1649,6 +1719,7 @@ public class Web_cl : System.Net.WebClient
 public class functions
 {
     public Form1 f = new Form1();
+    public functions() {}
     public functions(Form1 form)
     {
         f = form;
@@ -1973,10 +2044,28 @@ public class functions
             f.options_lb.Items.Clear();
             f.options_lb.Items.Add(Path.GetFileName(data.f.file_head_options));
         }
-        // ---------------------------------------------------------- full ----------------------------------------------------------
+        // ---------------------------------------- tree mode каталог ----------------------------------------
+        if (data.f.tre_bool_mod_catalog)
+        {
+            f.label_mod_catalog.Enabled = true;
+            f.list_mod_catalog.Enabled  = true;
+            try { f.bool_mod_catalog.Checked = true; } catch { }
+        }
+        else
+        {
+            f.label_mod_catalog.Enabled = false;
+            f.list_mod_catalog.Enabled  = false;
+            try { f.bool_mod_catalog.Checked = false; } catch { }
+        }
+        if (data.f.tre_list_categoryes.Count > 0)
+        {
+            f.list_mod_catalog.Items.Clear();
+            f.list_mod_catalog.Items.Add(Path.GetFileName(data.f.file_list_mod_catalog));
+        }
+            // ---------------------------------------- tree mode каталог ----------------------------------------
+            // ---------------------------------------------------------- full ----------------------------------------------------------
 
-    }
-
+        }
     public void clear_configure(string mode)
     {
         configure time_easy = f.easy, time_full = f.full;
@@ -2001,6 +2090,35 @@ public class functions
                 return true;
 
         return false;
+    }
+    public List<Options_up> take_options(string file_options)
+    {
+        List<Options_up> options = new List<Options_up>();
+        try
+        {
+            using (var reader = new StreamReader(file_options, Encoding.GetEncoding(1251)))
+            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+            {
+                csv.Configuration.Delimiter = ";";
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.MissingFieldFound = null;
+                csv.Configuration.Encoding = Encoding.GetEncoding(1251);
+                var info = new List<string>();
+                csv.Configuration.BadDataFound = data => {
+                    info.Add(data.RawRecord);
+                };
+
+                var l = csv.GetRecords<Options_up>();
+                options = l.ToList();
+            }
+
+            return options;
+        }
+        catch (BadDataException i)
+        {
+            MessageBox.Show("Ошибка загрузки данных из таблицы дополнительных полеи\r\n" + i.ToString());
+            return null;
+        }
     }
 }
 class xml_offer
@@ -2114,6 +2232,12 @@ public class configure
     public List<string>   exception_name    = new List<string>();
     public List<string[]> color             = new List<string[]>();
     public List<string[]> head_options      = new List<string[]>();     // список полей заголовка для замены на латиницу
+
+    // ------------------------------ config for folder tre ------------------------------
+    public bool tre_bool_mod_catalog = false;
+    public List<string[]> tre_list_categoryes = new List<string[]>();   // спикок соотнесения категорий
+    public string file_list_mod_catalog = "";                           // путь до фаила спикока соотнесения категорий
+    // ------------------------------ config for folder tre ------------------------------
 
 
     [NonSerialized] public Dictionary<string[], List<string>> gred_list = new Dictionary<string[], List<string>>();
