@@ -229,16 +229,18 @@ namespace up
             string file_options = Convert.ToString(inf[1]);
             string type         = Convert.ToString(inf[2]);
 
+            string save_folder = full.tre_folder + "\\Result";
+
             if (file_xml == "") return;
 
-            try     { file_xml = File.ReadAllText(file_xml, Encoding.UTF8); }
-            catch   { MessageBox.Show("Ошибка чтения xml файла"); }
+            //try     { file_xml = File.ReadAllText(file_xml, Encoding.UTF8); }
+            //catch   { MessageBox.Show("Ошибка чтения xml файла"); }
                     
             
             if (type == "full") options_csv = fn.take_options(file_options);
 
-            // xml, папка для сохранения результирующего фаила, удаление старых товаров(checkbox), сроки деактивации, папка с фаилами описания дополнительных полеи
-            string[] line_info = { file_xml, "" , "", "", "", Path.GetDirectoryName(file_options) };
+            // xml, папка для сохранения результирующего фаила, удаление старых товаров(checkbox), сроки деактивации, соотнесение категории, папка с фаилами описания дополнительных полеи
+            string[] line_info = { file_xml, save_folder, "", "", "", Path.GetDirectoryName(file_options) };
 
 
             IEnumerable<xml_offer> param = null;
@@ -246,9 +248,9 @@ namespace up
             {
 
                 if (type == "easy")
-                    param = offer_min(new StringReader(file_xml), easy);
+                    param = offer_min(new StringReader(File.ReadAllText(file_xml)), easy);
                 else
-                    param = offer(new StringReader(file_xml), full, options_csv);
+                    param = offer(new StringReader(File.ReadAllText(file_xml)), full, options_csv);
 
 
                 DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
@@ -493,7 +495,7 @@ namespace up
             {
                 string op_head = "";
                 try
-                { op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default); }
+                 { op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default); }
                 catch { MessageBox.Show("Фаил с описанием дополнительных полей не наиден"); }
 
                 if (op_head != "" || op_head != null)
@@ -715,7 +717,9 @@ namespace up
 
 
                     //  --------------------------   обновление категорий   --------------------------
-                    if (categories)
+                    if (rb_auto.Checked && full.tre_list_categoryes.Count > 0)
+                        if (!mod_cat(ref full.tre_list_categoryes, offer)) offer.categoryId = "999999";
+                    else if (categories)
                         if (!mod_cat(ref mod_catalog, offer)) offer.categoryId = "999999";
 
                     //  --------------------------   обновление категорий   --------------------------
@@ -1638,23 +1642,38 @@ namespace up
 
             string[] files_xml = Directory.GetDirectories(full.tre_folder + "\\XML");
 
-            var th = ThreadPool.SetMaxThreads(threads, threads);
+            bool th = ThreadPool.SetMaxThreads(threads, threads);
 
 
             foreach (string dir in files_xml)
             {
-                //Thread th_time = new Thread(new ParameterizedThreadStart(stl.make_op));
-                //th_s_op.Add(th_time);
                 object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
                 ThreadPool.QueueUserWorkItem(stl.make_op, hi);
                 Thread.Sleep(1800);
-                // stl.make_op(Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg");            
             }
         }
-
+        
         private void hi_Click(object sender, EventArgs e)
         {
-            //
+            string type = "full";
+            string tre_folder = full.tre_folder;
+            string[] tre_xml_dirs = Directory.GetDirectories(full.tre_folder + "\\XML");
+            string[] tre_xmls = new string[tre_xml_dirs.Length];
+            string[] tre_ops  = new string[tre_xml_dirs.Length];
+            for (int i = 0; i < tre_xml_dirs.Length; i++)
+            {
+                tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
+                tre_ops[i]  = tre_xml_dirs[i] + "\\Dop_file\\";
+                tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]);
+            }
+
+            bool th = ThreadPool.SetMaxThreads(threads, threads);
+            for (int i = 0; i < tre_xmls.Length; i++)
+            {
+                object[] hi = { tre_xmls[i], tre_ops[i], type};
+                ThreadPool.QueueUserWorkItem(tre_thread_offer, hi);
+                //Thread.Sleep(1800);
+            }
         }
 
         private void Shed_Click(object sender, EventArgs e)

@@ -56,6 +56,9 @@
             this.ya = new System.Windows.Forms.CheckBox();
             this.shed = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_manual = new System.Windows.Forms.RadioButton();
+            this.rb_auto = new System.Windows.Forms.RadioButton();
+            this.hi = new System.Windows.Forms.Button();
             this.test = new System.Windows.Forms.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
@@ -64,7 +67,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.hi = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -305,6 +307,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rb_manual);
+            this.groupBox1.Controls.Add(this.rb_auto);
             this.groupBox1.Controls.Add(this.hi);
             this.groupBox1.Controls.Add(this.test);
             this.groupBox1.Controls.Add(this.shed);
@@ -314,6 +318,38 @@
             this.groupBox1.Size = new System.Drawing.Size(837, 162);
             this.groupBox1.TabIndex = 77;
             this.groupBox1.TabStop = false;
+            // 
+            // rb_manual
+            // 
+            this.rb_manual.AutoSize = true;
+            this.rb_manual.Checked = true;
+            this.rb_manual.Location = new System.Drawing.Point(495, 57);
+            this.rb_manual.Name = "rb_manual";
+            this.rb_manual.Size = new System.Drawing.Size(59, 17);
+            this.rb_manual.TabIndex = 80;
+            this.rb_manual.TabStop = true;
+            this.rb_manual.Text = "manual";
+            this.rb_manual.UseVisualStyleBackColor = true;
+            // 
+            // rb_auto
+            // 
+            this.rb_auto.AutoSize = true;
+            this.rb_auto.Location = new System.Drawing.Point(495, 42);
+            this.rb_auto.Name = "rb_auto";
+            this.rb_auto.Size = new System.Drawing.Size(46, 17);
+            this.rb_auto.TabIndex = 79;
+            this.rb_auto.Text = "auto";
+            this.rb_auto.UseVisualStyleBackColor = true;
+            // 
+            // hi
+            // 
+            this.hi.Location = new System.Drawing.Point(495, 134);
+            this.hi.Name = "hi";
+            this.hi.Size = new System.Drawing.Size(75, 23);
+            this.hi.TabIndex = 78;
+            this.hi.Text = "i";
+            this.hi.UseVisualStyleBackColor = true;
+            this.hi.Click += new System.EventHandler(this.hi_Click);
             // 
             // test
             // 
@@ -367,16 +403,6 @@
             this.groupBox3.TabIndex = 79;
             this.groupBox3.TabStop = false;
             // 
-            // hi
-            // 
-            this.hi.Location = new System.Drawing.Point(495, 134);
-            this.hi.Name = "hi";
-            this.hi.Size = new System.Drawing.Size(75, 23);
-            this.hi.TabIndex = 78;
-            this.hi.Text = "i";
-            this.hi.UseVisualStyleBackColor = true;
-            this.hi.Click += new System.EventHandler(this.hi_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -412,6 +438,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -454,6 +481,8 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button test;
         private System.Windows.Forms.Button hi;
+        private System.Windows.Forms.RadioButton rb_manual;
+        private System.Windows.Forms.RadioButton rb_auto;
     }
 }
 
