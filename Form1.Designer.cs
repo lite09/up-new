@@ -56,6 +56,7 @@
             this.ya = new System.Windows.Forms.CheckBox();
             this.shed = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.rb_manual = new System.Windows.Forms.RadioButton();
             this.rb_auto = new System.Windows.Forms.RadioButton();
             this.hi = new System.Windows.Forms.Button();
@@ -85,17 +86,17 @@
             // richTextBox2
             // 
             this.richTextBox2.BackColor = System.Drawing.Color.Azure;
-            this.richTextBox2.Location = new System.Drawing.Point(864, 33);
+            this.richTextBox2.Location = new System.Drawing.Point(784, 33);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(320, 156);
+            this.richTextBox2.Size = new System.Drawing.Size(400, 178);
             this.richTextBox2.TabIndex = 3;
             this.richTextBox2.Text = "";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(95, 239);
+            this.label1.Location = new System.Drawing.Point(92, 242);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 13);
             this.label1.TabIndex = 8;
@@ -162,7 +163,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(232, 239);
+            this.label2.Location = new System.Drawing.Point(229, 242);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(217, 13);
             this.label2.TabIndex = 34;
@@ -171,7 +172,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(500, 239);
+            this.label3.Location = new System.Drawing.Point(497, 242);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(127, 13);
             this.label3.TabIndex = 36;
@@ -230,7 +231,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(57, 114);
+            this.label6.Location = new System.Drawing.Point(45, 83);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(154, 13);
             this.label6.TabIndex = 47;
@@ -239,7 +240,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(57, 146);
+            this.label21.Location = new System.Drawing.Point(45, 114);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(128, 13);
             this.label21.TabIndex = 57;
@@ -247,7 +248,7 @@
             // 
             // label22
             // 
-            this.label22.Location = new System.Drawing.Point(682, 231);
+            this.label22.Location = new System.Drawing.Point(679, 234);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(92, 27);
             this.label22.TabIndex = 68;
@@ -256,7 +257,7 @@
             // 
             // label23
             // 
-            this.label23.Location = new System.Drawing.Point(769, 231);
+            this.label23.Location = new System.Drawing.Point(766, 234);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(92, 27);
             this.label23.TabIndex = 69;
@@ -266,7 +267,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(880, 239);
+            this.label24.Location = new System.Drawing.Point(877, 242);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(128, 13);
             this.label24.TabIndex = 72;
@@ -285,7 +286,7 @@
             // ya
             // 
             this.ya.AutoSize = true;
-            this.ya.Location = new System.Drawing.Point(1055, 335);
+            this.ya.Location = new System.Drawing.Point(1052, 338);
             this.ya.Name = "ya";
             this.ya.Size = new System.Drawing.Size(64, 17);
             this.ya.TabIndex = 74;
@@ -299,7 +300,7 @@
             this.shed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shed.Location = new System.Drawing.Point(495, 83);
             this.shed.Name = "shed";
-            this.shed.Size = new System.Drawing.Size(75, 45);
+            this.shed.Size = new System.Drawing.Size(125, 75);
             this.shed.TabIndex = 76;
             this.shed.Text = "Запуск";
             this.shed.UseVisualStyleBackColor = false;
@@ -307,17 +308,29 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.rb_manual);
             this.groupBox1.Controls.Add(this.rb_auto);
             this.groupBox1.Controls.Add(this.hi);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Controls.Add(this.test);
             this.groupBox1.Controls.Add(this.shed);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(837, 162);
+            this.groupBox1.Size = new System.Drawing.Size(766, 184);
             this.groupBox1.TabIndex = 77;
             this.groupBox1.TabStop = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(45, 145);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(153, 13);
+            this.label7.TabIndex = 80;
+            this.label7.Text = "Время создания доп фаилов";
             // 
             // rb_manual
             // 
@@ -343,23 +356,25 @@
             // 
             // hi
             // 
-            this.hi.Location = new System.Drawing.Point(495, 134);
+            this.hi.BackColor = System.Drawing.Color.Bisque;
+            this.hi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.hi.Location = new System.Drawing.Point(626, 123);
             this.hi.Name = "hi";
-            this.hi.Size = new System.Drawing.Size(75, 23);
+            this.hi.Size = new System.Drawing.Size(132, 35);
             this.hi.TabIndex = 78;
-            this.hi.Text = "i";
-            this.hi.UseVisualStyleBackColor = true;
+            this.hi.Text = "Создать таблицу";
+            this.hi.UseVisualStyleBackColor = false;
             this.hi.Click += new System.EventHandler(this.hi_Click);
             // 
             // test
             // 
             this.test.BackColor = System.Drawing.Color.Bisque;
-            this.test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.test.Location = new System.Drawing.Point(597, 83);
+            this.test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.test.Location = new System.Drawing.Point(626, 83);
             this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(175, 45);
+            this.test.Size = new System.Drawing.Size(132, 37);
             this.test.TabIndex = 77;
-            this.test.Text = "Сформировать дополнительные фаилы";
+            this.test.Text = "Создать доп фаилы";
             this.test.UseVisualStyleBackColor = false;
             this.test.Click += new System.EventHandler(this.test_Click);
             // 
@@ -388,7 +403,7 @@
             // 
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Location = new System.Drawing.Point(1046, 260);
+            this.groupBox2.Location = new System.Drawing.Point(1043, 263);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(78, 69);
             this.groupBox2.TabIndex = 78;
@@ -397,7 +412,9 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(15, 223);
+            this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.groupBox3.ForeColor = System.Drawing.Color.Yellow;
+            this.groupBox3.Location = new System.Drawing.Point(12, 226);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(1008, 39);
             this.groupBox3.TabIndex = 79;
@@ -408,13 +425,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(1196, 329);
+            this.ClientSize = new System.Drawing.Size(1196, 335);
             this.Controls.Add(this.ya);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label22);
-            this.Controls.Add(this.label21);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.CPU_get);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.prefix_for_id);
@@ -483,6 +498,7 @@
         private System.Windows.Forms.Button hi;
         private System.Windows.Forms.RadioButton rb_manual;
         private System.Windows.Forms.RadioButton rb_auto;
+        private System.Windows.Forms.Label label7;
     }
 }
 

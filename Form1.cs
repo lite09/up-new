@@ -37,6 +37,7 @@ namespace up
 
         public configure easy;
         public configure full;
+        public configure conf_options;
         public file_line line;
 
 
@@ -1341,6 +1342,7 @@ namespace up
             //full.mode = "full";
             easy = new configure("easy", this);
             //easy.mode = "easy";
+            conf_options = new configure("options", this);
 
             //deserialize
 
@@ -2342,8 +2344,10 @@ public class configure
         mode = mode_local;
         if (mode == "full")
             y += 31;
+        if (mode == "options")
+            y += 62;
 
-        for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; i++)
         {
             time_sh[i] = new TextBox();
             if (i == 0)
@@ -2417,7 +2421,7 @@ public partial class file_line
     public List<ListBox> line_modification_categories_file;
     public List<string> line_modification_categories;
     Button bt;
-    int line_count, line_step = 30, x_start = 15;
+    int line_count, line_step = 30, x_start = 12;
 
     public file_line(Form1 f)
     {
@@ -2432,7 +2436,7 @@ public partial class file_line
         line_count = 0;
 
         bt = new Button();
-        bt.Location = new Point(x_start, 275);
+        bt.Location = new Point(x_start, 270);
         bt.Text = "Добавить";
         bt.Click += (a, e) =>
         {
@@ -2441,12 +2445,13 @@ public partial class file_line
         f.Controls.Add(bt);
 
         add_line(f);
+        add_line(f);
 
     }
     public void add_line(Form1 f)
     {
         TextBox[] tb_main = new TextBox[3];
-        int x = x_start, y = 273 + line_count * line_step, i = 0;
+        int x = x_start, y = 275 + line_count * line_step, i = 0;
 
         for (int index = 0; index < 3; index++) tb_main[index] = new TextBox();
 
@@ -2511,11 +2516,12 @@ public partial class file_line
         }
 
         ListBox lb = new ListBox();
-        lb.Location = new Point(867, y - 8);      // y = 265
-        lb.Size = new Size(157, 28);
+        lb.Location = new Point(867, y);      // y = 265
+        lb.Size = new Size(153, 27);
         lb.BorderStyle = BorderStyle.FixedSingle;
         lb.AllowDrop = true;
         lb.Tag = "";
+
         lb.DragEnter += (a, e) => { e.Effect = DragDropEffects.All; };
         lb.DragDrop += (a, e) => {
             string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
