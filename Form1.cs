@@ -1666,7 +1666,9 @@ namespace up
             {
                 tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
                 tre_ops[i]  = tre_xml_dirs[i] + "\\Dop_file\\";
-                tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]);
+                try { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
+                catch { tre_ops[i] = "";  }
+                
             }
 
             bool th = ThreadPool.SetMaxThreads(threads, threads);
@@ -2115,6 +2117,7 @@ public class functions
     public List<Options_up> take_options(string file_options)
     {
         List<Options_up> options = new List<Options_up>();
+        if (file_options == "") return null;
         try
         {
             using (var reader = new StreamReader(file_options, Encoding.GetEncoding(1251)))
