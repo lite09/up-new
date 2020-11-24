@@ -30,7 +30,7 @@ namespace up
     {
         List<Thread> th_s = new List<Thread>();
 
-        Form_stl stl = new Form_stl();
+        public Form_stl stl = new Form_stl();
         public Form2 set_easy = new Form2();
         public Form3 set_full = new Form3();
         public functions f;
@@ -45,7 +45,7 @@ namespace up
         //public List<string> exception_name = new List<string>();
         //public uint exception_any_side = 0, exception_sum_side = 0, exception_weight = 0;
         readonly int CPU = Environment.ProcessorCount;
-        int threads = Environment.ProcessorCount;
+        public int threads = Environment.ProcessorCount;
         int threads_avariable, threads_all;
 
         public static List<string> prepositions = new List<string> {                            // список предлогов для обрывки фразы
@@ -241,7 +241,10 @@ namespace up
             if (type == "full") options_csv = fn.take_options(file_options);
 
             // xml, папка для сохранения результирующего фаила, удаление старых товаров(checkbox), сроки деактивации, соотнесение категории, папка с фаилами описания дополнительных полеи
-            string[] line_info = { file_xml, save_folder, "", "", "", Path.GetDirectoryName(file_options) };
+            string folder_options = "";
+            try   { folder_options = Path.GetDirectoryName(file_options); }
+            catch {}
+            string[] line_info = { file_xml, save_folder, "", "", "", folder_options };
 
 
             IEnumerable<xml_offer> param = null;
@@ -257,16 +260,16 @@ namespace up
                 DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
 
                 List<xml_offer> p = param.ToList();
-                param = null;
+                 param = null;
                 object am = new object();
 
-                file_xml = null;
-
+                //file_xml = null;
+                string save_urls_dir = Path.GetDirectoryName(file_xml) + "\\txt_simple";
 
                 if (type == "easy")
                     processing(ref p, easy, line_info);
                 else
-                    processing(ref p, full, line_info, options_csv);
+                    processing(ref p, full, line_info, options_csv, save_urls_dir);
 
 
                 dto = DateTimeOffset.Now; long end = dto.ToUnixTimeSeconds();
@@ -422,9 +425,9 @@ namespace up
             }
         }
 
-        void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options_up> options = null)
+        void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options_up> options = null, string urls_dir = "")
         {
-            //int i = 0;
+
             bool categories = true;
             float coeff = 1;
             string line_csv = null, date = null;
@@ -492,7 +495,7 @@ namespace up
 
             // ------------------------------ добавление полей заголовка из дополнительного фаила ------------------------------
             List<string> op_head_list = new List<string>();
-            if (line_info[5] != "")
+            if (line_info[5] != "" && mode.mode == "full")
             {
                 string op_head = "";
                 try
@@ -717,6 +720,7 @@ namespace up
                     //  ---------------------   корректирова массы и габаритов   ---------------------
 
 
+
                     //  --------------------------   обновление категорий   --------------------------
                     if (rb_auto.Checked && full.tre_list_categoryes.Count > 0)
                         if (!mod_cat(ref full.tre_list_categoryes, offer)) offer.categoryId = "999999";
@@ -854,6 +858,17 @@ namespace up
                 catch { MessageBox.Show("Проверьте правильность пути для сохранения csv файла"); }
             }
 
+            if (rb_auto.Checked && urls_dir == "tre" && set_full.tre_folder.Text != "" )
+            {
+                functions fn = new functions();
+                string[] urls = fn.get_urls(offers);
+                StringBuilder sb_urls = new StringBuilder();
+
+                foreach (string i in urls)
+                    sb_urls.Append(i + "\r\n");
+
+                File.WriteAllText(urls_dir + "\\urls.txt", sb_urls.ToString());
+            }
         }
 
         public IEnumerable<int> offer_get_id(StringReader string_xml)
@@ -1076,7 +1091,7 @@ namespace up
 
 
                                 offer.available = el.Attribute("available").Value;
-                                //offer.url = el.Element("url").Value;
+                                offer.url = el.Element("url").Value;
                                 offer.price = offer.price_time = Convert.ToSingle(el.Element("price").Value, CultureInfo.InvariantCulture);
                                 //offer.currencyId = el.Element("currencyId").Value;
                                 offer.categoryId = el.Element("categoryId").Value;
@@ -1536,12 +1551,17 @@ namespace up
             File.WriteAllText("token.txt", token);
         }
 
+        // ------------------------------------------------------------------- переменные для таимера -------------------------------------------------------------------
+        Dictionary<string, string> week = new Dictionary<string, string>
+        {
+            { "Вс", "Sunday" }, { "Пн", "Monday" }, { "Вт", "Tuesday" }, { "Ср", "Wednesday" }, { "Чт", "Thursday" }, { "Пт", "Friday" }, { "Сб", "Saturday" }
+        };
         struct timer_st
         {
-            public int min_easy, min_full;
-            public bool easy, full;
+            public bool easy, full, options;
         };
         timer_st tm = new timer_st();
+        // ------------------------------------------------------------------- переменные для таимера -------------------------------------------------------------------
         private void Timer1_Tick(object sender, EventArgs e)
         {
             ThreadPool.GetAvailableThreads(out threads_avariable, out threads_all);
@@ -1559,10 +1579,6 @@ namespace up
             //}
 
 
-            Dictionary<string, string> week = new Dictionary<string, string>
-            {
-                { "Вс", "Sunday" }, { "Пн", "Monday" }, { "Вт", "Tuesday" }, { "Ср", "Wednesday" }, { "Чт", "Thursday" }, { "Пт", "Friday" }, { "Сб", "Saturday" }
-            };
 
             DateTimeOffset time = DateTimeOffset.Now;
             string day_of_week = time.DayOfWeek.ToString();
@@ -1577,12 +1593,11 @@ namespace up
             {
                 if (Convert.ToInt32(easy.time_sh[0].Text) == hour && Convert.ToInt32(easy.time_sh[1].Text) == min)
                 {
-
                     if (threads_all - threads_avariable == 0)
                     {
                         if (easy.exception_rules_xml == null)
                         {
-                            MessageBox.Show("Установите поле фильтр исключений");
+                            MessageBox.Show("Установите поле фильтр исключений для простого режима");
                             return;
                         }
 
@@ -1590,10 +1605,15 @@ namespace up
                         {
                             //MessageBox.Show("time!");
                             richTextBox2.Text = "";
-                            multi_offer(threads, "easy");
+                            if (rb_auto.Checked)
+                            {
+                                functions fn = new functions(this);
+                                fn.tre_threads_offer("easy");
+                            }
+                            else
+                                multi_offer(threads, "easy");
 
                             tm.easy = true;
-                            tm.min_easy = min;
                         }
 
                     }
@@ -1610,74 +1630,74 @@ namespace up
 
                     if (threads_all - threads_avariable == 0)
                     {
-                        if (easy.exception_rules_xml == null)
+                        if (full.exception_rules_xml == null)
                         {
-                            MessageBox.Show("Установите поле фильтр исключений");
+                            MessageBox.Show("Установите поле фильтр исключений для полного режима");
                             return;
                         }
                         if (!tm.full)
                         {
                             //MessageBox.Show("time full!");
                             richTextBox2.Text = "";
-                            multi_offer(threads, "full");
+                            if (rb_auto.Checked)
+                            {
+                                functions fn = new functions(this);
+                                fn.tre_threads_offer("full");
+                            }
+                            else
+                                multi_offer(threads, "full");
 
                             tm.full = true;
-                            tm.min_full = min;
                         }
                     }
                 }
                 else if (tm.full)
                     tm.full = false;
             }
+
+            // --------------------------------------------------------- запуск создания дополнительных фаилов ---------------------------------------------------------
+            label_time = conf_options.days.Where(lb => lb.Text == day).FirstOrDefault();
+            if ((int)label_time.Tag == 1)
+            {
+                if (Convert.ToInt32(conf_options.time_sh[0].Text) == hour && Convert.ToInt32(conf_options.time_sh[1].Text) == min)
+                {
+                    if (!tm.options)
+                    {
+                        richTextBox2.Text = "";
+
+                        functions fn = new functions(this);
+                        fn.tre_threads_options();
+                        tm.options = true;
+                    }
+                }
+                else if (tm.options)
+                    tm.options = false;
+            }
+            // --------------------------------------------------------- запуск создания дополнительных фаилов ---------------------------------------------------------
         }
 
         bool timer_logic = false;
 
         private void test_Click(object sender, EventArgs e)
         {
-            cfg_data cfg = new cfg_data();
-            cfg.options = full.head_options;
-            cfg.prepositions = prepositions;
-            cfg.stop_words = stop_words;
-            cfg.coefficients = full.coefficient;
-            cfg.coefficients_volume_and_mass = full.coefficient_package_mass;
-
-            string[] files_xml = Directory.GetDirectories(full.tre_folder + "\\XML");
-
-            bool th = ThreadPool.SetMaxThreads(threads, threads);
-
-
-            foreach (string dir in files_xml)
-            {
-                object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
-                ThreadPool.QueueUserWorkItem(stl.make_op, hi);
-                Thread.Sleep(1800);
-            }
+            f.tre_threads_options();
         }
         
         private void hi_Click(object sender, EventArgs e)
         {
-            string type = "full";
-            string tre_folder = full.tre_folder;
-            string[] tre_xml_dirs = Directory.GetDirectories(full.tre_folder + "\\XML");
-            string[] tre_xmls = new string[tre_xml_dirs.Length];
-            string[] tre_ops  = new string[tre_xml_dirs.Length];
-            for (int i = 0; i < tre_xml_dirs.Length; i++)
-            {
-                tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
-                tre_ops[i]  = tre_xml_dirs[i] + "\\Dop_file\\";
-                try { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
-                catch { tre_ops[i] = "";  }
-                
-            }
+            f.tre_threads_offer("full");
+        }
 
-            bool th = ThreadPool.SetMaxThreads(threads, threads);
-            for (int i = 0; i < tre_xmls.Length; i++)
-            {
-                object[] hi = { tre_xmls[i], tre_ops[i], type};
-                ThreadPool.QueueUserWorkItem(tre_thread_offer, hi);
-                //Thread.Sleep(1800);
-            }
+        private void rb_manual_CheckedChanged(object sender, EventArgs e)
+        {
+            btn_make_tables.Enabled = false;
+            btn_make_options.Enabled = false;
+        }
+
+        private void rb_auto_CheckedChanged(object sender, EventArgs e)
+        {
+            btn_make_tables.Enabled = true;
+            btn_make_options.Enabled = true;
         }
 
         private void Shed_Click(object sender, EventArgs e)
@@ -2144,11 +2164,78 @@ public class functions
             return null;
         }
     }
+    public void tre_threads_options()
+    {
+        cfg_data cfg = new cfg_data();
+        cfg.options = f.full.head_options;
+        cfg.prepositions = Form1.prepositions;
+        cfg.stop_words = Form1.stop_words;
+        cfg.coefficients = f.full.coefficient;
+        cfg.coefficients_volume_and_mass = f.full.coefficient_package_mass;
+
+        string[] files_xml = Directory.GetDirectories(f.full.tre_folder + "\\XML");
+
+        bool th = ThreadPool.SetMaxThreads(f.threads, f.threads);
+
+
+        foreach (string dir in files_xml)
+        {
+            object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
+            ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
+            Thread.Sleep(1800);
+        }
+    }
+    public void tre_threads_offer(string type)
+    {
+        //string type = "full";
+        string tre_folder = f.full.tre_folder;
+        string[] tre_xml_dirs = { };
+        try { tre_xml_dirs = Directory.GetDirectories(f.full.tre_folder + "\\XML"); }
+        catch
+        {
+            MessageBox.Show("Укажите правильный путь до корневой папки");
+            return;
+        }
+        string[] tre_xmls = new string[tre_xml_dirs.Length];
+        string[] tre_ops = new string[tre_xml_dirs.Length];
+        for (int i = 0; i < tre_xml_dirs.Length; i++)
+        {
+            tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
+            tre_ops[i] = tre_xml_dirs[i] + "\\Dop_file\\";
+            try { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
+            catch { tre_ops[i] = ""; }
+
+        }
+
+        bool th = ThreadPool.SetMaxThreads(f.threads, f.threads);
+        for (int i = 0; i < tre_xmls.Length; i++)
+        {
+            object[] hi = { tre_xmls[i], tre_ops[i], type };
+            ThreadPool.QueueUserWorkItem(f.tre_thread_offer, hi);
+        }
+    }
+    public string[] get_urls (List<xml_offer> xmls)
+    {
+        string[] urls;
+        string url;
+        try   { urls = new string[xmls.Count]; }
+        catch { return null; }
+
+        Regex r_url = new Regex(@"(.*/\d+)");
+
+        for (int i = 0; i < xmls.Count; i++)
+        {
+            url = r_url.Match(xmls[i].url).Groups[1].Value;
+            urls[i] = url;
+        }
+
+        return urls;
+    }
 }
-class xml_offer
+public class xml_offer
 {
 
-    public string id, id_with_prefix;
+    public string id, id_with_prefix, url;
     public int delivery_days, min_quantity;
     public float price, price_time, price_new, weight_new, a, b, c, a_new, b_new, c_new;
 

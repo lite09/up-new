@@ -59,8 +59,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.rb_manual = new System.Windows.Forms.RadioButton();
             this.rb_auto = new System.Windows.Forms.RadioButton();
-            this.hi = new System.Windows.Forms.Button();
-            this.test = new System.Windows.Forms.Button();
+            this.btn_make_tables = new System.Windows.Forms.Button();
+            this.btn_make_options = new System.Windows.Forms.Button();
             this.openFile = new System.Windows.Forms.OpenFileDialog();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.openFile_token = new System.Windows.Forms.OpenFileDialog();
@@ -311,10 +311,10 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.rb_manual);
             this.groupBox1.Controls.Add(this.rb_auto);
-            this.groupBox1.Controls.Add(this.hi);
+            this.groupBox1.Controls.Add(this.btn_make_tables);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.test);
+            this.groupBox1.Controls.Add(this.btn_make_options);
             this.groupBox1.Controls.Add(this.shed);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
@@ -343,6 +343,7 @@
             this.rb_manual.TabStop = true;
             this.rb_manual.Text = "manual";
             this.rb_manual.UseVisualStyleBackColor = true;
+            this.rb_manual.CheckedChanged += new System.EventHandler(this.rb_manual_CheckedChanged);
             // 
             // rb_auto
             // 
@@ -353,30 +354,33 @@
             this.rb_auto.TabIndex = 79;
             this.rb_auto.Text = "auto";
             this.rb_auto.UseVisualStyleBackColor = true;
+            this.rb_auto.CheckedChanged += new System.EventHandler(this.rb_auto_CheckedChanged);
             // 
-            // hi
+            // btn_make_tables
             // 
-            this.hi.BackColor = System.Drawing.Color.Bisque;
-            this.hi.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.hi.Location = new System.Drawing.Point(626, 123);
-            this.hi.Name = "hi";
-            this.hi.Size = new System.Drawing.Size(132, 35);
-            this.hi.TabIndex = 78;
-            this.hi.Text = "Создать таблицу";
-            this.hi.UseVisualStyleBackColor = false;
-            this.hi.Click += new System.EventHandler(this.hi_Click);
+            this.btn_make_tables.BackColor = System.Drawing.Color.Bisque;
+            this.btn_make_tables.Enabled = false;
+            this.btn_make_tables.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btn_make_tables.Location = new System.Drawing.Point(626, 123);
+            this.btn_make_tables.Name = "btn_make_tables";
+            this.btn_make_tables.Size = new System.Drawing.Size(132, 35);
+            this.btn_make_tables.TabIndex = 78;
+            this.btn_make_tables.Text = "Создать таблицу";
+            this.btn_make_tables.UseVisualStyleBackColor = false;
+            this.btn_make_tables.Click += new System.EventHandler(this.hi_Click);
             // 
-            // test
+            // btn_make_options
             // 
-            this.test.BackColor = System.Drawing.Color.Bisque;
-            this.test.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.test.Location = new System.Drawing.Point(626, 83);
-            this.test.Name = "test";
-            this.test.Size = new System.Drawing.Size(132, 37);
-            this.test.TabIndex = 77;
-            this.test.Text = "Создать доп фаилы";
-            this.test.UseVisualStyleBackColor = false;
-            this.test.Click += new System.EventHandler(this.test_Click);
+            this.btn_make_options.BackColor = System.Drawing.Color.Bisque;
+            this.btn_make_options.Enabled = false;
+            this.btn_make_options.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.btn_make_options.Location = new System.Drawing.Point(626, 83);
+            this.btn_make_options.Name = "btn_make_options";
+            this.btn_make_options.Size = new System.Drawing.Size(132, 37);
+            this.btn_make_options.TabIndex = 77;
+            this.btn_make_options.Text = "Создать доп фаилы";
+            this.btn_make_options.UseVisualStyleBackColor = false;
+            this.btn_make_options.Click += new System.EventHandler(this.test_Click);
             // 
             // openFile
             // 
@@ -494,8 +498,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button test;
-        private System.Windows.Forms.Button hi;
+        private System.Windows.Forms.Button btn_make_options;
+        private System.Windows.Forms.Button btn_make_tables;
         private System.Windows.Forms.RadioButton rb_manual;
         private System.Windows.Forms.RadioButton rb_auto;
         private System.Windows.Forms.Label label7;
