@@ -229,6 +229,7 @@ namespace up
             string file_xml     = Convert.ToString(inf[0]);
             string file_options = Convert.ToString(inf[1]);
             string type         = Convert.ToString(inf[2]);
+            string file_ids     = Path.GetDirectoryName(file_xml) + "\\txt_simple\\id.txt";
 
             string save_folder = full.tre_folder + "\\Result";
 
@@ -252,7 +253,7 @@ namespace up
             {
 
                 if (type == "easy")
-                    param = offer_min(new StringReader(File.ReadAllText(file_xml)), easy);
+                    param = offer_min(new StringReader(File.ReadAllText(file_xml)), easy, file_ids);
                 else
                     param = offer(new StringReader(File.ReadAllText(file_xml)), full, options_csv);
 
@@ -299,9 +300,15 @@ namespace up
         }
 
 
-        IEnumerable<xml_offer> offer_min(StringReader string_xml, configure mode)
+        IEnumerable<xml_offer> offer_min(StringReader string_xml, configure mode, string file_ids = "")
         {
-            if (mode.mode != "easy") Close();
+            if (mode.mode != "easy") yield return null;
+
+            functions fn = new functions();
+            string[] ids = null;
+
+            if (file_ids != "")
+                ids = fn.file_get_ids(file_ids);
 
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.DtdProcessing = DtdProcessing.Ignore;
@@ -326,84 +333,103 @@ namespace up
 
                                 IEnumerable<XElement> i;
 
-                                offer.name = el.Element("name").Value;
-
-                                i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Размер упаковки");
-                                offer.packing_size = (string)i.FirstOrDefault();
-
-                                i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Вес");
-                                offer.weight = (string)i.FirstOrDefault();
-
-
-                                if (offer.packing_size == null)
-                                    continue;
-
-                                //  --------------------------- фильтр исключений -------------------------------------
-                                //  ---------------------------       delay       -------------------------------------
-                                if (mode.check_delivery_options)
-                                {
-                                    try
-                                    {
-                                        offer.delivery_days = Convert.ToInt32(el.Element("delivery-options").Element("option").Attribute("days").Value);
-                                        if (offer.delivery_days > 0)
-                                            continue;
-                                    }
-                                    catch {}
-                                }
-                                //  --------------------------- фильтр исключений -------------------------------------
-
-                                //  --------------------------- фильтр исключений -------------------------------------
-                                //  ---------------------------      упаковка     -------------------------------------
-                                //15 см × 2 см × 0,3 см
-                                Regex side_of_pkg = new Regex(@"^(\S+)\s*см\s*\S\s*(\S+)\s*см\s*\S\s*(\S+)");
-                                Match rx_short_name = side_of_pkg.Match(offer.packing_size);
-
-                                // или continue
-                                if (rx_short_name.ToString() == "")
-                                    continue;
-
-                                a = Convert.ToSingle(rx_short_name.Groups[1].Value);
-                                b = Convert.ToSingle(rx_short_name.Groups[2].Value);
-                                c = Convert.ToSingle(rx_short_name.Groups[3].Value);
-
-
-                                if ((a >= mode.exception_any_side) || (b >= mode.exception_any_side) || (c >= mode.exception_any_side))
-                                    continue;
-                                if ((a + b + c) >= mode.exception_sum_side)
-                                    continue;
-                                //  --------------------------- фильтр исключений -------------------------------------
-
-
-                                //  --------------------------- фильтр исключений -------------------------------------
-                                //  ---------------------------       масса       -------------------------------------
-                                if (Convert.ToSingle(offer.weight, CultureInfo.InvariantCulture) >= mode.exception_weight)
-                                    continue;
-                                //  --------------------------- фильтр исключений -------------------------------------
-
-
-
-                                //  --------------------------- фильтр исключений -------------------------------------
-                                //  ---------------------------        имя        -------------------------------------
-                                string exp = "";
-                                foreach (string name in mode.exception_name)
-                                {
-                                    exp = @"^.*(" + name + ").*";
-                                    Regex exp_name = new Regex(exp);
-                                    //Match mi = exp_name.Match(offer.name);
-
-                                    if (exp_name.IsMatch(offer.name))
-                                    {
-                                        //richTextBox1.Text = richTextBox1.Text + "\r\n" + offer.name;
-                                        //richTextBox2.Text = richTextBox2.Text + "\r\n" + name;
-                                        //richTextBox2.Text = richTextBox2.Text + "\r\n" + mi.Groups[0];
-                                        goto end;
-                                    }
-                                }
-                                //  --------------------------- фильтр исключений -------------------------------------
-
-
-
                                 offer.id = offer.id_with_prefix = el.Attribute("id").Value;
+
+
+
+                                //  --------------------------- фильтр исключений -------------------------------------
+                                //string s_catch = ids.Where(l => l == offer.id).FirstOrDefault();
+                                //if (s_catch == null)
+                                //{
+                                //    offer.name = el.Element("name").Value;
+                                //}
+
+                                if (offer.id == "118165")
+                                {
+                                    //
+                                }
+
+                                if (ids != null)
+                                {
+                                    if (ids.Where(l => l == offer.id).FirstOrDefault() == null)
+                                        continue;
+                                }
+                                else
+                                {
+                                    offer.name = el.Element("name").Value;
+
+                                    i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Размер упаковки");
+                                    offer.packing_size = (string)i.FirstOrDefault();
+
+                                    if (offer.packing_size == null)
+                                        continue;
+
+                                    i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Вес");
+                                    offer.weight = (string)i.FirstOrDefault();
+
+                                    //  ---------------------------       delay       -------------------------------------
+                                    if (mode.check_delivery_options)
+                                    {
+                                        try
+                                        {
+                                            offer.delivery_days = Convert.ToInt32(el.Element("delivery-options").Element("option").Attribute("days").Value);
+                                            if (offer.delivery_days > 0)
+                                                continue;
+                                        }
+                                        catch { }
+                                    }
+                                    //  --------------------------- фильтр исключений -------------------------------------
+
+                                    //  --------------------------- фильтр исключений -------------------------------------
+                                    //  ---------------------------      упаковка     -------------------------------------
+                                    //15 см × 2 см × 0,3 см
+                                    Regex side_of_pkg = new Regex(@"^(\S+)\s*см\s*\S\s*(\S+)\s*см\s*\S\s*(\S+)");
+                                    Match rx_short_name = side_of_pkg.Match(offer.packing_size);
+
+                                    // или continue
+                                    if (rx_short_name.ToString() == "")
+                                        continue;
+
+                                    a = Convert.ToSingle(rx_short_name.Groups[1].Value);
+                                    b = Convert.ToSingle(rx_short_name.Groups[2].Value);
+                                    c = Convert.ToSingle(rx_short_name.Groups[3].Value);
+
+
+                                    if ((a >= mode.exception_any_side) || (b >= mode.exception_any_side) || (c >= mode.exception_any_side))
+                                        continue;
+                                    if ((a + b + c) >= mode.exception_sum_side)
+                                        continue;
+                                    //  --------------------------- фильтр исключений -------------------------------------
+
+
+                                    //  --------------------------- фильтр исключений -------------------------------------
+                                    //  ---------------------------       масса       -------------------------------------
+                                    if (Convert.ToSingle(offer.weight, CultureInfo.InvariantCulture) >= mode.exception_weight)
+                                        continue;
+                                    //  --------------------------- фильтр исключений -------------------------------------
+
+
+                                    //  --------------------------- фильтр исключений -------------------------------------
+                                    //  ---------------------------        имя        -------------------------------------
+                                    string exp = "";
+                                    foreach (string name in mode.exception_name)
+                                    {
+                                        exp = @"^.*(" + name + ").*";
+                                        Regex exp_name = new Regex(exp);
+                                        //Match mi = exp_name.Match(offer.name);
+
+                                        if (exp_name.IsMatch(offer.name))
+                                        {
+                                            //richTextBox1.Text = richTextBox1.Text + "\r\n" + offer.name;
+                                            //richTextBox2.Text = richTextBox2.Text + "\r\n" + name;
+                                            //richTextBox2.Text = richTextBox2.Text + "\r\n" + mi.Groups[0];
+                                            goto end;
+                                        }
+                                    }
+                                }
+                                //  --------------------------- фильтр исключений -------------------------------------
+
+
                                 //offer.categoryId = el.Element("categoryId").Value;
                                 offer.available = el.Attribute("available").Value;
                                 offer.price = offer.price_time = Convert.ToSingle(el.Element("price").Value, CultureInfo.InvariantCulture);
@@ -858,16 +884,16 @@ namespace up
                 catch { MessageBox.Show("Проверьте правильность пути для сохранения csv файла"); }
             }
 
-            if (rb_auto.Checked && urls_dir == "tre" && set_full.tre_folder.Text != "" )
+            if (rb_auto.Checked && urls_dir != "" && set_full.tre_folder.Text != "" )
             {
                 functions fn = new functions();
-                string[] urls = fn.get_urls(offers);
-                StringBuilder sb_urls = new StringBuilder();
+                string[] ids = fn.get_ids(offers);
+                StringBuilder sb_id = new StringBuilder();
 
-                foreach (string i in urls)
-                    sb_urls.Append(i + "\r\n");
+                foreach (string i in ids)
+                    sb_id.Append(i + "\r\n");
 
-                File.WriteAllText(urls_dir + "\\urls.txt", sb_urls.ToString());
+                File.WriteAllText(urls_dir + "\\id.txt", sb_id.ToString());
             }
         }
 
@@ -2213,6 +2239,34 @@ public class functions
             object[] hi = { tre_xmls[i], tre_ops[i], type };
             ThreadPool.QueueUserWorkItem(f.tre_thread_offer, hi);
         }
+    }
+    public string[] get_ids(List<xml_offer> xmls)
+    {
+        string[] ids;
+        try { ids = new string[xmls.Count]; }
+        catch { return null; }
+
+        for (int i = 0; i < xmls.Count; i++)
+            ids[i] = xmls[i].id;
+
+        return ids;
+    }
+    public string[] file_get_ids(string file_ids)
+    {
+        string data_ids;
+        try { data_ids = File.ReadAllText(file_ids); }
+        catch { return null; }
+
+        Regex lines = new Regex("(\\d*)\r\n");
+        MatchCollection m_ids = lines.Matches(data_ids);
+        string[] ids;
+        try { ids = new string[m_ids.Count]; }
+        catch { return null; }
+
+        for (int i = 0; i < m_ids.Count; i++)
+            ids[i] = m_ids[i].Groups[1].Value;
+
+        return ids;
     }
     public string[] get_urls (List<xml_offer> xmls)
     {
