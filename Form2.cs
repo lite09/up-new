@@ -197,5 +197,28 @@ namespace up
 
             f1.f.clear_configure("easy");
         }
+
+
+        // --------------------------- чтение id для easy mode ---------------------------
+        private void tb_ids_folder_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+        
+        private void tb_ids_folder_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            if (Directory.Exists(file_name[0]))
+                tb_ids_folder.Text = f1.easy.get_ids_dir = file_name[0];
+            else
+                tb_ids_folder.Text = f1.easy.get_ids_dir = Path.GetDirectoryName(file_name[0]);
+        }
+
+        private void tb_ids_folder_Leave(object sender, EventArgs e)
+        {
+            f1.easy.get_ids_dir = tb_ids_folder.Text;
+        }
+        // --------------------------- чтение id для easy mode ---------------------------
     }
 }

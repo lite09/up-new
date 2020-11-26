@@ -42,6 +42,8 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.clear = new System.Windows.Forms.Button();
+            this.label_ids_folder = new System.Windows.Forms.Label();
+            this.tb_ids_folder = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label5
@@ -177,13 +179,13 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox1.Location = new System.Drawing.Point(375, 8);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(288, 338);
+            this.richTextBox1.Size = new System.Drawing.Size(288, 383);
             this.richTextBox1.TabIndex = 31;
             this.richTextBox1.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(330, 366);
+            this.button1.Location = new System.Drawing.Point(331, 401);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 33;
@@ -195,20 +197,45 @@
             // 
             this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
             this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.clear.Location = new System.Drawing.Point(640, 366);
+            this.clear.Location = new System.Drawing.Point(641, 401);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(23, 23);
             this.clear.TabIndex = 34;
             this.clear.UseVisualStyleBackColor = true;
             this.clear.Click += new System.EventHandler(this.Button2_Click);
             // 
+            // label_ids_folder
+            // 
+            this.label_ids_folder.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label_ids_folder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
+            this.label_ids_folder.Location = new System.Drawing.Point(15, 360);
+            this.label_ids_folder.Name = "label_ids_folder";
+            this.label_ids_folder.Size = new System.Drawing.Size(113, 42);
+            this.label_ids_folder.TabIndex = 35;
+            this.label_ids_folder.Text = "Папка со списками id ";
+            // 
+            // tb_ids_folder
+            // 
+            this.tb_ids_folder.AllowDrop = true;
+            this.tb_ids_folder.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tb_ids_folder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tb_ids_folder.Location = new System.Drawing.Point(134, 371);
+            this.tb_ids_folder.Name = "tb_ids_folder";
+            this.tb_ids_folder.Size = new System.Drawing.Size(220, 20);
+            this.tb_ids_folder.TabIndex = 36;
+            this.tb_ids_folder.DragDrop += new System.Windows.Forms.DragEventHandler(this.tb_ids_folder_DragDrop);
+            this.tb_ids_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tb_ids_folder_DragEnter);
+            this.tb_ids_folder.Leave += new System.EventHandler(this.tb_ids_folder_Leave);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(679, 401);
+            this.ClientSize = new System.Drawing.Size(679, 436);
             this.ControlBox = false;
+            this.Controls.Add(this.tb_ids_folder);
+            this.Controls.Add(this.label_ids_folder);
             this.Controls.Add(this.clear);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
@@ -249,5 +276,7 @@
         public System.Windows.Forms.TextBox prefix_for_id;
         public System.Windows.Forms.ListBox exception_rules_xml;
         private System.Windows.Forms.Button clear;
+        private System.Windows.Forms.Label label_ids_folder;
+        public System.Windows.Forms.TextBox tb_ids_folder;
     }
 }

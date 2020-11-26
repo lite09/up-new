@@ -459,7 +459,6 @@ namespace up
             else
                 tre_folder.Text = f.full.tre_folder = /*f.easy.tre_folder =*/ Path.GetDirectoryName(file_name[0]);
         }
-
         private void tre_folder_Leave(object sender, EventArgs e)
         {
             f.full.tre_folder = tre_folder.Text;
@@ -562,5 +561,27 @@ namespace up
             richTextBox1.Text += "Загруженно " + Convert.ToString(Convert.ToInt32(words.Count) - 1) + " значений";
             f.full.tre_list_categoryes.RemoveAt(0);
         }
+
+        // --------------------------- сохранение id для easy mode ---------------------------
+        private void tb_save_ids_dir_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void tb_save_ids_dir_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            if (Directory.Exists(file_name[0]))
+                tb_save_ids_dir.Text = f.full.save_ids_dir = file_name[0];
+            else
+                tb_save_ids_dir.Text = f.full.save_ids_dir = Path.GetDirectoryName(file_name[0]);
+        }
+
+        private void tb_save_ids_dir_Leave(object sender, EventArgs e)
+        {
+            f.full.save_ids_dir = tb_save_ids_dir.Text;
+        }
+        // --------------------------- сохранение id для easy mode ---------------------------
     }
 }

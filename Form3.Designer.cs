@@ -75,6 +75,11 @@
             this.label_mod_catalog = new System.Windows.Forms.Label();
             this.list_mod_catalog = new System.Windows.Forms.ListBox();
             this.bool_mod_catalog = new System.Windows.Forms.CheckBox();
+            this.lb_save_ids = new System.Windows.Forms.Label();
+            this.tb_save_ids_dir = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.cb_del_old_itm = new System.Windows.Forms.CheckBox();
+            this.tb_del_old_itm = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -83,7 +88,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(340, 660);
+            this.button1.Location = new System.Drawing.Point(335, 716);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 46;
@@ -299,7 +304,7 @@
             this.color.FormattingEnabled = true;
             this.color.Location = new System.Drawing.Point(159, 57);
             this.color.Name = "color";
-            this.color.Size = new System.Drawing.Size(192, 28);
+            this.color.Size = new System.Drawing.Size(189, 28);
             this.color.TabIndex = 52;
             this.color.DragDrop += new System.Windows.Forms.DragEventHandler(this.Color_DragDrop);
             this.color.DragEnter += new System.Windows.Forms.DragEventHandler(this.Color_DragEnter);
@@ -322,7 +327,7 @@
             // 
             this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
             this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.clear.Location = new System.Drawing.Point(714, 660);
+            this.clear.Location = new System.Drawing.Point(709, 716);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(23, 23);
             this.clear.TabIndex = 51;
@@ -532,7 +537,7 @@
             this.gred_file.FormattingEnabled = true;
             this.gred_file.Location = new System.Drawing.Point(157, 57);
             this.gred_file.Name = "gred_file";
-            this.gred_file.Size = new System.Drawing.Size(192, 28);
+            this.gred_file.Size = new System.Drawing.Size(191, 28);
             this.gred_file.TabIndex = 56;
             this.gred_file.DragDrop += new System.Windows.Forms.DragEventHandler(this.Gred_file_DragDrop);
             this.gred_file.DragEnter += new System.Windows.Forms.DragEventHandler(this.Gred_file_DragEnter);
@@ -590,7 +595,7 @@
             this.tre_folder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tre_folder.Location = new System.Drawing.Point(161, 579);
             this.tre_folder.Name = "tre_folder";
-            this.tre_folder.Size = new System.Drawing.Size(564, 20);
+            this.tre_folder.Size = new System.Drawing.Size(561, 20);
             this.tre_folder.TabIndex = 53;
             this.tre_folder.DragDrop += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragDrop);
             this.tre_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragEnter);
@@ -604,7 +609,7 @@
             this.options_lb.FormattingEnabled = true;
             this.options_lb.Location = new System.Drawing.Point(162, 615);
             this.options_lb.Name = "options_lb";
-            this.options_lb.Size = new System.Drawing.Size(191, 28);
+            this.options_lb.Size = new System.Drawing.Size(190, 28);
             this.options_lb.TabIndex = 54;
             this.options_lb.DragDrop += new System.Windows.Forms.DragEventHandler(this.options_lb_DragDrop);
             this.options_lb.DragEnter += new System.Windows.Forms.DragEventHandler(this.options_lb_DragEnter);
@@ -637,7 +642,7 @@
             this.list_mod_catalog.FormattingEnabled = true;
             this.list_mod_catalog.Location = new System.Drawing.Point(533, 615);
             this.list_mod_catalog.Name = "list_mod_catalog";
-            this.list_mod_catalog.Size = new System.Drawing.Size(192, 28);
+            this.list_mod_catalog.Size = new System.Drawing.Size(189, 28);
             this.list_mod_catalog.TabIndex = 57;
             this.list_mod_catalog.DragDrop += new System.Windows.Forms.DragEventHandler(this.list_mod_catalog_DragDrop);
             this.list_mod_catalog.DragEnter += new System.Windows.Forms.DragEventHandler(this.list_mod_catalog_DragEnter);
@@ -655,13 +660,69 @@
             this.bool_mod_catalog.UseVisualStyleBackColor = false;
             this.bool_mod_catalog.CheckedChanged += new System.EventHandler(this.bool_mod_catalog_CheckedChanged);
             // 
+            // lb_save_ids
+            // 
+            this.lb_save_ids.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lb_save_ids.ForeColor = System.Drawing.Color.DarkGreen;
+            this.lb_save_ids.Location = new System.Drawing.Point(14, 659);
+            this.lb_save_ids.Name = "lb_save_ids";
+            this.lb_save_ids.Size = new System.Drawing.Size(139, 20);
+            this.lb_save_ids.TabIndex = 58;
+            this.lb_save_ids.Text = "Папка сохранения id";
+            // 
+            // tb_save_ids_dir
+            // 
+            this.tb_save_ids_dir.AllowDrop = true;
+            this.tb_save_ids_dir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.tb_save_ids_dir.Location = new System.Drawing.Point(161, 659);
+            this.tb_save_ids_dir.Name = "tb_save_ids_dir";
+            this.tb_save_ids_dir.Size = new System.Drawing.Size(191, 20);
+            this.tb_save_ids_dir.TabIndex = 59;
+            this.tb_save_ids_dir.DragDrop += new System.Windows.Forms.DragEventHandler(this.tb_save_ids_dir_DragDrop);
+            this.tb_save_ids_dir.DragEnter += new System.Windows.Forms.DragEventHandler(this.tb_save_ids_dir_DragEnter);
+            this.tb_save_ids_dir.Leave += new System.EventHandler(this.tb_save_ids_dir_Leave);
+            // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(386, 647);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(141, 27);
+            this.label22.TabIndex = 69;
+            this.label22.Text = "Удаление старых товаров";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // cb_del_old_itm
+            // 
+            this.cb_del_old_itm.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cb_del_old_itm.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cb_del_old_itm.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cb_del_old_itm.ForeColor = System.Drawing.Color.DarkGreen;
+            this.cb_del_old_itm.Location = new System.Drawing.Point(369, 656);
+            this.cb_del_old_itm.Name = "cb_del_old_itm";
+            this.cb_del_old_itm.Size = new System.Drawing.Size(17, 22);
+            this.cb_del_old_itm.TabIndex = 70;
+            this.cb_del_old_itm.UseVisualStyleBackColor = false;
+            // 
+            // tb_del_old_itm
+            // 
+            this.tb_del_old_itm.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tb_del_old_itm.Location = new System.Drawing.Point(533, 659);
+            this.tb_del_old_itm.Name = "tb_del_old_itm";
+            this.tb_del_old_itm.Size = new System.Drawing.Size(189, 20);
+            this.tb_del_old_itm.TabIndex = 71;
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(747, 695);
+            this.ClientSize = new System.Drawing.Size(747, 751);
             this.ControlBox = false;
+            this.Controls.Add(this.tb_del_old_itm);
+            this.Controls.Add(this.cb_del_old_itm);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.tb_save_ids_dir);
+            this.Controls.Add(this.lb_save_ids);
             this.Controls.Add(this.bool_mod_catalog);
             this.Controls.Add(this.list_mod_catalog);
             this.Controls.Add(this.label_mod_catalog);
@@ -743,5 +804,10 @@
         public System.Windows.Forms.ListBox list_mod_catalog;
         public System.Windows.Forms.CheckBox bool_mod_catalog;
         public System.Windows.Forms.Label label_mod_catalog;
+        public System.Windows.Forms.Label lb_save_ids;
+        public System.Windows.Forms.TextBox tb_save_ids_dir;
+        private System.Windows.Forms.Label label22;
+        public System.Windows.Forms.CheckBox cb_del_old_itm;
+        public System.Windows.Forms.TextBox tb_del_old_itm;
     }
 }

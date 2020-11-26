@@ -184,9 +184,9 @@ namespace up
             IEnumerable<xml_offer> param = null;
             if (xml != "")
             {
-
+                string ids_file = full.save_ids_dir + "\\" + Path.GetFileNameWithoutExtension(line.line_xml_file[int_index].Text.ToString()) + ".txt";
                 if(type == "easy")
-                    param = offer_min(new StringReader(xml), easy);
+                    param = offer_min(new StringReader(xml), easy, ids_file);
                 else
                     param = offer(new StringReader(xml), full, options_csv);
 
@@ -194,8 +194,15 @@ namespace up
                 DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
 
                 List<xml_offer> p = param.ToList();
-                param = null;
+                dto = DateTimeOffset.Now; long endl = dto.ToUnixTimeSeconds();
+
                 object am = new object();
+                lock (am)
+                {
+                    richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += Path.GetFileName(line.line_xml_file[int_index].Text.ToString()) + "\tcount:  " + p.Count + "\t" +
+                    "время:  " + (int)((endl - start) / 60) + ":" + (endl - start) % 60 + "\r\n"));
+                }
+                param = null;
 
                 xml = null;
 
@@ -338,16 +345,9 @@ namespace up
 
 
                                 //  --------------------------- фильтр исключений -------------------------------------
-                                //string s_catch = ids.Where(l => l == offer.id).FirstOrDefault();
-                                //if (s_catch == null)
+                                //if (offer.id == "118165")
                                 //{
-                                //    offer.name = el.Element("name").Value;
                                 //}
-
-                                if (offer.id == "118165")
-                                {
-                                    //
-                                }
 
                                 if (ids != null)
                                 {
@@ -451,7 +451,7 @@ namespace up
             }
         }
 
-        void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options_up> options = null, string urls_dir = "")
+        void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options_up> options = null, string ids_easy_dir = "")
         {
 
             bool categories = true;
@@ -500,7 +500,7 @@ namespace up
             if (mode.mode == "easy")
             {
                 if (easy.output_base_price)
-                    line_head += ";BASE_PRICE;time_price;PRICE";
+                    line_head += ";BASE_PRICE;PRICE";
                 else
                     line_head += ";PRICE";
             }
@@ -683,7 +683,7 @@ namespace up
                     if (mode.output_base_price)
                     {
                         line_csv = offer.id_with_prefix + ";" + offer.available + ";" + offer.in_stock + ";" + offer.min_quantity + ";" +
-                            offer.price + ";" + offer.price_time + ";" + offer.price_new;
+                            offer.price + ";" +  offer.price_new;
                         //line_csv = string.Format("{0};{1};{2};{3};;{4};{5};{6}",
                         //    offer.id, offer.categoryId, offer.available, offer.in_stock, offer.price, offer.price_time, offer.price_new);
                     }
@@ -884,17 +884,35 @@ namespace up
                 catch { MessageBox.Show("Проверьте правильность пути для сохранения csv файла"); }
             }
 
-            if (rb_auto.Checked && urls_dir != "" && set_full.tre_folder.Text != "" )
+            // ---------------------------------------- сохраниение id для упощеного режима и сохранение url без описания
+            functions fn = new functions();
+            string[] ids = fn.get_ids(offers);
+            StringBuilder sb_time = new StringBuilder();
+            foreach (string i in ids)
+                sb_time.Append(i + "\r\n");
+
+            if (rb_manual.Checked && full.save_ids_dir != null && mode.mode == "full")
             {
-                functions fn = new functions();
-                string[] ids = fn.get_ids(offers);
-                StringBuilder sb_id = new StringBuilder();
-
-                foreach (string i in ids)
-                    sb_id.Append(i + "\r\n");
-
-                File.WriteAllText(urls_dir + "\\id.txt", sb_id.ToString());
+                string name = Path.GetFileNameWithoutExtension(line_info[0]) + ".txt";
+                File.WriteAllText(full.save_ids_dir + "\\" + name, sb_time.ToString());
             }
+            if (rb_auto.Checked && ids_easy_dir != "" && set_full.tre_folder.Text != "" )
+            {
+                File.WriteAllText(ids_easy_dir + "\\id.txt", sb_time.ToString());
+                sb_time.Clear();
+
+                if(options != null)
+                {
+                    string [] op_ids = fn.get_options_ids(options);
+                    string [] urls_not_founded = fn.get_urls(ids, op_ids, offers);
+
+                    foreach (string i in urls_not_founded)
+                        sb_time.Append(i + "\r\n");
+
+                    File.WriteAllText(Path.GetDirectoryName(ids_easy_dir) + "\\txt_input\\urls.txt", sb_time.ToString());
+                }
+            }
+            // ---------------------------------------- сохраниение id для упощеного режима и сохранение url без описания
         }
 
         public IEnumerable<int> offer_get_id(StringReader string_xml)
@@ -2013,6 +2031,8 @@ public class functions
             e.correction_quantity.Items.Clear();
             e.correction_quantity.Items.Add(Path.GetFileName(data.e.file_to_create_new_quality));
         }
+        if (data.e.get_ids_dir != null)
+            e.tb_ids_folder.Text = data.e.get_ids_dir;
         // ---------------------------------------------------------- easy ----------------------------------------------------------
         // ---------------------------------------------------------- full ----------------------------------------------------------
         if (data.f.prefix_for_id != "")
@@ -2131,8 +2151,10 @@ public class functions
             f.list_mod_catalog.Items.Clear();
             f.list_mod_catalog.Items.Add(Path.GetFileName(data.f.file_list_mod_catalog));
         }
-            // ---------------------------------------- tree mode каталог ----------------------------------------
-            // ---------------------------------------------------------- full ----------------------------------------------------------
+        // ---------------------------------------- tree mode каталог ----------------------------------------
+        if (data.f.save_ids_dir != null)
+            f.tb_save_ids_dir.Text = data.f.save_ids_dir;
+        // ---------------------------------------------------------- full ----------------------------------------------------------
 
         }
     public void clear_configure(string mode)
@@ -2268,18 +2290,31 @@ public class functions
 
         return ids;
     }
-    public string[] get_urls (List<xml_offer> xmls)
+    public string [] get_options_ids(List<Options_up> op)
     {
-        string[] urls;
-        string url;
-        try   { urls = new string[xmls.Count]; }
+        string[] op_ids;
+        try   { op_ids = new string[op.Count]; }
         catch { return null; }
 
+        for (int i = 0; i <  op.Count; i++)
+            op_ids[i] = op[i].artnumber;
+
+        return op_ids;
+    }
+    public string[] get_urls (string []xml_ids, string[] option_ids, List<xml_offer> offers)
+    {
+        string[] urls = xml_ids.Except(option_ids).ToArray();
+
+        if (urls == null)
+            return null;
+
+        string url/*, id_op*/;
         Regex r_url = new Regex(@"(.*/\d+)");
 
-        for (int i = 0; i < xmls.Count; i++)
+        for (int i = 0; i < urls.Length; i++)
         {
-            url = r_url.Match(xmls[i].url).Groups[1].Value;
+            xml_offer offer = offers.Find(ul => ul.id == urls[i]);
+            url = r_url.Match(offer.url).Groups[1].Value;
             urls[i] = url;
         }
 
@@ -2404,6 +2439,10 @@ public class configure
     public string file_list_mod_catalog = "";                           // путь до фаила спикока соотнесения категорий
     // ------------------------------ config for folder tre ------------------------------
 
+    // --------------------------- сохранение id для easy mode ---------------------------
+    public string save_ids_dir;
+    public string get_ids_dir;
+    // --------------------------- сохранение id для easy mode ---------------------------
 
     [NonSerialized] public Dictionary<string[], List<string>> gred_list = new Dictionary<string[], List<string>>();
     public string gls;
