@@ -702,6 +702,7 @@
             this.cb_del_old_itm.Size = new System.Drawing.Size(17, 22);
             this.cb_del_old_itm.TabIndex = 70;
             this.cb_del_old_itm.UseVisualStyleBackColor = false;
+            this.cb_del_old_itm.CheckedChanged += new System.EventHandler(this.cb_del_old_itm_CheckedChanged);
             // 
             // tb_del_old_itm
             // 
@@ -710,6 +711,7 @@
             this.tb_del_old_itm.Name = "tb_del_old_itm";
             this.tb_del_old_itm.Size = new System.Drawing.Size(189, 20);
             this.tb_del_old_itm.TabIndex = 71;
+            this.tb_del_old_itm.Leave += new System.EventHandler(this.tb_del_old_itm_Leave);
             // 
             // Form3
             // 
@@ -806,8 +808,8 @@
         public System.Windows.Forms.Label label_mod_catalog;
         public System.Windows.Forms.Label lb_save_ids;
         public System.Windows.Forms.TextBox tb_save_ids_dir;
-        private System.Windows.Forms.Label label22;
         public System.Windows.Forms.CheckBox cb_del_old_itm;
         public System.Windows.Forms.TextBox tb_del_old_itm;
+        public System.Windows.Forms.Label label22;
     }
 }

@@ -582,6 +582,29 @@ namespace up
         {
             f.full.save_ids_dir = tb_save_ids_dir.Text;
         }
+
+        private void cb_del_old_itm_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_del_old_itm.Checked)
+            {
+                f.full.tre_del_old_itm_bool = true;
+                label22.Enabled = true;
+                tb_del_old_itm.Enabled = true;
+            }
+            else
+            {
+                f.full.tre_del_old_itm_bool = false;
+                label22.Enabled = false;
+                tb_del_old_itm.Enabled = false;
+            }
+        }
+        private void tb_del_old_itm_Leave(object sender, EventArgs e)
+        {
+            if (int.TryParse(tb_del_old_itm.Text, out _))
+                f.full.tre_del_old_itm_count = tb_del_old_itm.Text;
+            else
+                f.full.tre_del_old_itm_count = tb_del_old_itm.Text= ""; 
+        }
         // --------------------------- сохранение id для easy mode ---------------------------
     }
 }

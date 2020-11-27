@@ -2138,13 +2138,13 @@ public class functions
         {
             f.label_mod_catalog.Enabled = true;
             f.list_mod_catalog.Enabled  = true;
-            try { f.bool_mod_catalog.Checked = true; } catch { }
+            try { f.bool_mod_catalog.Checked = true; } catch {}
         }
         else
         {
             f.label_mod_catalog.Enabled = false;
             f.list_mod_catalog.Enabled  = false;
-            try { f.bool_mod_catalog.Checked = false; } catch { }
+            try { f.bool_mod_catalog.Checked = false; } catch {}
         }
         if (data.f.tre_list_categoryes.Count > 0)
         {
@@ -2152,6 +2152,22 @@ public class functions
             f.list_mod_catalog.Items.Add(Path.GetFileName(data.f.file_list_mod_catalog));
         }
         // ---------------------------------------- tree mode каталог ----------------------------------------
+        // ---------------------------------------- tree del_old_itm -----------------------------------------
+        if (data.f.tre_del_old_itm_bool)
+        {
+            f.label22.Enabled = true;
+            f.tb_del_old_itm.Enabled = true;
+            try { f.cb_del_old_itm.Checked = true; } catch {}
+        }
+        else
+        {
+            f.label22.Enabled = false;
+            f.tb_del_old_itm.Enabled = false;
+            try { f.cb_del_old_itm.Checked = false; } catch {}
+        }
+        if (data.f.tre_del_old_itm_count != "")
+            f.tb_del_old_itm.Text = data.f.tre_del_old_itm_count;
+        // ---------------------------------------- tree del_old_itm -----------------------------------------
         if (data.f.save_ids_dir != null)
             f.tb_save_ids_dir.Text = data.f.save_ids_dir;
         // ---------------------------------------------------------- full ----------------------------------------------------------
@@ -2435,8 +2451,10 @@ public class configure
 
     // ------------------------------ config for folder tre ------------------------------
     public bool tre_bool_mod_catalog = false;
+    public bool tre_del_old_itm_bool = false;
     public List<string[]> tre_list_categoryes = new List<string[]>();   // спикок соотнесения категорий
     public string file_list_mod_catalog = "";                           // путь до фаила спикока соотнесения категорий
+    public string tre_del_old_itm_count = "";                           // количество днеи до деактивации
     // ------------------------------ config for folder tre ------------------------------
 
     // --------------------------- сохранение id для easy mode ---------------------------
