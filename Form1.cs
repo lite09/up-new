@@ -154,19 +154,34 @@ namespace up
                 if (save_file)
                 {
                     try { xml = File.ReadAllText(tmp + "\\" + name, Encoding.UTF8); }
-                    catch { MessageBox.Show("Ошибка чтения xml файла"); }
+                    catch { MessageBox.Show("Ошибка чтения xml файла скаченного с яндекс диска"); }
                 }
                 else { MessageBox.Show("Не удалось загрузить xml файл с яндекс диска."); }
             }
             else
             {
-                try { xml = File.ReadAllText(line.line_xml_file[int_index].Text.ToString(), Encoding.UTF8); }
+                string file_xml = line.line_xml_file[int_index].Text.ToString();
+                try { xml = File.ReadAllText(file_xml, Encoding.UTF8); }
                 catch
                 {
-                    //string link = line.line_xml_file[int_index].Text.ToString();
-                    //WebClient webClient = new WebClient();
-                    //webClient.DownloadFileAsync(new Uri(link), "sPCK.exe");
-                    MessageBox.Show("Ошибка чтения xml файла");
+                    try
+                    {
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                        WebClient wc = new WebClient();
+                        wc.Encoding = Encoding.UTF8;
+                        xml = wc.DownloadString(new Uri(file_xml));
+
+                        //File.WriteAllText(@"C:\Users\и\Desktop\iso.xml", xml);
+
+                        //using (var response = wr.GetResponse())
+                        //using (var content = response.GetResponseStream())
+                        //using (var reader = new StreamReader(content))
+                        //{
+                        //    var strContent = reader.ReadToEnd();
+                        //}
+                    }
+                    catch { MessageBox.Show("Ошибка чтения xml файла по url"); }
+                    //MessageBox.Show("Ошибка чтения xml файла");
                 }
             }
 
@@ -184,7 +199,7 @@ namespace up
             IEnumerable<xml_offer> param = null;
             if (xml != "")
             {
-                string ids_file = full.save_ids_dir + "\\" + Path.GetFileNameWithoutExtension(line.line_xml_file[int_index].Text.ToString()) + ".txt";
+                string ids_file = easy.get_ids_dir + "\\" + Path.GetFileNameWithoutExtension(line.line_xml_file[int_index].Text.ToString()) + ".txt";
                 if(type == "easy")
                     param = offer_min(new StringReader(xml), easy, ids_file);
                 else
@@ -237,14 +252,12 @@ namespace up
             string file_options = Convert.ToString(inf[1]);
             string type         = Convert.ToString(inf[2]);
             string file_ids     = Path.GetDirectoryName(file_xml) + "\\txt_simple\\id.txt";
+            string xml          = "";
+            // line_info  = new string[9];
 
             string save_folder = full.tre_folder + "\\Result";
 
             if (file_xml == "") return;
-
-            //try     { file_xml = File.ReadAllText(file_xml, Encoding.UTF8); }
-            //catch   { MessageBox.Show("Ошибка чтения xml файла"); }
-                    
             
             if (type == "full") options_csv = fn.take_options(file_options);
 
@@ -252,17 +265,34 @@ namespace up
             string folder_options = "";
             try   { folder_options = Path.GetDirectoryName(file_options); }
             catch {}
-            string[] line_info = { file_xml, save_folder, "", "", "", folder_options };
-
+            string[] line_info;
+            if (type == "full") {
+                string[] line_info_time = { file_xml, save_folder, full.tre_del_old_itm_bool.ToString(), full.tre_del_old_itm_count, "", folder_options };
+                line_info = line_info_time;
+            }
+            else
+            {
+                string[] line_info_time = { file_xml, save_folder, easy.tre_del_old_itm_bool.ToString(), easy.tre_del_old_itm_count, "", folder_options };
+                line_info = line_info_time;
+            }
 
             IEnumerable<xml_offer> param = null;
             if (file_xml != "")
             {
-
+                xml = File.ReadAllText(file_xml);
+                string url;
+                if (xml.Length < 900)
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                    url = fn.get_url_in_file(file_xml);
+                    WebClient wc = new WebClient();
+                    wc.Encoding = Encoding.UTF8;
+                    xml = wc.DownloadString(url);
+                }
                 if (type == "easy")
-                    param = offer_min(new StringReader(File.ReadAllText(file_xml)), easy, file_ids);
+                    param = offer_min(new StringReader(xml), easy, file_ids);
                 else
-                    param = offer(new StringReader(File.ReadAllText(file_xml)), full, options_csv);
+                    param = offer(new StringReader(xml), full, options_csv);
 
 
                 DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
@@ -324,7 +354,7 @@ namespace up
             {
 
                 try     { reader.MoveToContent(); }
-                catch   { MessageBox.Show("Не верный формат файла xml"); }
+                catch   { MessageBox.Show("Не верный формат файла хмл"); }
             // Parse the file and display each of the nodes. 
             
                 while (reader.Read())
@@ -376,7 +406,7 @@ namespace up
                                             if (offer.delivery_days > 0)
                                                 continue;
                                         }
-                                        catch { }
+                                        catch {}
                                     }
                                     //  --------------------------- фильтр исключений -------------------------------------
 
@@ -922,8 +952,8 @@ namespace up
 
             using (XmlReader reader = XmlReader.Create(string_xml, settings))
             {
-                try { reader.MoveToContent(); }
-                catch { MessageBox.Show("Не верный формат файла xml"); }
+                try   { reader.MoveToContent(); }
+                catch { MessageBox.Show("Не верный формат файла хмл"); }
 
                 while (reader.Read())
                 {
@@ -955,7 +985,7 @@ namespace up
 
             using (XmlReader reader = XmlReader.Create(string_xml, settings))
             {
-                try { reader.MoveToContent(); }
+                try   { reader.MoveToContent(); }
                 catch { MessageBox.Show("Не верный формат файла xml"); }
 
                 while (reader.Read())
@@ -2033,6 +2063,22 @@ public class functions
         }
         if (data.e.get_ids_dir != null)
             e.tb_ids_folder.Text = data.e.get_ids_dir;
+        // ---------------------------------------- tree del_old_itm -----------------------------------------
+        if (data.e.tre_del_old_itm_bool)
+        {
+            e.label22.Enabled = true;
+            e.tb_del_old_itm.Enabled = true;
+            try { e.cb_del_old_itm.Checked = true; } catch {}
+        }
+        else
+        {
+            e.label22.Enabled = false;
+            e.tb_del_old_itm.Enabled = false;
+            try { e.cb_del_old_itm.Checked = false; } catch {}
+        }
+        if (data.e.tre_del_old_itm_count != "")
+            e.tb_del_old_itm.Text = data.e.tre_del_old_itm_count;
+        // ---------------------------------------- tree del_old_itm -----------------------------------------
         // ---------------------------------------------------------- easy ----------------------------------------------------------
         // ---------------------------------------------------------- full ----------------------------------------------------------
         if (data.f.prefix_for_id != "")
@@ -2253,7 +2299,7 @@ public class functions
     {
         //string type = "full";
         string tre_folder = f.full.tre_folder;
-        string[] tre_xml_dirs = { };
+        string[] tre_xml_dirs = {};
         try { tre_xml_dirs = Directory.GetDirectories(f.full.tre_folder + "\\XML"); }
         catch
         {
@@ -2335,6 +2381,17 @@ public class functions
         }
 
         return urls;
+    }
+    public string get_url_in_file(string file_name)
+    {
+        string  url = null;
+        try   { url = File.ReadAllText(file_name); }
+        catch { return null; }
+
+        Regex get_url = new Regex("URL=(.*)\r\n");
+        url = get_url.Match(url).Groups[1].Value;
+
+        return url;
     }
 }
 public class xml_offer
@@ -2452,9 +2509,11 @@ public class configure
     // ------------------------------ config for folder tre ------------------------------
     public bool tre_bool_mod_catalog = false;
     public bool tre_del_old_itm_bool = false;
+    //public bool tre_easy_del_old_itm_bool = false;
     public List<string[]> tre_list_categoryes = new List<string[]>();   // спикок соотнесения категорий
     public string file_list_mod_catalog = "";                           // путь до фаила спикока соотнесения категорий
     public string tre_del_old_itm_count = "";                           // количество днеи до деактивации
+    //public string tre_easy_del_old_itm_count = "";                      // количество днеи до деактивации, простой режим
     // ------------------------------ config for folder tre ------------------------------
 
     // --------------------------- сохранение id для easy mode ---------------------------
@@ -2811,7 +2870,14 @@ public partial class file_line
             else
             {
                 try { xml = File.ReadAllText(f.line.line_xml_file[index].Text.ToString(), Encoding.UTF8); }
-                catch { MessageBox.Show("Ошибка чтения xml файла"); }
+                catch {
+                    try
+                    {
+                        xml = new WebClient().DownloadString(f.line.line_xml_file[index].Text.ToString());
+                    }
+                    catch { MessageBox.Show("Ошибка чтения xml файла по url"); }
+                    MessageBox.Show("Ошибка чтения xml файла");
+                }
             }
             offer_ids = f.offer_get_id(new StringReader(xml)).ToList();
 

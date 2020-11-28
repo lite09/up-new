@@ -219,6 +219,30 @@ namespace up
         {
             f1.easy.get_ids_dir = tb_ids_folder.Text;
         }
+
+        private void cb_del_old_itm_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_del_old_itm.Checked)
+            {
+                f1.easy.tre_del_old_itm_bool = true;
+                label22.Enabled = true;
+                tb_del_old_itm.Enabled = true;
+            }
+            else
+            {
+                f1.easy.tre_del_old_itm_bool = false;
+                label22.Enabled = false;
+                tb_del_old_itm.Enabled = false;
+            }
+        }
         // --------------------------- чтение id для easy mode ---------------------------
+
+        private void tb_del_old_itm_Leave(object sender, EventArgs e)
+        {
+            if (int.TryParse(tb_del_old_itm.Text, out _))
+                f1.easy.tre_del_old_itm_count = tb_del_old_itm.Text;
+            else
+                f1.easy.tre_del_old_itm_count = tb_del_old_itm.Text = "";
+        }
     }
 }

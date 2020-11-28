@@ -44,6 +44,9 @@
             this.clear = new System.Windows.Forms.Button();
             this.label_ids_folder = new System.Windows.Forms.Label();
             this.tb_ids_folder = new System.Windows.Forms.TextBox();
+            this.tb_del_old_itm = new System.Windows.Forms.TextBox();
+            this.cb_del_old_itm = new System.Windows.Forms.CheckBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label5
@@ -74,7 +77,7 @@
             this.correction_quantity.FormattingEnabled = true;
             this.correction_quantity.Location = new System.Drawing.Point(134, 318);
             this.correction_quantity.Name = "correction_quantity";
-            this.correction_quantity.Size = new System.Drawing.Size(220, 28);
+            this.correction_quantity.Size = new System.Drawing.Size(189, 28);
             this.correction_quantity.TabIndex = 28;
             this.correction_quantity.DragDrop += new System.Windows.Forms.DragEventHandler(this.Correction_quantity_DragDrop);
             this.correction_quantity.DragEnter += new System.Windows.Forms.DragEventHandler(this.Correction_quantity_DragEnter);
@@ -87,7 +90,7 @@
             this.new_price.FormattingEnabled = true;
             this.new_price.Location = new System.Drawing.Point(134, 265);
             this.new_price.Name = "new_price";
-            this.new_price.Size = new System.Drawing.Size(220, 28);
+            this.new_price.Size = new System.Drawing.Size(189, 28);
             this.new_price.TabIndex = 27;
             this.new_price.DragDrop += new System.Windows.Forms.DragEventHandler(this.New_price_DragDrop);
             this.new_price.DragEnter += new System.Windows.Forms.DragEventHandler(this.New_price_DragEnter);
@@ -137,7 +140,7 @@
             this.prefix_for_id.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.prefix_for_id.Location = new System.Drawing.Point(133, 12);
             this.prefix_for_id.Name = "prefix_for_id";
-            this.prefix_for_id.Size = new System.Drawing.Size(220, 20);
+            this.prefix_for_id.Size = new System.Drawing.Size(190, 20);
             this.prefix_for_id.TabIndex = 23;
             this.prefix_for_id.Leave += new System.EventHandler(this.Prefix_for_id_Leave);
             // 
@@ -169,7 +172,7 @@
             this.exception_rules_xml.FormattingEnabled = true;
             this.exception_rules_xml.Location = new System.Drawing.Point(134, 52);
             this.exception_rules_xml.Name = "exception_rules_xml";
-            this.exception_rules_xml.Size = new System.Drawing.Size(220, 28);
+            this.exception_rules_xml.Size = new System.Drawing.Size(189, 28);
             this.exception_rules_xml.TabIndex = 20;
             this.exception_rules_xml.DragDrop += new System.Windows.Forms.DragEventHandler(this.Exception_rules_xml_DragDrop);
             this.exception_rules_xml.DragEnter += new System.Windows.Forms.DragEventHandler(this.Exception_rules_xml_DragEnter);
@@ -179,13 +182,13 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox1.Location = new System.Drawing.Point(375, 8);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(288, 383);
+            this.richTextBox1.Size = new System.Drawing.Size(288, 423);
             this.richTextBox1.TabIndex = 31;
             this.richTextBox1.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(331, 401);
+            this.button1.Location = new System.Drawing.Point(325, 447);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 33;
@@ -197,7 +200,7 @@
             // 
             this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
             this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.clear.Location = new System.Drawing.Point(641, 401);
+            this.clear.Location = new System.Drawing.Point(640, 447);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(23, 23);
             this.clear.TabIndex = 34;
@@ -221,19 +224,53 @@
             this.tb_ids_folder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tb_ids_folder.Location = new System.Drawing.Point(134, 371);
             this.tb_ids_folder.Name = "tb_ids_folder";
-            this.tb_ids_folder.Size = new System.Drawing.Size(220, 20);
+            this.tb_ids_folder.Size = new System.Drawing.Size(189, 20);
             this.tb_ids_folder.TabIndex = 36;
             this.tb_ids_folder.DragDrop += new System.Windows.Forms.DragEventHandler(this.tb_ids_folder_DragDrop);
             this.tb_ids_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tb_ids_folder_DragEnter);
             this.tb_ids_folder.Leave += new System.EventHandler(this.tb_ids_folder_Leave);
+            // 
+            // tb_del_old_itm
+            // 
+            this.tb_del_old_itm.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tb_del_old_itm.Location = new System.Drawing.Point(134, 411);
+            this.tb_del_old_itm.Name = "tb_del_old_itm";
+            this.tb_del_old_itm.Size = new System.Drawing.Size(189, 20);
+            this.tb_del_old_itm.TabIndex = 74;
+            this.tb_del_old_itm.Leave += new System.EventHandler(this.tb_del_old_itm_Leave);
+            // 
+            // cb_del_old_itm
+            // 
+            this.cb_del_old_itm.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.cb_del_old_itm.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cb_del_old_itm.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cb_del_old_itm.ForeColor = System.Drawing.Color.DarkGreen;
+            this.cb_del_old_itm.Location = new System.Drawing.Point(336, 409);
+            this.cb_del_old_itm.Name = "cb_del_old_itm";
+            this.cb_del_old_itm.Size = new System.Drawing.Size(17, 22);
+            this.cb_del_old_itm.TabIndex = 73;
+            this.cb_del_old_itm.UseVisualStyleBackColor = false;
+            this.cb_del_old_itm.CheckedChanged += new System.EventHandler(this.cb_del_old_itm_CheckedChanged);
+            // 
+            // label22
+            // 
+            this.label22.Location = new System.Drawing.Point(12, 411);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(112, 26);
+            this.label22.TabIndex = 72;
+            this.label22.Text = "Удаление старых товаров";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(679, 436);
+            this.ClientSize = new System.Drawing.Size(679, 482);
             this.ControlBox = false;
+            this.Controls.Add(this.tb_del_old_itm);
+            this.Controls.Add(this.cb_del_old_itm);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.tb_ids_folder);
             this.Controls.Add(this.label_ids_folder);
             this.Controls.Add(this.clear);
@@ -278,5 +315,8 @@
         private System.Windows.Forms.Button clear;
         private System.Windows.Forms.Label label_ids_folder;
         public System.Windows.Forms.TextBox tb_ids_folder;
+        public System.Windows.Forms.TextBox tb_del_old_itm;
+        public System.Windows.Forms.CheckBox cb_del_old_itm;
+        public System.Windows.Forms.Label label22;
     }
 }
