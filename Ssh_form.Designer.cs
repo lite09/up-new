@@ -1,6 +1,6 @@
 ﻿namespace up
 {
-    partial class ssh_info
+    partial class Ssh_form
     {
         /// <summary>
         /// Required designer variable.
@@ -33,12 +33,12 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.prefix_for_id = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.login = new System.Windows.Forms.TextBox();
+            this.pass = new System.Windows.Forms.TextBox();
+            this.host = new System.Windows.Forms.TextBox();
+            this.port = new System.Windows.Forms.TextBox();
+            this.save_folder = new System.Windows.Forms.TextBox();
+            this.ok = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label22
@@ -91,76 +91,84 @@
             this.label4.Text = "Папка сохранения";
             this.label4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // prefix_for_id
+            // login
             // 
-            this.prefix_for_id.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.prefix_for_id.Location = new System.Drawing.Point(139, 14);
-            this.prefix_for_id.Name = "prefix_for_id";
-            this.prefix_for_id.Size = new System.Drawing.Size(220, 20);
-            this.prefix_for_id.TabIndex = 75;
+            this.login.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.login.Location = new System.Drawing.Point(139, 14);
+            this.login.Name = "login";
+            this.login.Size = new System.Drawing.Size(220, 20);
+            this.login.TabIndex = 75;
+            this.login.Leave += new System.EventHandler(this.login_Leave);
             // 
-            // textBox1
+            // pass
             // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox1.Location = new System.Drawing.Point(139, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(220, 20);
-            this.textBox1.TabIndex = 76;
+            this.pass.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pass.Location = new System.Drawing.Point(139, 44);
+            this.pass.Name = "pass";
+            this.pass.Size = new System.Drawing.Size(220, 20);
+            this.pass.TabIndex = 76;
+            this.pass.UseSystemPasswordChar = true;
+            this.pass.Leave += new System.EventHandler(this.pass_Leave);
             // 
-            // textBox2
+            // host
             // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox2.Location = new System.Drawing.Point(139, 73);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(220, 20);
-            this.textBox2.TabIndex = 77;
+            this.host.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.host.Location = new System.Drawing.Point(139, 73);
+            this.host.Name = "host";
+            this.host.Size = new System.Drawing.Size(220, 20);
+            this.host.TabIndex = 77;
+            this.host.Leave += new System.EventHandler(this.host_Leave);
             // 
-            // textBox3
+            // port
             // 
-            this.textBox3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox3.Location = new System.Drawing.Point(139, 101);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(220, 20);
-            this.textBox3.TabIndex = 78;
+            this.port.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.port.Location = new System.Drawing.Point(139, 101);
+            this.port.Name = "port";
+            this.port.Size = new System.Drawing.Size(220, 20);
+            this.port.TabIndex = 78;
+            this.port.Leave += new System.EventHandler(this.port_Leave);
             // 
-            // textBox4
+            // save_folder
             // 
-            this.textBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox4.Location = new System.Drawing.Point(139, 125);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(220, 20);
-            this.textBox4.TabIndex = 79;
+            this.save_folder.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.save_folder.Location = new System.Drawing.Point(139, 125);
+            this.save_folder.Name = "save_folder";
+            this.save_folder.Size = new System.Drawing.Size(220, 20);
+            this.save_folder.TabIndex = 79;
+            this.save_folder.Leave += new System.EventHandler(this.save_folder_Leave);
             // 
-            // button1
+            // ok
             // 
-            this.button1.Location = new System.Drawing.Point(172, 151);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(62, 23);
-            this.button1.TabIndex = 80;
-            this.button1.Text = "Ок";
-            this.button1.UseVisualStyleBackColor = true;
+            this.ok.Location = new System.Drawing.Point(172, 151);
+            this.ok.Name = "ok";
+            this.ok.Size = new System.Drawing.Size(62, 23);
+            this.ok.TabIndex = 80;
+            this.ok.Text = "Ок";
+            this.ok.UseVisualStyleBackColor = true;
+            this.ok.Click += new System.EventHandler(this.button1_Click);
             // 
-            // ssh_info
+            // Ssh_form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
             this.ClientSize = new System.Drawing.Size(368, 177);
             this.ControlBox = false;
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.prefix_for_id);
+            this.Controls.Add(this.ok);
+            this.Controls.Add(this.save_folder);
+            this.Controls.Add(this.port);
+            this.Controls.Add(this.host);
+            this.Controls.Add(this.pass);
+            this.Controls.Add(this.login);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label22);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "ssh_info";
+            this.Name = "Ssh_form";
             this.Text = "Настройки ssh";
+            this.Load += new System.EventHandler(this.ssh_form_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,11 +181,11 @@
         public System.Windows.Forms.Label label2;
         public System.Windows.Forms.Label label3;
         public System.Windows.Forms.Label label4;
-        public System.Windows.Forms.TextBox prefix_for_id;
-        public System.Windows.Forms.TextBox textBox1;
-        public System.Windows.Forms.TextBox textBox2;
-        public System.Windows.Forms.TextBox textBox3;
-        public System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.TextBox login;
+        public System.Windows.Forms.TextBox pass;
+        public System.Windows.Forms.TextBox host;
+        public System.Windows.Forms.TextBox port;
+        public System.Windows.Forms.TextBox save_folder;
+        private System.Windows.Forms.Button ok;
     }
 }

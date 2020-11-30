@@ -21,7 +21,7 @@ using System.Xml;
 using System.Xml.Linq;
 using up;
 using stl;
-
+using System.Security.Cryptography;
 
 namespace up
 {
@@ -33,17 +33,19 @@ namespace up
         public Form_stl stl = new Form_stl();
         public Form2 set_easy = new Form2();
         public Form3 set_full = new Form3();
+        public Ssh_form ssh_form = new Ssh_form();
+
         public functions f;
 
         public configure easy;
         public configure full;
         public configure conf_options;
+        
         public file_line line;
 
+        public Ssh ssh_conf = new Ssh();
 
         public string token = null;
-        //public List<string> exception_name = new List<string>();
-        //public uint exception_any_side = 0, exception_sum_side = 0, exception_weight = 0;
         readonly int CPU = Environment.ProcessorCount;
         public int threads = Environment.ProcessorCount;
         int threads_avariable, threads_all;
@@ -212,11 +214,11 @@ namespace up
                 dto = DateTimeOffset.Now; long endl = dto.ToUnixTimeSeconds();
 
                 object am = new object();
-                lock (am)
+/*                lock (am)
                 {
                     richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += Path.GetFileName(line.line_xml_file[int_index].Text.ToString()) + "\tcount:  " + p.Count + "\t" +
                     "время:  " + (int)((endl - start) / 60) + ":" + (endl - start) % 60 + "\r\n"));
-                }
+                }*/
                 param = null;
 
                 xml = null;
@@ -868,9 +870,9 @@ namespace up
                         line_csv += ";" + date + ";" + line_info[3];
 
                     line_csv += ";";
-                    foreach (string tl in op_head_list)
+                    if (op != null)
                     {
-                        if (op != null)
+                        foreach (string tl in op_head_list)
                         {
                             string value = op.get_property(tl.ToLower(), op);
                             line_csv += value + ";";
@@ -878,8 +880,6 @@ namespace up
                             //{
                             //}
                         }
-                        else
-                            break;
                     }
 
                     sb.AppendLine(line_csv);
@@ -943,6 +943,32 @@ namespace up
                 }
             }
             // ---------------------------------------- сохраниение id для упощеного режима и сохранение url без описания
+
+            // - копируем на сервер говый файл
+            if (ssh_conf.on)
+            {
+                try
+                {
+                    string copy_args = "-pw " + ssh_conf.pass + " -l " + ssh_conf.login + " " + xml_name + " " + ssh_conf.host + ":" + ssh_conf.save_folder;
+                    //System.Diagnostics.Process.Start("pscp.exe", copy);
+                    //pscp.exe -pw litelite -l lite c:\card.txt 192.168.9.35:/home/lite/time/hi
+
+                    using (System.Diagnostics.Process copy = new System.Diagnostics.Process())
+                    {
+                        //System.Diagnostics.Process process = new System.Diagnostics.Process();
+                        copy.StartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                        copy.StartInfo.FileName = "pscp.exe";
+                        copy.StartInfo.Arguments = copy_args;
+                        //copy.StartInfo.UseShellExecute = false;
+                        //copy.StartInfo.RedirectStandardOutput = true;
+                        copy.Start();
+                        //richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += copy.StandardOutput.ReadToEnd()));
+
+                        copy.WaitForExit();
+                    }
+                }
+                catch { MessageBox.Show("Неудалось отправить файл: " + Path.GetFileName(xml_name) + " на сервер по протоколу ssh"); }
+            }
         }
 
         public IEnumerable<int> offer_get_id(StringReader string_xml)
@@ -1305,13 +1331,9 @@ namespace up
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //save s = new save(/*line, */easy, full);
-            //conf s = new conf(); float[] fl = { 1, 2, 3 }; s.coefficient.Add(fl);
-
-            save save_obj = new save(easy, full);
+            save save_obj = new save(easy, full, ssh_conf);
             string json = JsonConvert.SerializeObject(save_obj, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText("save.json", json);
-
 
             //JsonSerializer l = new JsonSerializer();
             //using (TextWriter fs = new StreamWriter("save.json"))
@@ -1410,11 +1432,12 @@ namespace up
 
             set_easy.Owner = this;
             set_full.Owner = this;
+            ssh_form.Owner      = this;
 
-            set_easy.Show();
-            set_full.Show();
+            //set_easy.Show();
+            //set_full.Show();
 
-            int x_e = set_easy.Location.X;
+            /*int x_e = set_easy.Location.X;
             int y_e = set_easy.Location.Y;
             int x_f = set_full.Location.X;
             int y_f = set_full.Location.Y;
@@ -1423,14 +1446,12 @@ namespace up
             set_easy.Visible = false;
             set_full.Visible = false;
             set_easy.Location = new Point(x_e, y_e);
-            set_full.Location = new Point(x_f, y_f);
+            set_full.Location = new Point(x_f, y_f);*/
 
             line = new file_line(this);
 
             full = new configure("full", this);
-            //full.mode = "full";
             easy = new configure("easy", this);
-            //easy.mode = "easy";
             conf_options = new configure("options", this);
 
             //deserialize
@@ -1458,7 +1479,7 @@ namespace up
                         full.days = time_full.days;
                         full.time_sh = time_full.time_sh;
 
-                        f.set_settings(set_easy, set_full, save_obj);
+                        f.set_settings(ssh_form, set_easy, set_full, save_obj);
 
                         if (easy.ya == true || full.ya == true)
                         {
@@ -1467,6 +1488,8 @@ namespace up
                             full.ya = true;
                         }
                     }
+                    if (save_obj.ssh != null)
+                        ssh_conf = save_obj.ssh;
                 }
             }
             catch(ArgumentException err) { MessageBox.Show(err.ToString()); }
@@ -1510,7 +1533,7 @@ namespace up
 
             name = saveFile.FileName;
 
-            save save_obj = new save(easy, full);
+            save save_obj = new save(easy, full, ssh_conf);
             string json = JsonConvert.SerializeObject(save_obj, Newtonsoft.Json.Formatting.Indented);
 
             File.WriteAllText(name, json);
@@ -1551,7 +1574,7 @@ namespace up
                         full.time_sh = f_time.time_sh;
                         full.days = f_time.days;
 
-                        f.set_settings(set_easy, set_full, save_obj);
+                        f.set_settings(ssh_form, set_easy, set_full, save_obj);
                         if (easy.ya == true || full.ya == true)
                         {
                             ya.Checked = true;
@@ -1772,6 +1795,19 @@ namespace up
         {
             btn_make_tables.Enabled = true;
             btn_make_options.Enabled = true;
+        }
+
+        private void настройкиSshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ssh_form.Show(); ssh_form.Visible = true;
+        }
+
+        private void cb_ssh_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_ssh.Checked)
+                ssh_conf.on = true;
+            else
+                ssh_conf.on = false;
         }
 
         private void Shed_Click(object sender, EventArgs e)
@@ -2029,8 +2065,18 @@ public class functions
 
         return true;
     }
-    public void set_settings(Form2 e, Form3 f, save data)
+    public void set_settings(Ssh_form ssh, Form2 e, Form3 f, save data)
     {
+        // ---------------------------------------------------------- ssh -----------------------------------------------------------
+        if (data.ssh != null)
+        {
+            ssh.login.Text = data.ssh.login;
+            ssh.pass.Text = data.ssh.pass;
+            ssh.host.Text = data.ssh.host;
+            ssh.port.Text = data.ssh.port;
+            ssh.save_folder.Text = data.ssh.save_folder;
+        }
+        // ---------------------------------------------------------- ssh -----------------------------------------------------------
         // ---------------------------------------------------------- easy ----------------------------------------------------------
         if (data.e.prefix_for_id != "")
             e.prefix_for_id.Text = data.e.prefix_for_id;
@@ -2312,7 +2358,7 @@ public class functions
         {
             tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
             tre_ops[i] = tre_xml_dirs[i] + "\\Dop_file\\";
-            try { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
+            try   { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
             catch { tre_ops[i] = ""; }
 
         }
@@ -2935,9 +2981,10 @@ public class save
 {
     public configure e { get; set; }
     public configure f { get; set; }
-    public save(/*file_line line, */configure easy, configure full)
+    public Ssh ssh { get; set; }
+    public save(/*file_line line, */configure easy, configure full, Ssh ssh_conf)
     {
-        /*l = line; */e = easy; f = full;
+        /*l = line; */e = easy; f = full; ssh = ssh_conf;
     }
 
     public void load()

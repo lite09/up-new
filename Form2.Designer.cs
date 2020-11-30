@@ -266,7 +266,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(679, 482);
+            this.ClientSize = new System.Drawing.Size(681, 511);
             this.ControlBox = false;
             this.Controls.Add(this.tb_del_old_itm);
             this.Controls.Add(this.cb_del_old_itm);

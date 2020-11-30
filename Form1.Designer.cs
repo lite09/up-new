@@ -37,6 +37,7 @@
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.аапToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.праToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.настройкиSshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.токенToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,6 +69,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cb_ssh = new System.Windows.Forms.CheckBox();
+            this.gb_send = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -118,6 +121,7 @@
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.аапToolStripMenuItem,
             this.праToolStripMenuItem,
+            this.настройкиSshToolStripMenuItem,
             this.открытьToolStripMenuItem,
             this.токенToolStripMenuItem,
             this.выходToolStripMenuItem});
@@ -138,6 +142,13 @@
             this.праToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.праToolStripMenuItem.Text = "Полный режим";
             this.праToolStripMenuItem.Click += new System.EventHandler(this.ПраToolStripMenuItem_Click);
+            // 
+            // настройкиSshToolStripMenuItem
+            // 
+            this.настройкиSshToolStripMenuItem.Name = "настройкиSshToolStripMenuItem";
+            this.настройкиSshToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.настройкиSshToolStripMenuItem.Text = "Настройки ssh";
+            this.настройкиSshToolStripMenuItem.Click += new System.EventHandler(this.настройкиSshToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
@@ -424,12 +435,32 @@
             this.groupBox3.TabIndex = 79;
             this.groupBox3.TabStop = false;
             // 
+            // cb_ssh
+            // 
+            this.cb_ssh.AutoSize = true;
+            this.cb_ssh.Location = new System.Drawing.Point(1052, 361);
+            this.cb_ssh.Name = "cb_ssh";
+            this.cb_ssh.Size = new System.Drawing.Size(42, 17);
+            this.cb_ssh.TabIndex = 80;
+            this.cb_ssh.Text = "ssh";
+            this.cb_ssh.UseVisualStyleBackColor = true;
+            this.cb_ssh.CheckedChanged += new System.EventHandler(this.cb_ssh_CheckedChanged);
+            // 
+            // gb_send
+            // 
+            this.gb_send.Location = new System.Drawing.Point(1043, 325);
+            this.gb_send.Name = "gb_send";
+            this.gb_send.Size = new System.Drawing.Size(78, 58);
+            this.gb_send.TabIndex = 81;
+            this.gb_send.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(1196, 335);
+            this.ClientSize = new System.Drawing.Size(1196, 330);
+            this.Controls.Add(this.cb_ssh);
             this.Controls.Add(this.ya);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
@@ -446,6 +477,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.gb_send);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -503,6 +535,9 @@
         private System.Windows.Forms.RadioButton rb_manual;
         private System.Windows.Forms.RadioButton rb_auto;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripMenuItem настройкиSshToolStripMenuItem;
+        private System.Windows.Forms.CheckBox cb_ssh;
+        private System.Windows.Forms.GroupBox gb_send;
     }
 }
 
