@@ -1396,7 +1396,12 @@ namespace up
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //
+            const double day = 86400, start_time = 1606755508;
+            DateTimeOffset dto = DateTimeOffset.Now; long now = dto.ToUnixTimeSeconds();
+            double hi = (now - start_time) / day;
+            if ((now - start_time) / day > 7)
+                Close();
+
             //Form cli = new Form();
             //cli.Show();
             //cli.ControlBox = false;
@@ -1499,9 +1504,8 @@ namespace up
             get_stop_words();
             for (int i = 1; i <= CPU; ++i)
                 CPU_get.Items.Add(i);
-
-
         }
+
 
         private void Ya_CheckedChanged(object sender, EventArgs e)
         {
@@ -2065,7 +2069,7 @@ public class functions
 
         return true;
     }
-    public void set_settings(Ssh_form ssh, Form2 e, Form3 f, save data)
+    public void set_settings(Ssh_form ssh, Form2 e, Form3 f3, save data)
     {
         // ---------------------------------------------------------- ssh -----------------------------------------------------------
         if (data.ssh != null)
@@ -2075,6 +2079,10 @@ public class functions
             ssh.host.Text = data.ssh.host;
             ssh.port.Text = data.ssh.port;
             ssh.save_folder.Text = data.ssh.save_folder;
+            if (data.ssh.on)
+                f.cb_ssh.Checked = true;
+            else
+                f.cb_ssh.Checked = false;
         }
         // ---------------------------------------------------------- ssh -----------------------------------------------------------
         // ---------------------------------------------------------- easy ----------------------------------------------------------
@@ -2128,140 +2136,140 @@ public class functions
         // ---------------------------------------------------------- easy ----------------------------------------------------------
         // ---------------------------------------------------------- full ----------------------------------------------------------
         if (data.f.prefix_for_id != "")
-            f.prefix_for_id.Text = data.f.prefix_for_id;
+            f3.prefix_for_id.Text = data.f.prefix_for_id;
 
         if (data.f.exception_rules_xml != null && data.f.exception_name.Count > 0)
         {
-            f.exception_rules_xml.Items.Clear();
-            f.exception_rules_xml.Items.Add(Path.GetFileName(data.f.exception_rules_xml));
+            f3.exception_rules_xml.Items.Clear();
+            f3.exception_rules_xml.Items.Add(Path.GetFileName(data.f.exception_rules_xml));
         }
 
         if (data.f.data_in_csv)
         {
-            try { f.data_in_csv.Checked = true; } catch {}
-            f.use_xml_description.Enabled = true;
+            try { f3.data_in_csv.Checked = true; } catch {}
+            f3.use_xml_description.Enabled = true;
         }
 
         if (data.f.use_xml_description)
-            try { f.use_xml_description.Checked = true; } catch {}
+            try { f3.use_xml_description.Checked = true; } catch {}
 
         if (data.f.no_watermark)
-            try { f.no_watermark.Checked = true; } catch {}
+            try { f3.no_watermark.Checked = true; } catch {}
 
         if (data.f.use_short_name) {
-            try { f.use_short_name.Checked = true; } catch {}
-            f.add_articule_to_short_name.Enabled = true;
+            try { f3.use_short_name.Checked = true; } catch {}
+            f3.add_articule_to_short_name.Enabled = true;
         }
 
         if (data.f.add_articule_to_short_name)
-            try { f.add_articule_to_short_name.Checked = true; } catch {}
+            try { f3.add_articule_to_short_name.Checked = true; } catch {}
 
         if (data.f.check_delivery_options)
-            try { f.exclude_in_other_store.Checked = true; } catch {}
+            try { f3.exclude_in_other_store.Checked = true; } catch {}
 
         if (data.f.get_min_sale)
-            try { f.correction_of_quantity.Checked = true; } catch {}
+            try { f3.correction_of_quantity.Checked = true; } catch {}
 
         if (data.f.output_base_price)
-            try { f.use_base_price.Checked = true; } catch {}
+            try { f3.use_base_price.Checked = true; } catch {}
 
         if (data.f.file_to_create_new_price != null && data.f.coefficient.Count > 0)
         {
-            f.new_price.Items.Clear();
-            f.new_price.Items.Add(Path.GetFileName(data.f.file_to_create_new_price));
+            f3.new_price.Items.Clear();
+            f3.new_price.Items.Add(Path.GetFileName(data.f.file_to_create_new_price));
         }
 
         if (data.f.file_to_create_new_quality != null && data.f.quality_correct.Count > 0)
         {
-            f.correction_quantity.Items.Clear();
-            f.correction_quantity.Items.Add(Path.GetFileName(data.f.file_to_create_new_quality));
+            f3.correction_quantity.Items.Clear();
+            f3.correction_quantity.Items.Add(Path.GetFileName(data.f.file_to_create_new_quality));
         }
 
         if (data.f.gred)
-            try { f.gred.Checked = true; } catch {}
+            try { f3.gred.Checked = true; } catch {}
 
         if (data.f.gred_file != null && data.f.gls != null)
         {
-            f.gred_file.Items.Clear();
-            f.gred_file.Items.Add(Path.GetFileName(data.f.gred_file));
+            f3.gred_file.Items.Clear();
+            f3.gred_file.Items.Add(Path.GetFileName(data.f.gred_file));
         }
 
         if (data.f.transform_packing_size)
         {
-            f.del_not_full_packing_size.Enabled = true;
-            try { f.transform_packing_size.Checked = true; } catch {}
+            f3.del_not_full_packing_size.Enabled = true;
+            try { f3.transform_packing_size.Checked = true; } catch {}
         }
 
         if (data.f.del_not_full_packing_size)
-            try { f.del_not_full_packing_size.Checked = true; } catch {}
+            try { f3.del_not_full_packing_size.Checked = true; } catch {}
 
         if (data.f.type_of_package != null)
-            f.type_of_package.Text = data.f.type_of_package;
+            f3.type_of_package.Text = data.f.type_of_package;
 
         if (data.f.composition_of_package != null)
-            f.composition_of_package.Text = data.f.composition_of_package;
+            f3.composition_of_package.Text = data.f.composition_of_package;
 
         if (data.f.file_coefficient_package_mass != null && data.f.coefficient_package_mass.Count > 0)
         {
-            f.coefficient_package_mass.Items.Clear();
-            f.coefficient_package_mass.Items.Add(Path.GetFileName(data.f.file_coefficient_package_mass));
+            f3.coefficient_package_mass.Items.Clear();
+            f3.coefficient_package_mass.Items.Add(Path.GetFileName(data.f.file_coefficient_package_mass));
         }
 
         if (data.f.color_YML)
-            try { f.color_YML.Checked = true; } catch {}
+            try { f3.color_YML.Checked = true; } catch {}
 
         if (data.f.file_colors != null && data.f.color.Count > 0)
         {
-            f.color.Items.Clear();
-            f.color.Items.Add(Path.GetFileName(data.f.file_colors));
+            f3.color.Items.Clear();
+            f3.color.Items.Add(Path.GetFileName(data.f.file_colors));
         }
 
         if (data.f.color_from_YML)
-            try { f.color_from_YML.Checked = true; } catch {}
+            try { f3.color_from_YML.Checked = true; } catch {}
         if (data.f.tre_folder != "")
-            f.tre_folder.Text = data.f.tre_folder;
+            f3.tre_folder.Text = data.f.tre_folder;
         if (data.f.file_head_options != null)
         {
-            f.options_lb.Items.Clear();
-            f.options_lb.Items.Add(Path.GetFileName(data.f.file_head_options));
+            f3.options_lb.Items.Clear();
+            f3.options_lb.Items.Add(Path.GetFileName(data.f.file_head_options));
         }
         // ---------------------------------------- tree mode каталог ----------------------------------------
         if (data.f.tre_bool_mod_catalog)
         {
-            f.label_mod_catalog.Enabled = true;
-            f.list_mod_catalog.Enabled  = true;
-            try { f.bool_mod_catalog.Checked = true; } catch {}
+            f3.label_mod_catalog.Enabled = true;
+            f3.list_mod_catalog.Enabled  = true;
+            try { f3.bool_mod_catalog.Checked = true; } catch {}
         }
         else
         {
-            f.label_mod_catalog.Enabled = false;
-            f.list_mod_catalog.Enabled  = false;
-            try { f.bool_mod_catalog.Checked = false; } catch {}
+            f3.label_mod_catalog.Enabled = false;
+            f3.list_mod_catalog.Enabled  = false;
+            try { f3.bool_mod_catalog.Checked = false; } catch {}
         }
         if (data.f.tre_list_categoryes.Count > 0)
         {
-            f.list_mod_catalog.Items.Clear();
-            f.list_mod_catalog.Items.Add(Path.GetFileName(data.f.file_list_mod_catalog));
+            f3.list_mod_catalog.Items.Clear();
+            f3.list_mod_catalog.Items.Add(Path.GetFileName(data.f.file_list_mod_catalog));
         }
         // ---------------------------------------- tree mode каталог ----------------------------------------
         // ---------------------------------------- tree del_old_itm -----------------------------------------
         if (data.f.tre_del_old_itm_bool)
         {
-            f.label22.Enabled = true;
-            f.tb_del_old_itm.Enabled = true;
-            try { f.cb_del_old_itm.Checked = true; } catch {}
+            f3.label22.Enabled = true;
+            f3.tb_del_old_itm.Enabled = true;
+            try { f3.cb_del_old_itm.Checked = true; } catch {}
         }
         else
         {
-            f.label22.Enabled = false;
-            f.tb_del_old_itm.Enabled = false;
-            try { f.cb_del_old_itm.Checked = false; } catch {}
+            f3.label22.Enabled = false;
+            f3.tb_del_old_itm.Enabled = false;
+            try { f3.cb_del_old_itm.Checked = false; } catch {}
         }
         if (data.f.tre_del_old_itm_count != "")
-            f.tb_del_old_itm.Text = data.f.tre_del_old_itm_count;
+            f3.tb_del_old_itm.Text = data.f.tre_del_old_itm_count;
         // ---------------------------------------- tree del_old_itm -----------------------------------------
         if (data.f.save_ids_dir != null)
-            f.tb_save_ids_dir.Text = data.f.save_ids_dir;
+            f3.tb_save_ids_dir.Text = data.f.save_ids_dir;
         // ---------------------------------------------------------- full ----------------------------------------------------------
 
         }
@@ -2742,7 +2750,7 @@ public partial class file_line
         line_count = 0;
 
         bt = new Button();
-        bt.Location = new Point(x_start, 270);
+        bt.Location = new Point(x_start, 273);
         bt.Text = "Добавить";
         bt.Click += (a, e) =>
         {
@@ -2750,6 +2758,7 @@ public partial class file_line
         };
         f.Controls.Add(bt);
 
+        add_line(f);
         add_line(f);
         add_line(f);
 

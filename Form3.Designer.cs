@@ -32,7 +32,6 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.prefix_for_id = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.exception_rules_xml = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -80,15 +79,19 @@
             this.label22 = new System.Windows.Forms.Label();
             this.cb_del_old_itm = new System.Windows.Forms.CheckBox();
             this.tb_del_old_itm = new System.Windows.Forms.TextBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(335, 716);
+            this.button1.Location = new System.Drawing.Point(351, 698);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 46;
@@ -101,7 +104,7 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox1.Location = new System.Drawing.Point(374, 8);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(364, 204);
+            this.richTextBox1.Size = new System.Drawing.Size(358, 204);
             this.richTextBox1.TabIndex = 45;
             this.richTextBox1.Text = "";
             // 
@@ -118,21 +121,11 @@
             // 
             this.label3.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label3.Location = new System.Drawing.Point(13, 10);
+            this.label3.Location = new System.Drawing.Point(9, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 20);
             this.label3.TabIndex = 36;
             this.label3.Text = "Префикс для id";
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label2.Location = new System.Drawing.Point(11, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 44);
-            this.label2.TabIndex = 35;
-            this.label2.Text = "Фильтр исключений";
             // 
             // exception_rules_xml
             // 
@@ -161,7 +154,7 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox2.Location = new System.Drawing.Point(374, 218);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(364, 213);
+            this.groupBox2.Size = new System.Drawing.Size(358, 213);
             this.groupBox2.TabIndex = 48;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Правила габаритов YML";
@@ -170,9 +163,9 @@
             // 
             this.label7.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label7.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label7.Location = new System.Drawing.Point(6, 121);
+            this.label7.Location = new System.Drawing.Point(6, 128);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(147, 20);
+            this.label7.Size = new System.Drawing.Size(98, 15);
             this.label7.TabIndex = 54;
             this.label7.Text = "Упаковка товара";
             this.label7.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -181,9 +174,9 @@
             // 
             this.label6.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label6.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label6.Location = new System.Drawing.Point(6, 90);
+            this.label6.Location = new System.Drawing.Point(6, 99);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(147, 20);
+            this.label6.Size = new System.Drawing.Size(83, 16);
             this.label6.TabIndex = 49;
             this.label6.Text = "Тип упаковки";
             this.label6.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -210,9 +203,9 @@
             // 
             this.label1.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label1.Location = new System.Drawing.Point(12, 163);
+            this.label1.Location = new System.Drawing.Point(6, 164);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(141, 39);
+            this.label1.Size = new System.Drawing.Size(126, 31);
             this.label1.TabIndex = 52;
             this.label1.Text = "Таблица множителей габаритов и массы";
             // 
@@ -237,9 +230,9 @@
             this.del_not_full_packing_size.Enabled = false;
             this.del_not_full_packing_size.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.del_not_full_packing_size.ForeColor = System.Drawing.Color.DarkGreen;
-            this.del_not_full_packing_size.Location = new System.Drawing.Point(6, 56);
+            this.del_not_full_packing_size.Location = new System.Drawing.Point(9, 56);
             this.del_not_full_packing_size.Name = "del_not_full_packing_size";
-            this.del_not_full_packing_size.Size = new System.Drawing.Size(342, 22);
+            this.del_not_full_packing_size.Size = new System.Drawing.Size(339, 22);
             this.del_not_full_packing_size.TabIndex = 50;
             this.del_not_full_packing_size.Text = "Удаление полупустых полей габаритовYML";
             this.del_not_full_packing_size.UseVisualStyleBackColor = false;
@@ -251,9 +244,9 @@
             this.transform_packing_size.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.transform_packing_size.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.transform_packing_size.ForeColor = System.Drawing.Color.DarkGreen;
-            this.transform_packing_size.Location = new System.Drawing.Point(6, 28);
+            this.transform_packing_size.Location = new System.Drawing.Point(9, 28);
             this.transform_packing_size.Name = "transform_packing_size";
-            this.transform_packing_size.Size = new System.Drawing.Size(342, 22);
+            this.transform_packing_size.Size = new System.Drawing.Size(339, 22);
             this.transform_packing_size.TabIndex = 49;
             this.transform_packing_size.Text = "Изменение габаритовYML";
             this.transform_packing_size.UseVisualStyleBackColor = false;
@@ -267,7 +260,7 @@
             this.groupBox4.Controls.Add(this.color_YML);
             this.groupBox4.Location = new System.Drawing.Point(374, 437);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(364, 126);
+            this.groupBox4.Size = new System.Drawing.Size(358, 126);
             this.groupBox4.TabIndex = 50;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Цвета";
@@ -290,7 +283,7 @@
             // 
             this.label8.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label8.Location = new System.Drawing.Point(12, 57);
+            this.label8.Location = new System.Drawing.Point(6, 57);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(141, 52);
             this.label8.TabIndex = 55;
@@ -327,7 +320,7 @@
             // 
             this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
             this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.clear.Location = new System.Drawing.Point(709, 716);
+            this.clear.Location = new System.Drawing.Point(709, 698);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(23, 23);
             this.clear.TabIndex = 51;
@@ -373,9 +366,9 @@
             // 
             this.label4.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label4.Location = new System.Drawing.Point(10, 334);
+            this.label4.Location = new System.Drawing.Point(4, 75);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(141, 39);
+            this.label4.Size = new System.Drawing.Size(93, 32);
             this.label4.TabIndex = 43;
             this.label4.Text = "Формирование розничных цен";
             // 
@@ -383,9 +376,9 @@
             // 
             this.label5.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label5.Location = new System.Drawing.Point(9, 379);
+            this.label5.Location = new System.Drawing.Point(12, 379);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(142, 30);
+            this.label5.Size = new System.Drawing.Size(139, 30);
             this.label5.TabIndex = 44;
             this.label5.Text = "Преобразование количества";
             // 
@@ -395,9 +388,9 @@
             this.add_articule_to_short_name.Enabled = false;
             this.add_articule_to_short_name.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.add_articule_to_short_name.ForeColor = System.Drawing.Color.DarkGreen;
-            this.add_articule_to_short_name.Location = new System.Drawing.Point(6, 235);
+            this.add_articule_to_short_name.Location = new System.Drawing.Point(7, 235);
             this.add_articule_to_short_name.Name = "add_articule_to_short_name";
-            this.add_articule_to_short_name.Size = new System.Drawing.Size(342, 22);
+            this.add_articule_to_short_name.Size = new System.Drawing.Size(341, 22);
             this.add_articule_to_short_name.TabIndex = 49;
             this.add_articule_to_short_name.Text = "Добавитть артикул для поля Name";
             this.add_articule_to_short_name.UseVisualStyleBackColor = true;
@@ -421,9 +414,9 @@
             this.no_watermark.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.no_watermark.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.no_watermark.ForeColor = System.Drawing.Color.DarkGreen;
-            this.no_watermark.Location = new System.Drawing.Point(6, 179);
+            this.no_watermark.Location = new System.Drawing.Point(7, 179);
             this.no_watermark.Name = "no_watermark";
-            this.no_watermark.Size = new System.Drawing.Size(342, 22);
+            this.no_watermark.Size = new System.Drawing.Size(341, 22);
             this.no_watermark.TabIndex = 51;
             this.no_watermark.Text = "Преобразование картинок (правила nw)";
             this.no_watermark.UseVisualStyleBackColor = true;
@@ -434,9 +427,9 @@
             this.use_base_price.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.use_base_price.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.use_base_price.ForeColor = System.Drawing.Color.DarkGreen;
-            this.use_base_price.Location = new System.Drawing.Point(6, 291);
+            this.use_base_price.Location = new System.Drawing.Point(7, 291);
             this.use_base_price.Name = "use_base_price";
-            this.use_base_price.Size = new System.Drawing.Size(342, 22);
+            this.use_base_price.Size = new System.Drawing.Size(341, 22);
             this.use_base_price.TabIndex = 40;
             this.use_base_price.Text = "Записывать цену из YML в поле \"Базовая цена\" ";
             this.use_base_price.UseVisualStyleBackColor = true;
@@ -449,9 +442,9 @@
             this.use_xml_description.Enabled = false;
             this.use_xml_description.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.use_xml_description.ForeColor = System.Drawing.Color.DarkGreen;
-            this.use_xml_description.Location = new System.Drawing.Point(6, 151);
+            this.use_xml_description.Location = new System.Drawing.Point(7, 151);
             this.use_xml_description.Name = "use_xml_description";
-            this.use_xml_description.Size = new System.Drawing.Size(342, 22);
+            this.use_xml_description.Size = new System.Drawing.Size(341, 22);
             this.use_xml_description.TabIndex = 50;
             this.use_xml_description.Text = "Включать описание из YML";
             this.use_xml_description.UseVisualStyleBackColor = true;
@@ -462,9 +455,9 @@
             this.correction_of_quantity.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.correction_of_quantity.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.correction_of_quantity.ForeColor = System.Drawing.Color.DarkGreen;
-            this.correction_of_quantity.Location = new System.Drawing.Point(6, 263);
+            this.correction_of_quantity.Location = new System.Drawing.Point(7, 263);
             this.correction_of_quantity.Name = "correction_of_quantity";
-            this.correction_of_quantity.Size = new System.Drawing.Size(342, 22);
+            this.correction_of_quantity.Size = new System.Drawing.Size(341, 22);
             this.correction_of_quantity.TabIndex = 39;
             this.correction_of_quantity.Text = "Умножать минимальное количество на цену";
             this.correction_of_quantity.UseVisualStyleBackColor = true;
@@ -476,9 +469,9 @@
             this.exclude_in_other_store.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.exclude_in_other_store.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.exclude_in_other_store.ForeColor = System.Drawing.Color.DarkGreen;
-            this.exclude_in_other_store.Location = new System.Drawing.Point(6, 95);
+            this.exclude_in_other_store.Location = new System.Drawing.Point(7, 95);
             this.exclude_in_other_store.Name = "exclude_in_other_store";
-            this.exclude_in_other_store.Size = new System.Drawing.Size(342, 22);
+            this.exclude_in_other_store.Size = new System.Drawing.Size(341, 22);
             this.exclude_in_other_store.TabIndex = 38;
             this.exclude_in_other_store.Text = "Исключить товары с других складов              ";
             this.exclude_in_other_store.UseVisualStyleBackColor = false;
@@ -489,9 +482,9 @@
             this.data_in_csv.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.data_in_csv.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.data_in_csv.ForeColor = System.Drawing.Color.DarkGreen;
-            this.data_in_csv.Location = new System.Drawing.Point(6, 123);
+            this.data_in_csv.Location = new System.Drawing.Point(7, 123);
             this.data_in_csv.Name = "data_in_csv";
-            this.data_in_csv.Size = new System.Drawing.Size(342, 22);
+            this.data_in_csv.Size = new System.Drawing.Size(341, 22);
             this.data_in_csv.TabIndex = 48;
             this.data_in_csv.Text = "Приоритет данных из доп. таблицы";
             this.data_in_csv.UseVisualStyleBackColor = true;
@@ -500,6 +493,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.data_in_csv);
             this.groupBox1.Controls.Add(this.exclude_in_other_store);
             this.groupBox1.Controls.Add(this.correction_of_quantity);
@@ -509,11 +503,11 @@
             this.groupBox1.Controls.Add(this.use_short_name);
             this.groupBox1.Controls.Add(this.add_articule_to_short_name);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.new_price);
             this.groupBox1.Controls.Add(this.correction_quantity);
             this.groupBox1.Controls.Add(this.groupBox6);
             this.groupBox1.Controls.Add(this.groupBox5);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(4, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(364, 425);
@@ -523,6 +517,7 @@
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.groupBox5.Controls.Add(this.label4);
             this.groupBox5.Location = new System.Drawing.Point(5, 255);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(353, 166);
@@ -548,9 +543,9 @@
             this.gred.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.gred.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.gred.ForeColor = System.Drawing.Color.DarkGreen;
-            this.gred.Location = new System.Drawing.Point(7, 19);
+            this.gred.Location = new System.Drawing.Point(12, 19);
             this.gred.Name = "gred";
-            this.gred.Size = new System.Drawing.Size(342, 22);
+            this.gred.Size = new System.Drawing.Size(337, 22);
             this.gred.TabIndex = 58;
             this.gred.Text = "Включать размеры и размерные сетки из YML";
             this.gred.UseVisualStyleBackColor = false;
@@ -560,9 +555,9 @@
             // 
             this.label9.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label9.Location = new System.Drawing.Point(10, 57);
+            this.label9.Location = new System.Drawing.Point(12, 57);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(141, 52);
+            this.label9.Size = new System.Drawing.Size(139, 52);
             this.label9.TabIndex = 57;
             this.label9.Text = "Соотнесение таблиц размеров для ID категорий";
             // 
@@ -580,10 +575,9 @@
             // 
             // tre_folder_label
             // 
-            this.tre_folder_label.AutoSize = true;
             this.tre_folder_label.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tre_folder_label.ForeColor = System.Drawing.Color.DarkGreen;
-            this.tre_folder_label.Location = new System.Drawing.Point(12, 578);
+            this.tre_folder_label.Location = new System.Drawing.Point(8, 20);
             this.tre_folder_label.Name = "tre_folder_label";
             this.tre_folder_label.Size = new System.Drawing.Size(122, 19);
             this.tre_folder_label.TabIndex = 52;
@@ -618,9 +612,9 @@
             // 
             this.options_label.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.options_label.ForeColor = System.Drawing.Color.DarkGreen;
-            this.options_label.Location = new System.Drawing.Point(14, 623);
+            this.options_label.Location = new System.Drawing.Point(9, 66);
             this.options_label.Name = "options_label";
-            this.options_label.Size = new System.Drawing.Size(113, 20);
+            this.options_label.Size = new System.Drawing.Size(100, 17);
             this.options_label.TabIndex = 55;
             this.options_label.Text = "Таблица свойств";
             // 
@@ -628,9 +622,9 @@
             // 
             this.label_mod_catalog.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label_mod_catalog.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label_mod_catalog.Location = new System.Drawing.Point(386, 623);
+            this.label_mod_catalog.Location = new System.Drawing.Point(389, 64);
             this.label_mod_catalog.Name = "label_mod_catalog";
-            this.label_mod_catalog.Size = new System.Drawing.Size(139, 20);
+            this.label_mod_catalog.Size = new System.Drawing.Size(138, 17);
             this.label_mod_catalog.TabIndex = 56;
             this.label_mod_catalog.Text = "Соотнесение категорий";
             // 
@@ -653,7 +647,7 @@
             this.bool_mod_catalog.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.bool_mod_catalog.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.bool_mod_catalog.ForeColor = System.Drawing.Color.DarkGreen;
-            this.bool_mod_catalog.Location = new System.Drawing.Point(369, 619);
+            this.bool_mod_catalog.Location = new System.Drawing.Point(368, 61);
             this.bool_mod_catalog.Name = "bool_mod_catalog";
             this.bool_mod_catalog.Size = new System.Drawing.Size(17, 22);
             this.bool_mod_catalog.TabIndex = 56;
@@ -664,9 +658,9 @@
             // 
             this.lb_save_ids.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lb_save_ids.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lb_save_ids.Location = new System.Drawing.Point(14, 659);
+            this.lb_save_ids.Location = new System.Drawing.Point(9, 103);
             this.lb_save_ids.Name = "lb_save_ids";
-            this.lb_save_ids.Size = new System.Drawing.Size(139, 20);
+            this.lb_save_ids.Size = new System.Drawing.Size(121, 16);
             this.lb_save_ids.TabIndex = 58;
             this.lb_save_ids.Text = "Папка сохранения id";
             // 
@@ -684,9 +678,9 @@
             // 
             // label22
             // 
-            this.label22.Location = new System.Drawing.Point(386, 647);
+            this.label22.Location = new System.Drawing.Point(387, 101);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(141, 27);
+            this.label22.Size = new System.Drawing.Size(140, 14);
             this.label22.TabIndex = 69;
             this.label22.Text = "Удаление старых товаров";
             this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -697,7 +691,7 @@
             this.cb_del_old_itm.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.cb_del_old_itm.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cb_del_old_itm.ForeColor = System.Drawing.Color.DarkGreen;
-            this.cb_del_old_itm.Location = new System.Drawing.Point(369, 656);
+            this.cb_del_old_itm.Location = new System.Drawing.Point(368, 99);
             this.cb_del_old_itm.Name = "cb_del_old_itm";
             this.cb_del_old_itm.Size = new System.Drawing.Size(17, 22);
             this.cb_del_old_itm.TabIndex = 70;
@@ -713,25 +707,43 @@
             this.tb_del_old_itm.TabIndex = 71;
             this.tb_del_old_itm.Leave += new System.EventHandler(this.tb_del_old_itm_Leave);
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.tre_folder_label);
+            this.groupBox7.Controls.Add(this.cb_del_old_itm);
+            this.groupBox7.Controls.Add(this.bool_mod_catalog);
+            this.groupBox7.Controls.Add(this.options_label);
+            this.groupBox7.Controls.Add(this.label22);
+            this.groupBox7.Controls.Add(this.lb_save_ids);
+            this.groupBox7.Controls.Add(this.label_mod_catalog);
+            this.groupBox7.Location = new System.Drawing.Point(4, 560);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(728, 132);
+            this.groupBox7.TabIndex = 72;
+            this.groupBox7.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 11.25F);
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
+            this.label2.Location = new System.Drawing.Point(9, 40);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(113, 34);
+            this.label2.TabIndex = 73;
+            this.label2.Text = "Фильтр исключений";
+            // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(757, 747);
+            this.ClientSize = new System.Drawing.Size(738, 728);
             this.ControlBox = false;
             this.Controls.Add(this.tb_del_old_itm);
-            this.Controls.Add(this.cb_del_old_itm);
-            this.Controls.Add(this.label22);
             this.Controls.Add(this.tb_save_ids_dir);
-            this.Controls.Add(this.lb_save_ids);
-            this.Controls.Add(this.bool_mod_catalog);
             this.Controls.Add(this.list_mod_catalog);
-            this.Controls.Add(this.label_mod_catalog);
-            this.Controls.Add(this.options_label);
             this.Controls.Add(this.options_lb);
             this.Controls.Add(this.tre_folder);
-            this.Controls.Add(this.tre_folder_label);
             this.Controls.Add(this.clear);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -739,10 +751,9 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.prefix_for_id);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.exception_rules_xml);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox7);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form3";
             this.Text = "Полный режим";
@@ -751,7 +762,9 @@
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -762,7 +775,6 @@
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
@@ -811,5 +823,7 @@
         public System.Windows.Forms.CheckBox cb_del_old_itm;
         public System.Windows.Forms.TextBox tb_del_old_itm;
         public System.Windows.Forms.Label label22;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label2;
     }
 }

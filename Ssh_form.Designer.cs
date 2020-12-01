@@ -139,7 +139,7 @@
             // 
             // ok
             // 
-            this.ok.Location = new System.Drawing.Point(172, 151);
+            this.ok.Location = new System.Drawing.Point(160, 154);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(62, 23);
             this.ok.TabIndex = 80;
@@ -152,7 +152,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(368, 177);
+            this.ClientSize = new System.Drawing.Size(368, 187);
             this.ControlBox = false;
             this.Controls.Add(this.ok);
             this.Controls.Add(this.save_folder);

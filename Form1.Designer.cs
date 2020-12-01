@@ -459,7 +459,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(1196, 330);
+            this.ClientSize = new System.Drawing.Size(1196, 304);
             this.Controls.Add(this.cb_ssh);
             this.Controls.Add(this.ya);
             this.Controls.Add(this.label24);
@@ -536,8 +536,8 @@
         private System.Windows.Forms.RadioButton rb_auto;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ToolStripMenuItem настройкиSshToolStripMenuItem;
-        private System.Windows.Forms.CheckBox cb_ssh;
         private System.Windows.Forms.GroupBox gb_send;
+        public System.Windows.Forms.CheckBox cb_ssh;
     }
 }
 
