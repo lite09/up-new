@@ -138,6 +138,7 @@ namespace up
             //}
 
             string xml = "";
+            DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();  // отслеживание времени
 
             if (ya)
             {
@@ -207,11 +208,8 @@ namespace up
                 else
                     param = offer(new StringReader(xml), full, options_csv);
 
-
-                DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
-
                 List<xml_offer> p = param.ToList();
-                dto = DateTimeOffset.Now; long endl = dto.ToUnixTimeSeconds();
+                //dto = DateTimeOffset.Now; long endl = dto.ToUnixTimeSeconds();
 
                 object am = new object();
 /*                lock (am)
@@ -234,6 +232,9 @@ namespace up
 
                 lock (am)
                 {
+                    if (ssh_conf.on)
+                        richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += "ssh: "));
+
                     richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += Path.GetFileName(line.line_xml_file[int_index].Text.ToString()) + "\tcount:  " + p.Count + "\t" +
                     "время:  " + (int)((end - start) / 60) + ":" + (end - start) % 60 + "\r\n"));
                 }
@@ -279,6 +280,8 @@ namespace up
             }
 
             IEnumerable<xml_offer> param = null;
+            DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();  // отслеживание времени
+
             if (file_xml != "")
             {
                 xml = File.ReadAllText(file_xml);
@@ -297,8 +300,6 @@ namespace up
                     param = offer(new StringReader(xml), full, options_csv);
 
 
-                DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
-
                 List<xml_offer> p = param.ToList();
                  param = null;
                 object am = new object();
@@ -316,6 +317,9 @@ namespace up
 
                 lock (am)
                 {
+                    if (ssh_conf.on)
+                        richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += "ssh: "));
+
                     richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += Path.GetFileName(file_xml) + "\tcount:  " + p.Count + "\t" +
                     "время:  " + (int)((end - start) / 60) + ":" + (end - start) % 60 + "\r\n"));
                 }
@@ -963,6 +967,7 @@ namespace up
                         //copy.StartInfo.RedirectStandardOutput = true;
                         copy.Start();
                         //richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += copy.StandardOutput.ReadToEnd()));
+                        //richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += "ssh: "));
 
                         copy.WaitForExit();
                     }
@@ -1399,7 +1404,7 @@ namespace up
             const double day = 86400, start_time = 1606755508;
             DateTimeOffset dto = DateTimeOffset.Now; long now = dto.ToUnixTimeSeconds();
             double hi = (now - start_time) / day;
-            if ((now - start_time) / day > 7)
+            if ((now - start_time) / day > 7 || now < start_time)
                 Close();
 
             //Form cli = new Form();
