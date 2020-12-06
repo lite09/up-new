@@ -44,9 +44,6 @@
             this.clear = new System.Windows.Forms.Button();
             this.label_ids_folder = new System.Windows.Forms.Label();
             this.tb_ids_folder = new System.Windows.Forms.TextBox();
-            this.tb_del_old_itm = new System.Windows.Forms.TextBox();
-            this.cb_del_old_itm = new System.Windows.Forms.CheckBox();
-            this.label22 = new System.Windows.Forms.Label();
             this.gr_box = new System.Windows.Forms.GroupBox();
             this.gr_box.SuspendLayout();
             this.SuspendLayout();
@@ -184,13 +181,13 @@
             this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.richTextBox1.Location = new System.Drawing.Point(361, 5);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(315, 407);
+            this.richTextBox1.Size = new System.Drawing.Size(315, 373);
             this.richTextBox1.TabIndex = 31;
             this.richTextBox1.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(323, 423);
+            this.button1.Location = new System.Drawing.Point(323, 384);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(62, 23);
             this.button1.TabIndex = 33;
@@ -202,7 +199,7 @@
             // 
             this.clear.BackgroundImage = global::up.Properties.Resources._6412491_preview;
             this.clear.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.clear.Location = new System.Drawing.Point(653, 423);
+            this.clear.Location = new System.Drawing.Point(653, 384);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(23, 23);
             this.clear.TabIndex = 34;
@@ -232,42 +229,8 @@
             this.tb_ids_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tb_ids_folder_DragEnter);
             this.tb_ids_folder.Leave += new System.EventHandler(this.tb_ids_folder_Leave);
             // 
-            // tb_del_old_itm
-            // 
-            this.tb_del_old_itm.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.tb_del_old_itm.Location = new System.Drawing.Point(128, 378);
-            this.tb_del_old_itm.Name = "tb_del_old_itm";
-            this.tb_del_old_itm.Size = new System.Drawing.Size(189, 20);
-            this.tb_del_old_itm.TabIndex = 74;
-            this.tb_del_old_itm.Leave += new System.EventHandler(this.tb_del_old_itm_Leave);
-            // 
-            // cb_del_old_itm
-            // 
-            this.cb_del_old_itm.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.cb_del_old_itm.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cb_del_old_itm.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cb_del_old_itm.ForeColor = System.Drawing.Color.DarkGreen;
-            this.cb_del_old_itm.Location = new System.Drawing.Point(323, 376);
-            this.cb_del_old_itm.Name = "cb_del_old_itm";
-            this.cb_del_old_itm.Size = new System.Drawing.Size(17, 22);
-            this.cb_del_old_itm.TabIndex = 73;
-            this.cb_del_old_itm.UseVisualStyleBackColor = false;
-            this.cb_del_old_itm.CheckedChanged += new System.EventHandler(this.cb_del_old_itm_CheckedChanged);
-            // 
-            // label22
-            // 
-            this.label22.Location = new System.Drawing.Point(6, 368);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(87, 30);
-            this.label22.TabIndex = 72;
-            this.label22.Text = "Удаление старых товаров";
-            this.label22.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
             // gr_box
             // 
-            this.gr_box.Controls.Add(this.tb_del_old_itm);
-            this.gr_box.Controls.Add(this.cb_del_old_itm);
-            this.gr_box.Controls.Add(this.label22);
             this.gr_box.Controls.Add(this.correction_of_quantity);
             this.gr_box.Controls.Add(this.tb_ids_folder);
             this.gr_box.Controls.Add(this.label3);
@@ -280,7 +243,7 @@
             this.gr_box.Controls.Add(this.label5);
             this.gr_box.Location = new System.Drawing.Point(6, -1);
             this.gr_box.Name = "gr_box";
-            this.gr_box.Size = new System.Drawing.Size(349, 413);
+            this.gr_box.Size = new System.Drawing.Size(349, 379);
             this.gr_box.TabIndex = 75;
             this.gr_box.TabStop = false;
             // 
@@ -289,7 +252,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(681, 450);
+            this.ClientSize = new System.Drawing.Size(681, 413);
             this.ControlBox = false;
             this.Controls.Add(this.clear);
             this.Controls.Add(this.button1);
@@ -302,7 +265,6 @@
             this.Name = "Form2";
             this.ShowInTaskbar = false;
             this.Text = "Упрощенный режим";
-            this.Load += new System.EventHandler(this.Form2_Load);
             this.gr_box.ResumeLayout(false);
             this.gr_box.PerformLayout();
             this.ResumeLayout(false);
@@ -328,9 +290,6 @@
         private System.Windows.Forms.Button clear;
         private System.Windows.Forms.Label label_ids_folder;
         public System.Windows.Forms.TextBox tb_ids_folder;
-        public System.Windows.Forms.TextBox tb_del_old_itm;
-        public System.Windows.Forms.CheckBox cb_del_old_itm;
-        public System.Windows.Forms.Label label22;
         private System.Windows.Forms.GroupBox gr_box;
     }
 }

@@ -15,6 +15,11 @@ namespace up
         {
             InitializeComponent();
         }
+        public Form3(Form1 form1)
+        {
+            InitializeComponent();
+            f = form1;
+        }
 
         private void Prefix_for_id_Leave(object sender, EventArgs e)
         {
@@ -67,11 +72,6 @@ namespace up
                 richTextBox1.Text = richTextBox1.Text + "\r\n " + str;
 
             //----------------------------------------чтение исключающих данных ----------------------------------------
-        }
-
-        private void Form3_Load(object sender, EventArgs e)
-        {
-            f = (Form1)this.Owner;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -185,6 +185,7 @@ namespace up
 
         private void Data_in_csv_CheckedChanged(object sender, EventArgs e)
         {
+            //f = (Form1)this.Owner;
             if (data_in_csv.Checked)
             {
                 f.full.data_in_csv = true;
@@ -438,173 +439,5 @@ namespace up
 
             f.f.clear_configure("full");
         }
-
-        private void tre_folder_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
-
-        //  отбрасывает имя фаила и берет только каталог
-        private void tre_folder_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            //Regex l = new Regex(@".*\\.*\.(.*)$");
-            //if (l.Match(file_name[0]).Groups[1].Value == "")
-            //    tre_folder.Text = file_name[0];
-            //else
-            //    tre_folder.Text = Path.GetDirectoryName(file_name[0]);
-
-            if (Directory.Exists(file_name[0]))
-                tre_folder.Text = f.full.tre_folder = /*f.easy.tre_folder =*/ file_name[0];
-            else
-                tre_folder.Text = f.full.tre_folder = /*f.easy.tre_folder =*/ Path.GetDirectoryName(file_name[0]);
-        }
-        private void tre_folder_Leave(object sender, EventArgs e)
-        {
-            f.full.tre_folder = tre_folder.Text;
-        }
-
-        private void options_lb_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
-
-        private void options_lb_DragDrop(object sender, DragEventArgs e)
-        {
-            // --------------------------- обнуление ---------------------------
-            options_lb.Items.Clear();
-            f.full.head_options.Clear();
-            richTextBox1.Text = "";
-            // --------------------------- обнуление ---------------------------
-
-            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            f.full.file_head_options = file_name[0];
-            options_lb.Items.Add(Path.GetFileName(f.full.file_head_options));
-
-            string fileText = System.IO.File.ReadAllText(file_name[0], Encoding.Default);
-
-            Regex get_line = new Regex("(.*)\r\n");
-            MatchCollection words = get_line.Matches(fileText);
-            Regex sub_string = new Regex(";");
-            string[] line;
-
-            int i = 0;
-            foreach (Match m in words)
-            {
-                if (i == 0) { i++; continue; }
-
-                line = sub_string.Split(m.Groups[1].Value);
-                string[] ops = new string[2];
-                if (line[0] != "")
-                {
-                    ops[0] = line[0];
-                    ops[1] = line[1];
-                    f.full.head_options.Add(ops);
-                    richTextBox1.Text += "Значение:\t" + ops[0] + " : " + ops[1] + "\r\n";
-                }
-            }
-        }
-
-        private void bool_mod_catalog_CheckedChanged(object sender, EventArgs e)
-        {
-            if (bool_mod_catalog.Checked)
-            {
-                f.full.tre_bool_mod_catalog = true;
-                label_mod_catalog.Enabled = true;
-                list_mod_catalog.Enabled  = true;
-            }
-            else
-            {
-                f.full.tre_bool_mod_catalog = false;
-                label_mod_catalog.Enabled = false;
-                list_mod_catalog.Enabled = false;
-            }
-        }
-
-        private void list_mod_catalog_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
-
-        private void list_mod_catalog_DragDrop(object sender, DragEventArgs e)
-        {
-            // ----------------------------- обнуление -----------------------------
-            f.full.tre_list_categoryes.Clear();
-            list_mod_catalog.Items.Clear();
-            richTextBox1.Text = "";
-            // ----------------------------- обнуление -----------------------------
-
-            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            f.full.file_list_mod_catalog = file_name[0];
-            list_mod_catalog.Items.Add(Path.GetFileName(f.full.file_list_mod_catalog));
-
-            string catalogs = File.ReadAllText(f.full.file_list_mod_catalog, Encoding.Default);
-
-            Regex get_line = new Regex("(.*)\r\n");
-            MatchCollection words = get_line.Matches(catalogs);
-            Regex sub_string = new Regex(";");
-            string[] line;
-
-            foreach (Match m in words)
-            {
-                line = sub_string.Split(m.Groups[1].Value);
-                string[] cats = new string[2];
-                if (line[0] != "")
-                {
-                    cats[0] = line[0];
-                    cats[1] = line[1];
-                    f.full.tre_list_categoryes.Add(cats);
-                    //richTextBox1.Text += "Значение:\t" + cats[0] + " : " + cats[1] + "\r\n";
-                }
-
-            }
-            richTextBox1.Text += "Загруженно " + Convert.ToString(Convert.ToInt32(words.Count) - 1) + " значений";
-            f.full.tre_list_categoryes.RemoveAt(0);
-        }
-
-        // --------------------------- сохранение id для easy mode ---------------------------
-        private void tb_save_ids_dir_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
-
-        private void tb_save_ids_dir_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-
-            if (Directory.Exists(file_name[0]))
-                tb_save_ids_dir.Text = f.full.save_ids_dir = file_name[0];
-            else
-                tb_save_ids_dir.Text = f.full.save_ids_dir = Path.GetDirectoryName(file_name[0]);
-        }
-
-        private void tb_save_ids_dir_Leave(object sender, EventArgs e)
-        {
-            f.full.save_ids_dir = tb_save_ids_dir.Text;
-        }
-
-        private void cb_del_old_itm_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cb_del_old_itm.Checked)
-            {
-                f.full.tre_del_old_itm_bool = true;
-                label22.Enabled = true;
-                tb_del_old_itm.Enabled = true;
-            }
-            else
-            {
-                f.full.tre_del_old_itm_bool = false;
-                label22.Enabled = false;
-                tb_del_old_itm.Enabled = false;
-            }
-        }
-        private void tb_del_old_itm_Leave(object sender, EventArgs e)
-        {
-            if (int.TryParse(tb_del_old_itm.Text, out _))
-                f.full.tre_del_old_itm_count = tb_del_old_itm.Text;
-            else
-                f.full.tre_del_old_itm_count = tb_del_old_itm.Text= ""; 
-        }
-        // --------------------------- сохранение id для easy mode ---------------------------
     }
 }

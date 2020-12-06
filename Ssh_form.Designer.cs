@@ -168,7 +168,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Ssh_form";
             this.Text = "Настройки ssh";
-            this.Load += new System.EventHandler(this.ssh_form_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

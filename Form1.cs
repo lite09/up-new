@@ -29,13 +29,18 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
+        const double day = 86400, start_time = 1607089545, day_live = 7;
+        int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
-        public Form2 set_easy = new Form2();
-        public Form3 set_full = new Form3();
-        public Ssh_form ssh_form = new Ssh_form();
+        public Form2 set_easy;
+        public Form3 set_full;
+        public tre_folder_form tre_folder_form_obj;
+        public Ssh_form ssh_form;
 
         public functions f;
+
+        public tre_save tre_conf;
 
         public configure easy;
         public configure full;
@@ -202,7 +207,7 @@ namespace up
             IEnumerable<xml_offer> param = null;
             if (xml != "")
             {
-                string ids_file = easy.get_ids_dir + "\\" + Path.GetFileNameWithoutExtension(line.line_xml_file[int_index].Text.ToString()) + ".txt";
+                string ids_file = tre_conf.get_ids_dir + "\\" + Path.GetFileNameWithoutExtension(line.line_xml_file[int_index].Text.ToString()) + ".txt";
                 if(type == "easy")
                     param = offer_min(new StringReader(xml), easy, ids_file);
                 else
@@ -258,7 +263,7 @@ namespace up
             string xml          = "";
             // line_info  = new string[9];
 
-            string save_folder = full.tre_folder + "\\Result";
+            string save_folder = tre_conf.tre_folder + "\\Result";
 
             if (file_xml == "") return;
             
@@ -270,12 +275,12 @@ namespace up
             catch {}
             string[] line_info;
             if (type == "full") {
-                string[] line_info_time = { file_xml, save_folder, full.tre_del_old_itm_bool.ToString(), full.tre_del_old_itm_count, "", folder_options };
+                string[] line_info_time = { file_xml, save_folder, tre_conf.tre_full_del_old_itm_bool.ToString(), tre_conf.tre_full_del_old_itm_count, "", folder_options };
                 line_info = line_info_time;
             }
             else
             {
-                string[] line_info_time = { file_xml, save_folder, easy.tre_del_old_itm_bool.ToString(), easy.tre_del_old_itm_count, "", folder_options };
+                string[] line_info_time = { file_xml, save_folder, tre_conf.tre_easy_del_old_itm_bool.ToString(), tre_conf.tre_easy_del_old_itm_count, "", folder_options };
                 line_info = line_info_time;
             }
 
@@ -490,7 +495,7 @@ namespace up
         void processing(ref List<xml_offer> offers, configure mode, string[] line_info, List<Options_up> options = null, string ids_easy_dir = "")
         {
 
-            bool categories = true;
+            bool categories = false;
             float coeff = 1;
             string line_csv = null, date = null;
             string line_head;
@@ -778,17 +783,20 @@ namespace up
                         if (no_coeffecient)
                             offer.weight_new = Convert.ToSingle(Math.Round(offer.weight_new * coefficient, 2));
                     //}
-                        
+
                     //  ---------------------   корректирова массы и габаритов   ---------------------
 
 
 
                     //  --------------------------   обновление категорий   --------------------------
-                    if (rb_auto.Checked && full.tre_list_categoryes.Count > 0)
-                        if (!mod_cat(ref full.tre_list_categoryes, offer)) offer.categoryId = "999999";
+                    if (rb_auto.Checked && tre_conf.tre_list_categoryes.Count > 0)
+                    {
+                        if (!mod_cat(ref tre_conf.tre_list_categoryes, offer)) offer.categoryId = "999999";
+                    }
                     else if (categories)
+                    {
                         if (!mod_cat(ref mod_catalog, offer)) offer.categoryId = "999999";
-
+                    }
                     //  --------------------------   обновление категорий   --------------------------
 
 
@@ -925,12 +933,12 @@ namespace up
             foreach (string i in ids)
                 sb_time.Append(i + "\r\n");
 
-            if (rb_manual.Checked && full.save_ids_dir != null && mode.mode == "full")
+            if (rb_manual.Checked && tre_conf.save_ids_dir != null && mode.mode == "full")
             {
                 string name = Path.GetFileNameWithoutExtension(line_info[0]) + ".txt";
-                File.WriteAllText(full.save_ids_dir + "\\" + name, sb_time.ToString());
+                File.WriteAllText(tre_conf.save_ids_dir + "\\" + name, sb_time.ToString());
             }
-            if (rb_auto.Checked && ids_easy_dir != "" && set_full.tre_folder.Text != "" )
+            if (rb_auto.Checked && ids_easy_dir != "" && tre_folder_form_obj.tre_folder.Text != "" )
             {
                 File.WriteAllText(ids_easy_dir + "\\id.txt", sb_time.ToString());
                 sb_time.Clear();
@@ -1336,7 +1344,7 @@ namespace up
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            save save_obj = new save(easy, full, ssh_conf);
+            save save_obj = new save(easy, full, ssh_conf, tre_conf);
             string json = JsonConvert.SerializeObject(save_obj, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText("save.json", json);
 
@@ -1401,10 +1409,10 @@ namespace up
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            const double day = 86400, start_time = 1606755508;
+            timer2.Enabled = true;
             DateTimeOffset dto = DateTimeOffset.Now; long now = dto.ToUnixTimeSeconds();
             double hi = (now - start_time) / day;
-            if ((now - start_time) / day > 7 || now < start_time)
+            if (hi > day_live || now < start_time)
                 Close();
 
             //Form cli = new Form();
@@ -1440,25 +1448,14 @@ namespace up
             //name = f.ya_dl("/csv/xml.csv", @"C:\Users\и\Desktop\save");
             //name = f.ya_up(@"C:\Users\и\Documents\l\info_comments.cpp", @"/save");
 
-            set_easy.Owner = this;
-            set_full.Owner = this;
-            ssh_form.Owner      = this;
-
-            //set_easy.Show();
-            //set_full.Show();
-
-            /*int x_e = set_easy.Location.X;
-            int y_e = set_easy.Location.Y;
-            int x_f = set_full.Location.X;
-            int y_f = set_full.Location.Y;
-            set_easy.Location = new Point(x_e + 9000, y_e);
-            set_full.Location = new Point(x_f + 9000, y_f);
-            set_easy.Visible = false;
-            set_full.Visible = false;
-            set_easy.Location = new Point(x_e, y_e);
-            set_full.Location = new Point(x_f, y_f);*/
+            set_easy = new Form2(this);
+            set_full = new Form3(this);
+            ssh_form = new Ssh_form(this);
+            tre_folder_form_obj = new tre_folder_form(this);
 
             line = new file_line(this);
+
+            tre_conf = new tre_save();
 
             full = new configure("full", this);
             easy = new configure("easy", this);
@@ -1489,7 +1486,9 @@ namespace up
                         full.days = time_full.days;
                         full.time_sh = time_full.time_sh;
 
-                        f.set_settings(ssh_form, set_easy, set_full, save_obj);
+                        tre_conf = save_obj.tre_conf;
+
+                        f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj);
 
                         if (easy.ya == true || full.ya == true)
                         {
@@ -1542,7 +1541,7 @@ namespace up
 
             name = saveFile.FileName;
 
-            save save_obj = new save(easy, full, ssh_conf);
+            save save_obj = new save(easy, full, ssh_conf, tre_conf);
             string json = JsonConvert.SerializeObject(save_obj, Newtonsoft.Json.Formatting.Indented);
 
             File.WriteAllText(name, json);
@@ -1583,7 +1582,7 @@ namespace up
                         full.time_sh = f_time.time_sh;
                         full.days = f_time.days;
 
-                        f.set_settings(ssh_form, set_easy, set_full, save_obj);
+                        f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj);
                         if (easy.ya == true || full.ya == true)
                         {
                             ya.Checked = true;
@@ -1671,20 +1670,6 @@ namespace up
         private void Timer1_Tick(object sender, EventArgs e)
         {
             ThreadPool.GetAvailableThreads(out threads_avariable, out threads_all);
-            //string load = null;
-
-            //if (threads_all - threads_avariable == 0)
-            //{
-            //    load = threads_avariable + "avr, " + threads_all + "all. " + "Очередь свободна";
-            //    MessageBox.Show(load);
-            //}
-            //else
-            //{
-            //    load = "В очереди " + Convert.ToString(threads_all - threads_avariable) + "поток(а)";
-            //    MessageBox.Show(load);
-            //}
-
-
 
             DateTimeOffset time = DateTimeOffset.Now;
             string day_of_week = time.DayOfWeek.ToString();
@@ -1798,17 +1783,26 @@ namespace up
         {
             btn_make_tables.Enabled = false;
             btn_make_options.Enabled = false;
+            button1.Enabled = true;
+            button3.Enabled = true;
         }
 
         private void rb_auto_CheckedChanged(object sender, EventArgs e)
         {
             btn_make_tables.Enabled = true;
             btn_make_options.Enabled = true;
+            button1.Enabled = false;
+            button3.Enabled = false;
         }
 
         private void настройкиSshToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ssh_form.Show(); ssh_form.Visible = true;
+        }
+
+        private void структураПапокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tre_folder_form_obj.Show(); tre_folder_form_obj.Visible = true;
         }
 
         private void cb_ssh_CheckedChanged(object sender, EventArgs e)
@@ -1817,6 +1811,27 @@ namespace up
                 ssh_conf.on = true;
             else
                 ssh_conf.on = false;
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+
+            string time;
+            double u_time;
+            Regex reg_u_time = new Regex("unixtime:\\s*(\\d*)");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            WebClient wc = new WebClient();
+            try
+            {
+                time = wc.DownloadString("http://worldtimeapi.org/api/timezone/Asia/Kamchatka.txt");
+                u_time = Convert.ToInt32(reg_u_time.Match(time).Groups[1].Value);
+
+                //u_time -= 7 * day;
+                double hi = (u_time - start_time) / day;
+                if (hi > day_live || u_time < start_time)
+                    Close();
+            }
+            catch { }
         }
 
         private void Shed_Click(object sender, EventArgs e)
@@ -2074,7 +2089,7 @@ public class functions
 
         return true;
     }
-    public void set_settings(Ssh_form ssh, Form2 e, Form3 f3, save data)
+    public void set_settings(Ssh_form ssh, Form2 e, Form3 f3, save data, tre_folder_form tre_form_obj)
     {
         // ---------------------------------------------------------- ssh -----------------------------------------------------------
         if (data.ssh != null)
@@ -2120,24 +2135,24 @@ public class functions
             e.correction_quantity.Items.Clear();
             e.correction_quantity.Items.Add(Path.GetFileName(data.e.file_to_create_new_quality));
         }
-        if (data.e.get_ids_dir != null)
-            e.tb_ids_folder.Text = data.e.get_ids_dir;
-        // ---------------------------------------- tree del_old_itm -----------------------------------------
-        if (data.e.tre_del_old_itm_bool)
-        {
-            e.label22.Enabled = true;
-            e.tb_del_old_itm.Enabled = true;
-            try { e.cb_del_old_itm.Checked = true; } catch {}
-        }
-        else
-        {
-            e.label22.Enabled = false;
-            e.tb_del_old_itm.Enabled = false;
-            try { e.cb_del_old_itm.Checked = false; } catch {}
-        }
-        if (data.e.tre_del_old_itm_count != "")
-            e.tb_del_old_itm.Text = data.e.tre_del_old_itm_count;
-        // ---------------------------------------- tree del_old_itm -----------------------------------------
+        if (data.tre_conf.get_ids_dir != null)
+            e.tb_ids_folder.Text = data.tre_conf.get_ids_dir;
+        //// ---------------------------------------- tree del_old_itm -----------------------------------------
+        //if (data.tre_conf.tre_easy_del_old_itm_bool)
+        //{
+        //    tre_form_obj.label22.Enabled = true;
+        //    tre_form_obj.tb_easy_del_old_itm.Enabled = true;
+        //    try { tre_form_obj.cb_easy_del_old_itm.Checked = true; } catch {}
+        //}
+        //else
+        //{
+        //    tre_form_obj.label22.Enabled = false;
+        //    tre_form_obj.tb_easy_del_old_itm.Enabled = false;
+        //    try { tre_form_obj.cb_easy_del_old_itm.Checked = false; } catch {}
+        //}
+        //if (data.tre_conf.tre_easy_del_old_itm_count != "")
+        //    tre_form_obj.tb_easy_del_old_itm.Text = data.tre_conf.tre_easy_del_old_itm_count;
+        //// ---------------------------------------- tree del_old_itm -----------------------------------------
         // ---------------------------------------------------------- easy ----------------------------------------------------------
         // ---------------------------------------------------------- full ----------------------------------------------------------
         if (data.f.prefix_for_id != "")
@@ -2231,50 +2246,65 @@ public class functions
 
         if (data.f.color_from_YML)
             try { f3.color_from_YML.Checked = true; } catch {}
-        if (data.f.tre_folder != "")
-            f3.tre_folder.Text = data.f.tre_folder;
-        if (data.f.file_head_options != null)
+        if (data.tre_conf.tre_folder != "")
+            tre_form_obj.tre_folder.Text = data.tre_conf.tre_folder;
+        if (data.tre_conf.file_head_options != null)
         {
-            f3.options_lb.Items.Clear();
-            f3.options_lb.Items.Add(Path.GetFileName(data.f.file_head_options));
+            tre_form_obj.options_lb.Items.Clear();
+            tre_form_obj.options_lb.Items.Add(Path.GetFileName(data.tre_conf.file_head_options));
         }
         // ---------------------------------------- tree mode каталог ----------------------------------------
-        if (data.f.tre_bool_mod_catalog)
+        if (data.tre_conf.tre_bool_mod_catalog)
         {
-            f3.label_mod_catalog.Enabled = true;
-            f3.list_mod_catalog.Enabled  = true;
-            try { f3.bool_mod_catalog.Checked = true; } catch {}
+            tre_form_obj.label_mod_catalog.Enabled = true;
+            tre_form_obj.list_mod_catalog.Enabled  = true;
+            try { tre_form_obj.bool_mod_catalog.Checked = true; } catch {}
         }
         else
         {
-            f3.label_mod_catalog.Enabled = false;
-            f3.list_mod_catalog.Enabled  = false;
-            try { f3.bool_mod_catalog.Checked = false; } catch {}
+            tre_form_obj.label_mod_catalog.Enabled = false;
+            tre_form_obj.list_mod_catalog.Enabled  = false;
+            try { tre_form_obj.bool_mod_catalog.Checked = false; } catch {}
         }
-        if (data.f.tre_list_categoryes.Count > 0)
+        if (data.tre_conf.tre_list_categoryes.Count > 0)
         {
-            f3.list_mod_catalog.Items.Clear();
-            f3.list_mod_catalog.Items.Add(Path.GetFileName(data.f.file_list_mod_catalog));
+            tre_form_obj.list_mod_catalog.Items.Clear();
+            tre_form_obj.list_mod_catalog.Items.Add(Path.GetFileName(data.tre_conf.file_list_mod_catalog));
         }
         // ---------------------------------------- tree mode каталог ----------------------------------------
         // ---------------------------------------- tree del_old_itm -----------------------------------------
-        if (data.f.tre_del_old_itm_bool)
+        if (data.tre_conf.tre_easy_del_old_itm_bool)
         {
-            f3.label22.Enabled = true;
-            f3.tb_del_old_itm.Enabled = true;
-            try { f3.cb_del_old_itm.Checked = true; } catch {}
+            tre_form_obj.label22.Enabled = true;
+            tre_form_obj.tb_easy_del_old_itm.Enabled = true;
+            try { tre_form_obj.cb_easy_del_old_itm.Checked = true; } catch {}
         }
         else
         {
-            f3.label22.Enabled = false;
-            f3.tb_del_old_itm.Enabled = false;
-            try { f3.cb_del_old_itm.Checked = false; } catch {}
+            tre_form_obj.label22.Enabled = false;
+            tre_form_obj.tb_easy_del_old_itm.Enabled = false;
+            try { tre_form_obj.cb_easy_del_old_itm.Checked = false; } catch {}
         }
-        if (data.f.tre_del_old_itm_count != "")
-            f3.tb_del_old_itm.Text = data.f.tre_del_old_itm_count;
+        if (data.tre_conf.tre_easy_del_old_itm_count != "")
+            tre_form_obj.tb_easy_del_old_itm.Text = data.tre_conf.tre_easy_del_old_itm_count;
+
+        if (data.tre_conf.tre_full_del_old_itm_bool)
+        {
+            tre_form_obj.lb_deact_full.Enabled = true;
+            tre_form_obj.tb_full_del_old_itm.Enabled = true;
+            try { tre_form_obj.cb_full_del_old_itm.Checked = true; } catch { }
+        }
+        else
+        {
+            tre_form_obj.lb_deact_full.Enabled = false;
+            tre_form_obj.tb_full_del_old_itm.Enabled = false;
+            try { tre_form_obj.cb_full_del_old_itm.Checked = false; } catch { }
+        }
+        if (data.tre_conf.tre_full_del_old_itm_count != "")
+            tre_form_obj.tb_full_del_old_itm.Text = data.tre_conf.tre_full_del_old_itm_count;
         // ---------------------------------------- tree del_old_itm -----------------------------------------
-        if (data.f.save_ids_dir != null)
-            f3.tb_save_ids_dir.Text = data.f.save_ids_dir;
+        if (data.tre_conf.save_ids_dir != null)
+            tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
         // ---------------------------------------------------------- full ----------------------------------------------------------
 
         }
@@ -2294,6 +2324,8 @@ public class functions
             f.full.days = time_full.days;
             f.full.time_sh = time_full.time_sh;
         }
+        if (mode == "tre_folder")
+            f.tre_conf = new tre_save();
     }
     private bool is_xml(string xml)
     {
@@ -2336,13 +2368,13 @@ public class functions
     public void tre_threads_options()
     {
         cfg_data cfg = new cfg_data();
-        cfg.options = f.full.head_options;
+        cfg.options = f.tre_conf.head_options;
         cfg.prepositions = Form1.prepositions;
         cfg.stop_words = Form1.stop_words;
         cfg.coefficients = f.full.coefficient;
         cfg.coefficients_volume_and_mass = f.full.coefficient_package_mass;
 
-        string[] files_xml = Directory.GetDirectories(f.full.tre_folder + "\\XML");
+        string[] files_xml = Directory.GetDirectories(f.tre_conf.tre_folder + "\\XML");
 
         bool th = ThreadPool.SetMaxThreads(f.threads, f.threads);
 
@@ -2357,9 +2389,9 @@ public class functions
     public void tre_threads_offer(string type)
     {
         //string type = "full";
-        string tre_folder = f.full.tre_folder;
+        string tre_folder = f.tre_conf.tre_folder;
         string[] tre_xml_dirs = {};
-        try { tre_xml_dirs = Directory.GetDirectories(f.full.tre_folder + "\\XML"); }
+        try { tre_xml_dirs = Directory.GetDirectories(f.tre_conf.tre_folder + "\\XML"); }
         catch
         {
             MessageBox.Show("Укажите правильный путь до корневой папки");
@@ -2555,30 +2587,37 @@ public class xml_offer
 //    public int category_id;    public float coefficient_of_massa;     public float coefficient_of_dimensions;
 //}
 
-
-[Serializable]
-public class configure
+public class tre_save
 {
-    public List<float[]>  coefficient       = new List<float[]>();
-    public List<string[]> quality_correct   = new List<string[]>();
-    public List<string>   exception_name    = new List<string>();
-    public List<string[]> color             = new List<string[]>();
-    public List<string[]> head_options      = new List<string[]>();     // список полей заголовка для замены на латиницу
-
+    //tre_save(Form1 form1) {}
     // ------------------------------ config for folder tre ------------------------------
-    public bool tre_bool_mod_catalog = false;
-    public bool tre_del_old_itm_bool = false;
+    public string tre_folder;                                           // основная папка с хмл, доп фаилами, результирующей папкой ...
+    public bool tre_bool_mod_catalog          = false;
+    public bool tre_easy_del_old_itm_bool     = false;
+    public bool tre_full_del_old_itm_bool     = false;
     //public bool tre_easy_del_old_itm_bool = false;
+    public List<string[]> head_options        = new List<string[]>();   // список полей заголовка для замены на латиницу
     public List<string[]> tre_list_categoryes = new List<string[]>();   // спикок соотнесения категорий
-    public string file_list_mod_catalog = "";                           // путь до фаила спикока соотнесения категорий
-    public string tre_del_old_itm_count = "";                           // количество днеи до деактивации
-    //public string tre_easy_del_old_itm_count = "";                      // количество днеи до деактивации, простой режим
+    public string file_head_options;                                    // фаил со списоком полей заголовка для замены на латиницу
+    public string file_list_mod_catalog       = "";                     // путь до фаила спикока соотнесения категорий
+    public string tre_full_del_old_itm_count  = "";                     // количество днеи до деактивации, обычныи режим
+    public string tre_easy_del_old_itm_count  = "";                     // количество днеи до деактивации, простой режим
     // ------------------------------ config for folder tre ------------------------------
 
     // --------------------------- сохранение id для easy mode ---------------------------
     public string save_ids_dir;
     public string get_ids_dir;
     // --------------------------- сохранение id для easy mode ---------------------------
+}
+
+[Serializable]
+public class configure
+{
+    public List<float[]>  coefficient         = new List<float[]>();
+    public List<string[]> quality_correct     = new List<string[]>();
+    public List<string>   exception_name      = new List<string>();
+    public List<string[]> color               = new List<string[]>();
+
 
     [NonSerialized] public Dictionary<string[], List<string>> gred_list = new Dictionary<string[], List<string>>();
     public string gls;
@@ -2610,8 +2649,8 @@ public class configure
     }
 
     // sheduller
-    [NonSerialized] public TextBox[] time_sh = new TextBox[2];
-    [NonSerialized] public Label[] days = new Label[7];
+    [NonSerialized] public TextBox[] time_sh  = new TextBox[2];
+    [NonSerialized] public Label[] days       = new Label[7];
 
     public uint exception_any_side = 0, exception_sum_side = 0, exception_weight = 0;
 
@@ -2623,8 +2662,6 @@ public class configure
     public string gred_file;                        // файл с размерными сетками
     public string file_coefficient_package_mass;    // файл с коэффициентами габаритов и массы
     public string file_colors;                      // фаил с заменой цветов
-    public string tre_folder;                       // основная папка с хмл, доп фаилами, результирующей папкой ...
-    public string file_head_options;                // фаил со списоком полей заголовка для замены на латиницу
 
     // Коэффициенты для габаритов и массы
     public List<cfg_data.coefficient_of_package>
@@ -2657,7 +2694,7 @@ public class configure
     public configure(string s) { mode = s; }
     public configure(string mode_local, Form1 f)
     {
-        int x = 220, y = 107, x_t = 0, a_side = 35;
+        int x = 198, y = 107, x_t = 0, a_side = 35;
         string[] days_txt = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
 
         mode = mode_local;
@@ -2993,12 +3030,13 @@ public class option_csv
 //[DataContract]
 public class save
 {
+    public tre_save tre_conf { get; set; }
     public configure e { get; set; }
     public configure f { get; set; }
     public Ssh ssh { get; set; }
-    public save(/*file_line line, */configure easy, configure full, Ssh ssh_conf)
+    public save(/*file_line line, */configure easy, configure full, Ssh ssh_conf, tre_save t_s)
     {
-        /*l = line; */e = easy; f = full; ssh = ssh_conf;
+        /*l = line; */e = easy; f = full; ssh = ssh_conf; tre_conf = t_s;
     }
 
     public void load()

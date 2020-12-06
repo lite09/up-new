@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.аапToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.праToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.структураПапокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиSshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.токенToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,6 +78,11 @@
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
+            // timer2
+            // 
+            this.timer2.Interval = 90000;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(9, 18);
@@ -89,10 +96,10 @@
             // richTextBox2
             // 
             this.richTextBox2.BackColor = System.Drawing.Color.Azure;
-            this.richTextBox2.Location = new System.Drawing.Point(784, 33);
+            this.richTextBox2.Location = new System.Drawing.Point(709, 33);
             this.richTextBox2.Name = "richTextBox2";
             this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(400, 178);
+            this.richTextBox2.Size = new System.Drawing.Size(412, 178);
             this.richTextBox2.TabIndex = 3;
             this.richTextBox2.Text = "";
             // 
@@ -112,7 +119,7 @@
             this.настройкиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1196, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1133, 24);
             this.menuStrip1.TabIndex = 19;
             this.menuStrip1.Text = "Меню";
             // 
@@ -121,6 +128,7 @@
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.аапToolStripMenuItem,
             this.праToolStripMenuItem,
+            this.структураПапокToolStripMenuItem,
             this.настройкиSshToolStripMenuItem,
             this.открытьToolStripMenuItem,
             this.токенToolStripMenuItem,
@@ -142,6 +150,13 @@
             this.праToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.праToolStripMenuItem.Text = "Полный режим";
             this.праToolStripMenuItem.Click += new System.EventHandler(this.ПраToolStripMenuItem_Click);
+            // 
+            // структураПапокToolStripMenuItem
+            // 
+            this.структураПапокToolStripMenuItem.Name = "структураПапокToolStripMenuItem";
+            this.структураПапокToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.структураПапокToolStripMenuItem.Text = "Структура папок";
+            this.структураПапокToolStripMenuItem.Click += new System.EventHandler(this.структураПапокToolStripMenuItem_Click);
             // 
             // настройкиSshToolStripMenuItem
             // 
@@ -192,7 +207,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(57, 51);
+            this.label4.Location = new System.Drawing.Point(15, 24);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 13);
             this.label4.TabIndex = 38;
@@ -204,14 +219,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.prefix_for_id.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.prefix_for_id.Location = new System.Drawing.Point(220, 44);
+            this.prefix_for_id.Location = new System.Drawing.Point(185, 17);
             this.prefix_for_id.Name = "prefix_for_id";
             this.prefix_for_id.Size = new System.Drawing.Size(281, 20);
             this.prefix_for_id.TabIndex = 39;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(495, 16);
+            this.button2.Location = new System.Drawing.Point(472, 16);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 20);
             this.button2.TabIndex = 40;
@@ -222,7 +237,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(57, 84);
+            this.label5.Location = new System.Drawing.Point(15, 57);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(113, 13);
             this.label5.TabIndex = 41;
@@ -231,7 +246,7 @@
             // CPU_get
             // 
             this.CPU_get.FormattingEnabled = true;
-            this.CPU_get.Location = new System.Drawing.Point(459, 76);
+            this.CPU_get.Location = new System.Drawing.Point(424, 49);
             this.CPU_get.MaxDropDownItems = 32;
             this.CPU_get.Name = "CPU_get";
             this.CPU_get.Size = new System.Drawing.Size(42, 21);
@@ -242,7 +257,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(45, 83);
+            this.label6.Location = new System.Drawing.Point(15, 83);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(154, 13);
             this.label6.TabIndex = 47;
@@ -251,7 +266,7 @@
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(45, 114);
+            this.label21.Location = new System.Drawing.Point(15, 114);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(128, 13);
             this.label21.TabIndex = 57;
@@ -309,7 +324,7 @@
             // 
             this.shed.BackColor = System.Drawing.Color.Bisque;
             this.shed.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.shed.Location = new System.Drawing.Point(495, 83);
+            this.shed.Location = new System.Drawing.Point(472, 83);
             this.shed.Name = "shed";
             this.shed.Size = new System.Drawing.Size(125, 75);
             this.shed.TabIndex = 76;
@@ -324,20 +339,24 @@
             this.groupBox1.Controls.Add(this.rb_auto);
             this.groupBox1.Controls.Add(this.btn_make_tables);
             this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.CPU_get);
             this.groupBox1.Controls.Add(this.label21);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.prefix_for_id);
             this.groupBox1.Controls.Add(this.btn_make_options);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.shed);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(766, 184);
+            this.groupBox1.Size = new System.Drawing.Size(691, 184);
             this.groupBox1.TabIndex = 77;
             this.groupBox1.TabStop = false;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(45, 145);
+            this.label7.Location = new System.Drawing.Point(15, 145);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(153, 13);
             this.label7.TabIndex = 80;
@@ -347,7 +366,7 @@
             // 
             this.rb_manual.AutoSize = true;
             this.rb_manual.Checked = true;
-            this.rb_manual.Location = new System.Drawing.Point(495, 57);
+            this.rb_manual.Location = new System.Drawing.Point(472, 57);
             this.rb_manual.Name = "rb_manual";
             this.rb_manual.Size = new System.Drawing.Size(59, 17);
             this.rb_manual.TabIndex = 80;
@@ -359,7 +378,7 @@
             // rb_auto
             // 
             this.rb_auto.AutoSize = true;
-            this.rb_auto.Location = new System.Drawing.Point(495, 42);
+            this.rb_auto.Location = new System.Drawing.Point(472, 42);
             this.rb_auto.Name = "rb_auto";
             this.rb_auto.Size = new System.Drawing.Size(46, 17);
             this.rb_auto.TabIndex = 79;
@@ -371,10 +390,10 @@
             // 
             this.btn_make_tables.BackColor = System.Drawing.Color.Bisque;
             this.btn_make_tables.Enabled = false;
-            this.btn_make_tables.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.btn_make_tables.Location = new System.Drawing.Point(626, 123);
+            this.btn_make_tables.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_make_tables.Location = new System.Drawing.Point(603, 123);
             this.btn_make_tables.Name = "btn_make_tables";
-            this.btn_make_tables.Size = new System.Drawing.Size(132, 35);
+            this.btn_make_tables.Size = new System.Drawing.Size(71, 35);
             this.btn_make_tables.TabIndex = 78;
             this.btn_make_tables.Text = "Создать таблицу";
             this.btn_make_tables.UseVisualStyleBackColor = false;
@@ -384,10 +403,10 @@
             // 
             this.btn_make_options.BackColor = System.Drawing.Color.Bisque;
             this.btn_make_options.Enabled = false;
-            this.btn_make_options.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
-            this.btn_make_options.Location = new System.Drawing.Point(626, 83);
+            this.btn_make_options.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btn_make_options.Location = new System.Drawing.Point(603, 83);
             this.btn_make_options.Name = "btn_make_options";
-            this.btn_make_options.Size = new System.Drawing.Size(132, 37);
+            this.btn_make_options.Size = new System.Drawing.Size(71, 37);
             this.btn_make_options.TabIndex = 77;
             this.btn_make_options.Text = "Создать доп фаилы";
             this.btn_make_options.UseVisualStyleBackColor = false;
@@ -459,16 +478,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
-            this.ClientSize = new System.Drawing.Size(1196, 304);
+            this.ClientSize = new System.Drawing.Size(1133, 304);
             this.Controls.Add(this.cb_ssh);
             this.Controls.Add(this.ya);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.label22);
-            this.Controls.Add(this.CPU_get);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.prefix_for_id);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -538,6 +553,8 @@
         private System.Windows.Forms.ToolStripMenuItem настройкиSshToolStripMenuItem;
         private System.Windows.Forms.GroupBox gb_send;
         public System.Windows.Forms.CheckBox cb_ssh;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.ToolStripMenuItem структураПапокToolStripMenuItem;
     }
 }
 

@@ -11,6 +11,12 @@ namespace up
         {
             InitializeComponent();
         }
+        
+        public Ssh_form(Form1 form1)
+        {
+            InitializeComponent();
+            f = form1;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -43,11 +49,6 @@ namespace up
         private void save_folder_Leave(object sender, EventArgs e)
         {
             f.ssh_conf.save_folder = save_folder.Text;
-        }
-
-        private void ssh_form_Load(object sender, EventArgs e)
-        {
-            f = (Form1)this.Owner;
         }
     }
 }

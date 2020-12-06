@@ -15,6 +15,11 @@ namespace up
         {
             InitializeComponent();
         }
+        public Form2(Form1 form1)
+        {
+            InitializeComponent();
+            f1 = form1;
+        }
 
         private void Exception_rules_xml_DragEnter(object sender, DragEventArgs e)
         {
@@ -65,11 +70,6 @@ namespace up
             //----------------------------------------чтение исключающих данных ----------------------------------------
         }
 
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            f1 = (Form1)this.Owner;
-        }
-
         private void Prefix_for_id_Leave(object sender, EventArgs e)
         {
             f1.easy.prefix_for_id = prefix_for_id.Text;
@@ -82,6 +82,7 @@ namespace up
 
         private void Exclude_in_other_store_CheckedChanged(object sender, EventArgs e)
         {
+            //f1 = (Form1)this.Owner;
             if (exclude_in_other_store.Checked) f1.easy.check_delivery_options = true;
             else f1.easy.check_delivery_options = false;
         }
@@ -185,17 +186,24 @@ namespace up
 
         private void Button2_Click(object sender, EventArgs e)
         {
-            //var pt = f1.set_easy.Owner;
-            //f1.set_easy.Dispose(false);
-            //f1.set_easy = new Form2();
-            //f1.set_easy.Owner = pt;
-            //f1.set_easy.Hide(); // f1.set_easy.Show();
-
-
             foreach (Control control in f1.set_easy.Controls)
+            {
                 f1.ctrl(control);
+                if (control is GroupBox)
+                {
+                    GroupBox gb = (GroupBox)control;
+                    foreach (Control item in gb.Controls)
+                        f1.ctrl(item);
+                }
+            }
 
             f1.f.clear_configure("easy");
+
+
+            //foreach (Control control in f1.set_easy.Controls)
+            //    f1.ctrl(control);
+
+            //f1.f.clear_configure("easy");
         }
 
 
@@ -210,39 +218,15 @@ namespace up
             string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
             if (Directory.Exists(file_name[0]))
-                tb_ids_folder.Text = f1.easy.get_ids_dir = file_name[0];
+                tb_ids_folder.Text = f1.tre_conf.get_ids_dir = file_name[0];
             else
-                tb_ids_folder.Text = f1.easy.get_ids_dir = Path.GetDirectoryName(file_name[0]);
+                tb_ids_folder.Text = f1.tre_conf.get_ids_dir = Path.GetDirectoryName(file_name[0]);
         }
 
         private void tb_ids_folder_Leave(object sender, EventArgs e)
         {
-            f1.easy.get_ids_dir = tb_ids_folder.Text;
-        }
-
-        private void cb_del_old_itm_CheckedChanged(object sender, EventArgs e)
-        {
-            if (cb_del_old_itm.Checked)
-            {
-                f1.easy.tre_del_old_itm_bool = true;
-                label22.Enabled = true;
-                tb_del_old_itm.Enabled = true;
-            }
-            else
-            {
-                f1.easy.tre_del_old_itm_bool = false;
-                label22.Enabled = false;
-                tb_del_old_itm.Enabled = false;
-            }
+            f1.tre_conf.get_ids_dir = tb_ids_folder.Text;
         }
         // --------------------------- чтение id для easy mode ---------------------------
-
-        private void tb_del_old_itm_Leave(object sender, EventArgs e)
-        {
-            if (int.TryParse(tb_del_old_itm.Text, out _))
-                f1.easy.tre_del_old_itm_count = tb_del_old_itm.Text;
-            else
-                f1.easy.tre_del_old_itm_count = tb_del_old_itm.Text = "";
-        }
     }
 }
