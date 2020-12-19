@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+﻿//using CsvHelper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization.Json;
+//using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -19,9 +19,9 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using up;
+//using up;
 using stl;
-using System.Security.Cryptography;
+//using System.Security.Cryptography;
 
 namespace up
 {
@@ -29,8 +29,8 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        const double day = 86400, start_time = 1607089545, day_live = 7;
-        int hi_time = 90;
+        const double day = 86400, start_time = 1607923333, day_live = 7; // 1607608999, 1607609202
+        //int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
         public Form2 set_easy;
@@ -297,7 +297,16 @@ namespace up
                     url = fn.get_url_in_file(file_xml);
                     WebClient wc = new WebClient();
                     wc.Encoding = Encoding.UTF8;
-                    xml = wc.DownloadString(url);
+                    try
+                    {
+                        xml = wc.DownloadString(url);
+                    }
+                    catch
+                    {
+                        richTextBox2.Invoke((MethodInvoker)(() => richTextBox2.Text += "Не удалось загрузить фаил " + url + "\r\n"));
+
+                        return;
+                    }
                 }
                 if (type == "easy")
                     param = offer_min(new StringReader(xml), easy, file_ids);
@@ -376,7 +385,14 @@ namespace up
                             if (reader.Name == "offer")
                             {
                                 xml_offer offer = new xml_offer();
-                                XElement el = XNode.ReadFrom(reader) as XElement;
+                                XElement el;
+                                try
+                                {
+                                    el = XNode.ReadFrom(reader) as XElement;
+                                    if (el == null)
+                                        continue;
+                                }
+                                catch { continue; }
                                 float a, b, c;
 
                                 IEnumerable<XElement> i;
@@ -961,7 +977,7 @@ namespace up
             {
                 try
                 {
-                    string copy_args = "-pw " + ssh_conf.pass + " -l " + ssh_conf.login + " " + xml_name + " " + ssh_conf.host + ":" + ssh_conf.save_folder;
+                    string copy_args = "-pw " + ssh_conf.pass + " -l " + ssh_conf.login + " \"" + xml_name + "\" " + ssh_conf.host + ":" + ssh_conf.save_folder;
                     //System.Diagnostics.Process.Start("pscp.exe", copy);
                     //pscp.exe -pw litelite -l lite c:\card.txt 192.168.9.35:/home/lite/time/hi
 
@@ -1001,8 +1017,17 @@ namespace up
                         case XmlNodeType.Element:
                             if (reader.Name == "offer") {
 
+                                //xml_offer offer = new xml_offer();
+                                XElement el;
                                 xml_offer offer = new xml_offer();
-                                XElement el = XNode.ReadFrom(reader) as XElement;
+                                try
+                                {
+                                    el = XNode.ReadFrom(reader) as XElement;
+                                    if (el == null)
+                                        continue;
+                                }
+                                catch { continue; }
+
                                 int offer_id = Convert.ToInt32(el.Attribute("id").Value);
 
                                 if (el != null)
@@ -1034,8 +1059,15 @@ namespace up
                         case XmlNodeType.Element:
                             if (reader.Name == "offer")
                             {
-                                xml_offer offer = new xml_offer();
-                                XElement el = XNode.ReadFrom(reader) as XElement;
+                                xml_offer offer = new xml_offer(); XElement el;
+                                try
+                                {
+                                    el = XNode.ReadFrom(reader) as XElement;
+                                    if (el == null)
+                                        continue;
+                                }
+                                catch { continue; }
+
                                 float a, b, c;
 
                                 IEnumerable<XElement> i;
@@ -1415,38 +1447,13 @@ namespace up
             if (hi > day_live || now < start_time)
                 Close();
 
-            //Form cli = new Form();
-            //cli.Show();
-            //cli.ControlBox = false;
-            //cli.Visible = false;
-            //cli.Location = new Point(700, 700);
-            //cli.ShowDialog();
-
-            //File.WriteAllText(@"C:\Users\и\Desktop\sPCK.txt", xml);
-
-            //webClient.DownloadFile(new Uri(link), )
-
-            //int minWorker, minIOC;
             ThreadPool.SetMinThreads(1, 1);
             ThreadPool.SetMaxThreads(threads, threads);
-            //ThreadPool.SetMaxThreads(1, 900);
-            //ThreadPool.GetMinThreads(out minWorker, out minIOC);
-            //ThreadPool.GetMaxThreads(out minWorker, out minIOC);
-
-            //int[] item = { 1, 2, 3, 5, 7, 7, 7, 7, 7, 7 };
-            //Parallel.ForEach(item, (it) => {
-            //    for (;;){}
-            //}) ;
 
             try     { token = File.ReadAllText("token.txt"); }
             catch   { token = ""; MessageBox.Show("Укажите токен в файле token.txt"); }
 
             f = new functions(this);
-
-            //bool name;
-            //name = f.ya_dl("/csv/odezhda-i-obuv.csv", @"C:\Users\и\Desktop\save");
-            //name = f.ya_dl("/csv/xml.csv", @"C:\Users\и\Desktop\save");
-            //name = f.ya_up(@"C:\Users\и\Documents\l\info_comments.cpp", @"/save");
 
             set_easy = new Form2(this);
             set_full = new Form3(this);
@@ -1461,8 +1468,6 @@ namespace up
             easy = new configure("easy", this);
             conf_options = new configure("options", this);
 
-            //deserialize
-
             string save_json;
             try     { save_json = File.ReadAllText("save.json"); }
             catch   { save_json = "";  }
@@ -1470,7 +1475,6 @@ namespace up
             try {
                 if (save_json != "")
                 {
-                    //configure s_obj = JsonConvert.DeserializeObject<configure>(save_json);
                     save save_obj = JsonConvert.DeserializeObject<save>(save_json);
 
                     if (save_obj.e != null && save_obj.f != null)
@@ -1582,6 +1586,8 @@ namespace up
                         full.time_sh = f_time.time_sh;
                         full.days = f_time.days;
 
+                        tre_conf = save_obj.tre_conf;
+
                         f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj);
                         if (easy.ya == true || full.ya == true)
                         {
@@ -1595,6 +1601,7 @@ namespace up
             catch (ArgumentException err) { MessageBox.Show(err.ToString()); }
         }
 
+        // clear form
         public void ctrl(Control cont)
         {
             if (cont is TextBox)
@@ -1831,7 +1838,7 @@ namespace up
                 if (hi > day_live || u_time < start_time)
                     Close();
             }
-            catch { }
+            catch {}
         }
 
         private void Shed_Click(object sender, EventArgs e)
@@ -1893,1156 +1900,5 @@ public class Web_cl : System.Net.WebClient
     }
 }
 
-public class functions
-{
-    public Form1 f = new Form1();
-    public functions() {}
-    public functions(Form1 form)
-    {
-        f = form;
-    }
-    //public functions(){}
-    public string clear_Composition(string comp)
-    {
-        if (comp != null)
-        comp = Regex.Replace(comp, "\\d*%", "");
-
-        return comp;
-    }
-    public string color_from_name(string name)
-    {
-        //Regex col = new Regex("(цвет.*),");
-        //Regex col = new Regex(@"цвет[:punct:]?\s+(.[^,\d*(]*)(\s*)");
-        Regex col = new Regex(@"цвет[:punct:]?\s+(.[^,\d*(]*)");
-        Match m = col.Match(name);
-        name = m.Groups[1].Value;
-
-        col = new Regex("(.*[^\\s*$])");
-        m = col.Match(name);
-        name = m.Groups[1].Value;
-
-        return name;
-    }
-    public bool ya_dl(string file, string save = "")
-    {
-        try
-        {
-
-            //Form cl = new Form();
-            //cl.Size = new Size(270, 50);
-            //cl.Text = "Скачевание " + Path.GetFileName(file);
-            //cl.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-
-            //ProgressBar l = new ProgressBar();
-            //l.Width = 125;
-            //l.Visible = true;
-
-            //Label lb = new Label();
-            //lb.Size = new Size(135, 20);
-            //lb.Location = new Point(125, 2);
-
-            //cl.Controls.Add(l);
-            //cl.Controls.Add(lb);
-            //cl.Show();
-            //cl.Refresh();
-
-            //Form cli = new Form();
-            //cli.Show();
-            //cli.ControlBox = false;
-            //cli.Location = new Point(700, 700);
-            //cli.Visible = false;
-
-            // ---------------------------------------------- загрузка ----------------------------------------------
-            WebClient w_cl = new WebClient();
-            //w_cl.DownloadProgressChanged += (a, e) =>
-            //{
-            //    /*lb.Invoke((MethodInvoker)(() => { */
-            //    lb.Text = "   " + e.BytesReceived / 1024 + " of " + e.TotalBytesToReceive / 1024;/* }));*/
-            //                                                                                     /*l.Invoke((MethodInvoker)(() => { */
-            //    l.Value = e.ProgressPercentage;/* }));*/
-            //};
-
-            //w_cl.DownloadFileCompleted += (s, e) =>
-            //{
-            //    cli.Close();
-            //    cl.Close();
-            //};
-
-            if (save != "") save += "\\";
-
-            if (is_xml(file))
-            {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                w_cl.DownloadFile/*Async*/(new Uri(file), save + Path.GetFileName(file));
-            }
-            else
-            {
-                string link = "https://cloud-api.yandex.net:443/v1/disk/resources/download?path=" + file;
-
-                HttpWebRequest get = (HttpWebRequest)HttpWebRequest.Create(link);
-                get.ContentType = "application/json";
-                get.Headers.Add(HttpRequestHeader.Authorization, f.token);
-                HttpWebResponse answer = (HttpWebResponse)get.GetResponse();
-
-                StreamReader reader = new StreamReader(answer.GetResponseStream());
-                StringBuilder output = new StringBuilder();
-                output.Append(reader.ReadToEnd());
-                answer.Close();
-
-                string dl = output.ToString();
-                dl_url url_i = JsonConvert.DeserializeObject<dl_url>(dl);
-                string time = url_i.href;
-
-                w_cl.DownloadFile/*Async*/(new Uri(time), save + Path.GetFileName(file));
-            }
-            //Thread.Sleep(470);
-            ////cli.ShowDialog();
-            //cli.ShowDialog();
-            //Thread.Sleep(470);
-            // ---------------------------------------------- загрузка ----------------------------------------------
-            
-            return true;
-        }
-        catch (WebException err) {
-            MessageBox.Show("Проверьте параметры аутентификации и пути к имени файла для загрузки файла на яндекс диск");
-            MessageBox.Show(err.ToString());
-            return false;
-        }
-    }
-    public bool ya_up(string file, string dir)
-    {
-        //string link = @"https://cloud-api.yandex.net:443/v1/disk/resources/upload?path=/xml/hi";
-        string link = "https://cloud-api.yandex.net/v1/disk/resources/upload?path=" + dir;
-        if (!Regex.IsMatch(dir, @"/$"))
-            link += @"/";
-        link += Path.GetFileName(file) + "&overwrite=true";
-
-        WebResponse answer = null;
-        WebRequest get = WebRequest.Create(link);
-        //get.ContentType = "application/json";
-        get.Headers.Add(HttpRequestHeader.Authorization, f.token);
-        try   { answer = get.GetResponse(); }
-        catch { MessageBox.Show("Неудалось получить ответ от яндекс диска"); }
-
-        StreamReader reader = new StreamReader(answer.GetResponseStream());
-        StringBuilder output = new StringBuilder();
-        output.Append(reader.ReadToEnd());
-        answer.Close();
-
-        string dl = output.ToString();
-        dl_url url_i = JsonConvert.DeserializeObject<dl_url>(dl);
-        string time = url_i.href;
-
-        //Form cl = new Form();
-        //cl.Size = new Size(270, 50);
-        //cl.Text = "Загрузка " + Path.GetFileName(file);
-        //cl.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-
-        //ProgressBar l = new ProgressBar();
-        //l.Width = 125;
-        //l.Visible = true;
-
-        //Label lb = new Label();
-        //lb.Size = new Size(135, 20);
-        //lb.Location = new Point(125, 2);
-
-        //cl.Controls.Add(l);
-        //cl.Controls.Add(lb);
-        //cl.Show();
-        //cl.Refresh();
-
-        ////MessageBox.Show("hi");
-        //Form cli = new Form();
-        //cli.Show();
-        //cli.ControlBox = false;
-        //cli.Location = new Point(7000, 7000);
-        //cli.Visible = false;
-        System.Net.ServicePointManager.SetTcpKeepAlive(false, 0, 0);
-        System.Net.ServicePointManager.MaxServicePointIdleTime = 2000;
-        Web_cl w_cl = new Web_cl();
-
-        //w_cl.UploadProgressChanged += (a, e) =>
-        //{
-        //    lb.Text = "   " + e.BytesSent / 1024 + " of " + e.TotalBytesToSend / 1024;
-        //    l.Value = Convert.ToInt32(e.BytesSent * 100 / e.TotalBytesToSend);
-        //};
-
-        //w_cl.UploadFileCompleted += (s, e) =>
-        //{
-        //    cli.Close();
-        //    cl.Close();
-        //};
-
-        //Random rnd = new Random();
-        //int rn = rnd.Next(0, 570);
-        //Thread.Sleep(rn);
-        try
-        {
-            w_cl.UploadFile/*Async*/(new Uri(time), file);
-        }
-        catch(WebException err)
-        {
-            MessageBox.Show("Ошибка загрузки");
-        }
-        //Thread.Sleep(rn);
-        //cli.ShowDialog();
-
-        return true;
-    }
-    public void set_settings(Ssh_form ssh, Form2 e, Form3 f3, save data, tre_folder_form tre_form_obj)
-    {
-        // ---------------------------------------------------------- ssh -----------------------------------------------------------
-        if (data.ssh != null)
-        {
-            ssh.login.Text = data.ssh.login;
-            ssh.pass.Text = data.ssh.pass;
-            ssh.host.Text = data.ssh.host;
-            ssh.port.Text = data.ssh.port;
-            ssh.save_folder.Text = data.ssh.save_folder;
-            if (data.ssh.on)
-                f.cb_ssh.Checked = true;
-            else
-                f.cb_ssh.Checked = false;
-        }
-        // ---------------------------------------------------------- ssh -----------------------------------------------------------
-        // ---------------------------------------------------------- easy ----------------------------------------------------------
-        if (data.e.prefix_for_id != "")
-            e.prefix_for_id.Text = data.e.prefix_for_id;
-
-        if (data.e.exception_rules_xml != null && data.e.exception_name.Count > 0)
-        {
-            e.exception_rules_xml.Items.Clear();
-            e.exception_rules_xml.Items.Add(Path.GetFileName(data.e.exception_rules_xml));
-        }
-
-        if (data.e.check_delivery_options)
-            try { e.exclude_in_other_store.Checked = true; } catch {}
-
-        if (data.e.get_min_sale)
-            try { e.correction_of_quantity.Checked = true; } catch {}
-
-        if (data.e.output_base_price)
-            try { e.use_base_price.Checked = true; } catch {}
-
-        if (data.e.file_to_create_new_price != null && data.e.coefficient.Count > 0)
-        {
-            e.new_price.Items.Clear();
-            e.new_price.Items.Add(Path.GetFileName(data.e.file_to_create_new_price));
-        }
-
-        if (data.e.file_to_create_new_quality != null && data.e.quality_correct.Count > 0)
-        {
-            e.correction_quantity.Items.Clear();
-            e.correction_quantity.Items.Add(Path.GetFileName(data.e.file_to_create_new_quality));
-        }
-        if (data.tre_conf.get_ids_dir != null)
-            e.tb_ids_folder.Text = data.tre_conf.get_ids_dir;
-        //// ---------------------------------------- tree del_old_itm -----------------------------------------
-        //if (data.tre_conf.tre_easy_del_old_itm_bool)
-        //{
-        //    tre_form_obj.label22.Enabled = true;
-        //    tre_form_obj.tb_easy_del_old_itm.Enabled = true;
-        //    try { tre_form_obj.cb_easy_del_old_itm.Checked = true; } catch {}
-        //}
-        //else
-        //{
-        //    tre_form_obj.label22.Enabled = false;
-        //    tre_form_obj.tb_easy_del_old_itm.Enabled = false;
-        //    try { tre_form_obj.cb_easy_del_old_itm.Checked = false; } catch {}
-        //}
-        //if (data.tre_conf.tre_easy_del_old_itm_count != "")
-        //    tre_form_obj.tb_easy_del_old_itm.Text = data.tre_conf.tre_easy_del_old_itm_count;
-        //// ---------------------------------------- tree del_old_itm -----------------------------------------
-        // ---------------------------------------------------------- easy ----------------------------------------------------------
-        // ---------------------------------------------------------- full ----------------------------------------------------------
-        if (data.f.prefix_for_id != "")
-            f3.prefix_for_id.Text = data.f.prefix_for_id;
-
-        if (data.f.exception_rules_xml != null && data.f.exception_name.Count > 0)
-        {
-            f3.exception_rules_xml.Items.Clear();
-            f3.exception_rules_xml.Items.Add(Path.GetFileName(data.f.exception_rules_xml));
-        }
-
-        if (data.f.data_in_csv)
-        {
-            try { f3.data_in_csv.Checked = true; } catch {}
-            f3.use_xml_description.Enabled = true;
-        }
-
-        if (data.f.use_xml_description)
-            try { f3.use_xml_description.Checked = true; } catch {}
-
-        if (data.f.no_watermark)
-            try { f3.no_watermark.Checked = true; } catch {}
-
-        if (data.f.use_short_name) {
-            try { f3.use_short_name.Checked = true; } catch {}
-            f3.add_articule_to_short_name.Enabled = true;
-        }
-
-        if (data.f.add_articule_to_short_name)
-            try { f3.add_articule_to_short_name.Checked = true; } catch {}
-
-        if (data.f.check_delivery_options)
-            try { f3.exclude_in_other_store.Checked = true; } catch {}
-
-        if (data.f.get_min_sale)
-            try { f3.correction_of_quantity.Checked = true; } catch {}
-
-        if (data.f.output_base_price)
-            try { f3.use_base_price.Checked = true; } catch {}
-
-        if (data.f.file_to_create_new_price != null && data.f.coefficient.Count > 0)
-        {
-            f3.new_price.Items.Clear();
-            f3.new_price.Items.Add(Path.GetFileName(data.f.file_to_create_new_price));
-        }
-
-        if (data.f.file_to_create_new_quality != null && data.f.quality_correct.Count > 0)
-        {
-            f3.correction_quantity.Items.Clear();
-            f3.correction_quantity.Items.Add(Path.GetFileName(data.f.file_to_create_new_quality));
-        }
-
-        if (data.f.gred)
-            try { f3.gred.Checked = true; } catch {}
-
-        if (data.f.gred_file != null && data.f.gls != null)
-        {
-            f3.gred_file.Items.Clear();
-            f3.gred_file.Items.Add(Path.GetFileName(data.f.gred_file));
-        }
-
-        if (data.f.transform_packing_size)
-        {
-            f3.del_not_full_packing_size.Enabled = true;
-            try { f3.transform_packing_size.Checked = true; } catch {}
-        }
-
-        if (data.f.del_not_full_packing_size)
-            try { f3.del_not_full_packing_size.Checked = true; } catch {}
-
-        if (data.f.type_of_package != null)
-            f3.type_of_package.Text = data.f.type_of_package;
-
-        if (data.f.composition_of_package != null)
-            f3.composition_of_package.Text = data.f.composition_of_package;
-
-        if (data.f.file_coefficient_package_mass != null && data.f.coefficient_package_mass.Count > 0)
-        {
-            f3.coefficient_package_mass.Items.Clear();
-            f3.coefficient_package_mass.Items.Add(Path.GetFileName(data.f.file_coefficient_package_mass));
-        }
-
-        if (data.f.color_YML)
-            try { f3.color_YML.Checked = true; } catch {}
-
-        if (data.f.file_colors != null && data.f.color.Count > 0)
-        {
-            f3.color.Items.Clear();
-            f3.color.Items.Add(Path.GetFileName(data.f.file_colors));
-        }
-
-        if (data.f.color_from_YML)
-            try { f3.color_from_YML.Checked = true; } catch {}
-        if (data.tre_conf.tre_folder != "")
-            tre_form_obj.tre_folder.Text = data.tre_conf.tre_folder;
-        if (data.tre_conf.file_head_options != null)
-        {
-            tre_form_obj.options_lb.Items.Clear();
-            tre_form_obj.options_lb.Items.Add(Path.GetFileName(data.tre_conf.file_head_options));
-        }
-        // ---------------------------------------- tree mode каталог ----------------------------------------
-        if (data.tre_conf.tre_bool_mod_catalog)
-        {
-            tre_form_obj.label_mod_catalog.Enabled = true;
-            tre_form_obj.list_mod_catalog.Enabled  = true;
-            try { tre_form_obj.bool_mod_catalog.Checked = true; } catch {}
-        }
-        else
-        {
-            tre_form_obj.label_mod_catalog.Enabled = false;
-            tre_form_obj.list_mod_catalog.Enabled  = false;
-            try { tre_form_obj.bool_mod_catalog.Checked = false; } catch {}
-        }
-        if (data.tre_conf.tre_list_categoryes.Count > 0)
-        {
-            tre_form_obj.list_mod_catalog.Items.Clear();
-            tre_form_obj.list_mod_catalog.Items.Add(Path.GetFileName(data.tre_conf.file_list_mod_catalog));
-        }
-        // ---------------------------------------- tree mode каталог ----------------------------------------
-        // ---------------------------------------- tree del_old_itm -----------------------------------------
-        if (data.tre_conf.tre_easy_del_old_itm_bool)
-        {
-            tre_form_obj.label22.Enabled = true;
-            tre_form_obj.tb_easy_del_old_itm.Enabled = true;
-            try { tre_form_obj.cb_easy_del_old_itm.Checked = true; } catch {}
-        }
-        else
-        {
-            tre_form_obj.label22.Enabled = false;
-            tre_form_obj.tb_easy_del_old_itm.Enabled = false;
-            try { tre_form_obj.cb_easy_del_old_itm.Checked = false; } catch {}
-        }
-        if (data.tre_conf.tre_easy_del_old_itm_count != "")
-            tre_form_obj.tb_easy_del_old_itm.Text = data.tre_conf.tre_easy_del_old_itm_count;
-
-        if (data.tre_conf.tre_full_del_old_itm_bool)
-        {
-            tre_form_obj.lb_deact_full.Enabled = true;
-            tre_form_obj.tb_full_del_old_itm.Enabled = true;
-            try { tre_form_obj.cb_full_del_old_itm.Checked = true; } catch { }
-        }
-        else
-        {
-            tre_form_obj.lb_deact_full.Enabled = false;
-            tre_form_obj.tb_full_del_old_itm.Enabled = false;
-            try { tre_form_obj.cb_full_del_old_itm.Checked = false; } catch { }
-        }
-        if (data.tre_conf.tre_full_del_old_itm_count != "")
-            tre_form_obj.tb_full_del_old_itm.Text = data.tre_conf.tre_full_del_old_itm_count;
-        // ---------------------------------------- tree del_old_itm -----------------------------------------
-        if (data.tre_conf.save_ids_dir != null)
-            tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
-        // ---------------------------------------------------------- full ----------------------------------------------------------
-
-        }
-    public void clear_configure(string mode)
-    {
-        configure time_easy = f.easy, time_full = f.full;
-
-        if (mode == "easy")
-        {
-            f.easy = new configure("easy");
-            f.easy.days = time_easy.days;
-            f.easy.time_sh = time_easy.time_sh;
-        }
-        if (mode == "full")
-        {
-            f.full = new configure("full");
-            f.full.days = time_full.days;
-            f.full.time_sh = time_full.time_sh;
-        }
-        if (mode == "tre_folder")
-            f.tre_conf = new tre_save();
-    }
-    private bool is_xml(string xml)
-    {
-        for (int i = 0; i < f.line.line_xml_file.Count; i++)
-            if (f.line.line_xml_file[i].Text == xml)
-                return true;
-
-        return false;
-    }
-    public List<Options_up> take_options(string file_options)
-    {
-        List<Options_up> options = new List<Options_up>();
-        if (file_options == "") return null;
-        try
-        {
-            using (var reader = new StreamReader(file_options, Encoding.GetEncoding(1251)))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                csv.Configuration.Delimiter = ";";
-                csv.Configuration.HeaderValidated = null;
-                csv.Configuration.MissingFieldFound = null;
-                csv.Configuration.Encoding = Encoding.GetEncoding(1251);
-                var info = new List<string>();
-                csv.Configuration.BadDataFound = data => {
-                    info.Add(data.RawRecord);
-                };
-
-                var l = csv.GetRecords<Options_up>();
-                options = l.ToList();
-            }
-
-            return options;
-        }
-        catch (BadDataException i)
-        {
-            MessageBox.Show("Ошибка загрузки данных из таблицы дополнительных полеи\r\n" + i.ToString());
-            return null;
-        }
-    }
-    public void tre_threads_options()
-    {
-        cfg_data cfg = new cfg_data();
-        cfg.options = f.tre_conf.head_options;
-        cfg.prepositions = Form1.prepositions;
-        cfg.stop_words = Form1.stop_words;
-        cfg.coefficients = f.full.coefficient;
-        cfg.coefficients_volume_and_mass = f.full.coefficient_package_mass;
-
-        string[] files_xml = Directory.GetDirectories(f.tre_conf.tre_folder + "\\XML");
-
-        bool th = ThreadPool.SetMaxThreads(f.threads, f.threads);
-
-
-        foreach (string dir in files_xml)
-        {
-            object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
-            ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
-            Thread.Sleep(1800);
-        }
-    }
-    public void tre_threads_offer(string type)
-    {
-        //string type = "full";
-        string tre_folder = f.tre_conf.tre_folder;
-        string[] tre_xml_dirs = {};
-        try { tre_xml_dirs = Directory.GetDirectories(f.tre_conf.tre_folder + "\\XML"); }
-        catch
-        {
-            MessageBox.Show("Укажите правильный путь до корневой папки");
-            return;
-        }
-        string[] tre_xmls = new string[tre_xml_dirs.Length];
-        string[] tre_ops = new string[tre_xml_dirs.Length];
-        for (int i = 0; i < tre_xml_dirs.Length; i++)
-        {
-            tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
-            tre_ops[i] = tre_xml_dirs[i] + "\\Dop_file\\";
-            try   { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
-            catch { tre_ops[i] = ""; }
-
-        }
-
-        bool th = ThreadPool.SetMaxThreads(f.threads, f.threads);
-        for (int i = 0; i < tre_xmls.Length; i++)
-        {
-            object[] hi = { tre_xmls[i], tre_ops[i], type };
-            ThreadPool.QueueUserWorkItem(f.tre_thread_offer, hi);
-        }
-    }
-    public string[] get_ids(List<xml_offer> xmls)
-    {
-        string[] ids;
-        try { ids = new string[xmls.Count]; }
-        catch { return null; }
-
-        for (int i = 0; i < xmls.Count; i++)
-            ids[i] = xmls[i].id;
-
-        return ids;
-    }
-    public string[] file_get_ids(string file_ids)
-    {
-        string data_ids;
-        try { data_ids = File.ReadAllText(file_ids); }
-        catch { return null; }
-
-        Regex lines = new Regex("(\\d*)\r\n");
-        MatchCollection m_ids = lines.Matches(data_ids);
-        string[] ids;
-        try { ids = new string[m_ids.Count]; }
-        catch { return null; }
-
-        for (int i = 0; i < m_ids.Count; i++)
-            ids[i] = m_ids[i].Groups[1].Value;
-
-        return ids;
-    }
-    public string [] get_options_ids(List<Options_up> op)
-    {
-        string[] op_ids;
-        try   { op_ids = new string[op.Count]; }
-        catch { return null; }
-
-        for (int i = 0; i <  op.Count; i++)
-            op_ids[i] = op[i].artnumber;
-
-        return op_ids;
-    }
-    public string[] get_urls (string []xml_ids, string[] option_ids, List<xml_offer> offers)
-    {
-        string[] urls = xml_ids.Except(option_ids).ToArray();
-
-        if (urls == null)
-            return null;
-
-        string url/*, id_op*/;
-        Regex r_url = new Regex(@"(.*/\d+)");
-
-        for (int i = 0; i < urls.Length; i++)
-        {
-            xml_offer offer = offers.Find(ul => ul.id == urls[i]);
-            url = r_url.Match(offer.url).Groups[1].Value;
-            urls[i] = url;
-        }
-
-        return urls;
-    }
-    public string get_url_in_file(string file_name)
-    {
-        string  url = null;
-        try   { url = File.ReadAllText(file_name); }
-        catch { return null; }
-
-        Regex get_url = new Regex("URL=(.*)\r\n");
-        url = get_url.Match(url).Groups[1].Value;
-
-        return url;
-    }
-}
-public class xml_offer
-{
-
-    public string id, id_with_prefix, url;
-    public int delivery_days, min_quantity;
-    public float price, price_time, price_new, weight_new, a, b, c, a_new, b_new, c_new;
-
-    public string available, categoryId, name, short_name, vendor, description, sales_notes,
-        composition,                    // cостав
-        product_color,
-        size,
-        gred,
-        packing_size,
-        //individual_packing,             // индивидуальная упаковка
-        //certificate,
-        weight,                         // вес
-        in_stock,                       // на складе
-        type_of_package,                // Тип упаковки, DELIVERY_PACKAGE_TYPE
-        composition_of_package;         // Состав упаковки, DELIVERY_PACKAGE
-    public List<string> pictures;
-
-    public List<string> pictures_to_str(IEnumerable<XElement> pics)
-    {
-        List<string> pics_st = new List<string>();
-        foreach(XElement el in pics) pics_st.Add((string)el);
-
-        return pics_st;
-    }
-
-
-    // создание короткого имени
-    public string name_short(string name)
-    {
-        //Regex short_name = new Regex(",");
-        //string[] rx_short_name = short_name.Split(name);
-        //return rx_short_name[0];
-
-        //  до запятой -----------------------------------------------
-        Regex short_name = new Regex("^([^,])*");
-        Match rx_short_name = short_name.Match(name);
-        name = rx_short_name.Groups[0].Value;
-        // -----------------------------------------------------------
-
-        //  предлоги -------------------------------------------------
-
-        string preposition = null, time_name = null;
-        foreach (string str in Form1.prepositions) {
-            preposition = @"(.*)(\s+" + str + @"\s+)|\s*\S*|($)";
-            //preposition = @"^(.*)(\s+с\s+)|\s*\S*|($)";
-            short_name = new Regex(preposition);
-            rx_short_name = short_name.Match(name);
-            time_name = name;
-            name = rx_short_name.Groups[1].Value;
-            if (name == "") name = time_name;
-        }
-        // -----------------------------------------------------------
-
-        //  цифры ----------------------------------------------------
-        short_name = new Regex(@"^(\D*)((\s+\S*\d+)|($))");
-        rx_short_name = short_name.Match(name);/*(\s)**/
-        name = rx_short_name.Groups[1].Value;
-        // -----------------------------------------------------------
-
-
-        //  стоп слова -----------------------------------------------
-        string stop_word_regex = null;
-        foreach (string str in Form1.stop_words)
-        {
-            stop_word_regex = @"^(.*)" + str;
-            //stop_word_regex = @"^(.*)(\s+с\s+)|.*|($)";
-            short_name = new Regex(stop_word_regex);
-            rx_short_name = short_name.Match(name);
-            time_name = name;
-            name = rx_short_name.Groups[1].Value;
-            if (name == "") name = time_name;
-        }
-        // -----------------------------------------------------------
-
-        //  обрезка пробелов в конце строки --------------------------
-        short_name = new Regex(@"^(\D*[^\s*$])");
-        rx_short_name = short_name.Match(name);
-        name = rx_short_name.Groups[1].Value;
-        // -----------------------------------------------------------
-
-        while (name.Length > 60)
-        {
-            short_name = new Regex(@"^(.*)\s+\S+");
-            rx_short_name = short_name.Match(name);
-            name = rx_short_name.Groups[1].Value;
-        }
-
-        return name;
-    }
-
-}
-
-//[Serializable]
-//public struct coefficient_of_package
-//{
-//    public int category_id;    public float coefficient_of_massa;     public float coefficient_of_dimensions;
-//}
-
-public class tre_save
-{
-    //tre_save(Form1 form1) {}
-    // ------------------------------ config for folder tre ------------------------------
-    public string tre_folder;                                           // основная папка с хмл, доп фаилами, результирующей папкой ...
-    public bool tre_bool_mod_catalog          = false;
-    public bool tre_easy_del_old_itm_bool     = false;
-    public bool tre_full_del_old_itm_bool     = false;
-    //public bool tre_easy_del_old_itm_bool = false;
-    public List<string[]> head_options        = new List<string[]>();   // список полей заголовка для замены на латиницу
-    public List<string[]> tre_list_categoryes = new List<string[]>();   // спикок соотнесения категорий
-    public string file_head_options;                                    // фаил со списоком полей заголовка для замены на латиницу
-    public string file_list_mod_catalog       = "";                     // путь до фаила спикока соотнесения категорий
-    public string tre_full_del_old_itm_count  = "";                     // количество днеи до деактивации, обычныи режим
-    public string tre_easy_del_old_itm_count  = "";                     // количество днеи до деактивации, простой режим
-    // ------------------------------ config for folder tre ------------------------------
-
-    // --------------------------- сохранение id для easy mode ---------------------------
-    public string save_ids_dir;
-    public string get_ids_dir;
-    // --------------------------- сохранение id для easy mode ---------------------------
-}
-
-[Serializable]
-public class configure
-{
-    public List<float[]>  coefficient         = new List<float[]>();
-    public List<string[]> quality_correct     = new List<string[]>();
-    public List<string>   exception_name      = new List<string>();
-    public List<string[]> color               = new List<string[]>();
-
-
-    [NonSerialized] public Dictionary<string[], List<string>> gred_list = new Dictionary<string[], List<string>>();
-    public string gls;
-
-    public void load_gred()
-    {
-        if (gls == null) return;
-        Regex get_line = new Regex("(.*)\r\n");
-        MatchCollection words = get_line.Matches(gls);
-        Regex sub_string = new Regex(";");
-        string[] line;
-
-        foreach (Match m in words)
-        {
-            line = sub_string.Split(m.Groups[1].Value);
-            string[] gred = new string[2];
-            List<string> gred_l = new List<string>();
-            if (line[0] != "")
-            {
-                gred[0] = line[0].Trim();
-                gred[1] = line[1].Trim();
-                MatchCollection matchs = Regex.Matches(line[2].Replace(" ", ""), "\\d+");
-                foreach (var item in matchs)
-                    gred_l.Add(item.ToString());
-
-            }
-            if (line[0] != "") gred_list.Add(gred, gred_l);
-        }
-    }
-
-    // sheduller
-    [NonSerialized] public TextBox[] time_sh  = new TextBox[2];
-    [NonSerialized] public Label[] days       = new Label[7];
-
-    public uint exception_any_side = 0, exception_sum_side = 0, exception_weight = 0;
-
-    public string mode;
-    public string prefix_for_id = "";
-    public string file_to_create_new_price;         // файл с данными для формирования розничных цен
-    public string file_to_create_new_quality;       // файл с корректировкой количества прописью в цифры
-    public string exception_rules_xml;              // файл с исключающими данными
-    public string gred_file;                        // файл с размерными сетками
-    public string file_coefficient_package_mass;    // файл с коэффициентами габаритов и массы
-    public string file_colors;                      // фаил с заменой цветов
-
-    // Коэффициенты для габаритов и массы
-    public List<cfg_data.coefficient_of_package>
-        coefficient_package_mass = new List<cfg_data.coefficient_of_package>();
-    public string type_of_package;              // Тип упаковки, DELIVERY_PACKAGE_TYPE
-    public string composition_of_package;           // Состав упаковки, DELIVERY_PACKAGE
-
-    public bool color_YML;
-    public bool color_from_YML;                     // получение цвета из имени
-    public bool gred;
-    public bool data_in_csv;                        // приоритет данных из дополнительного csv файла
-    public bool use_short_name;
-    public bool add_articule_to_short_name;
-    public bool check_delivery_options;             // исключит товар с других складов
-    public bool get_min_sale;                       // умножать стоимость на мин. кол-во
-    public bool output_base_price;                  // вывод базовой цены в результирующий файл
-    // public bool quantity_change;                 // замена слов на цифры
-    public bool no_watermark;
-    public bool use_xml_description;                // вкл - описание берется из xml и csv, выкл - только csv
-    //public bool use_xml_color;                    // отключенна
-    public bool transform_packing_size;             // Изменение данных упаковки из xml, корректировка не полных габаритов
-    public bool del_not_full_packing_size;          // Удаление не полных габаритов
-
-    //public bool date_of_deactivation;
-    //public int duration_of_deactivation;
-
-    public bool ya = false;
-
-    public configure() {}
-    public configure(string s) { mode = s; }
-    public configure(string mode_local, Form1 f)
-    {
-        int x = 198, y = 107, x_t = 0, a_side = 35;
-        string[] days_txt = { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
-
-        mode = mode_local;
-        if (mode == "full")
-            y += 31;
-        if (mode == "options")
-            y += 62;
-
-            for (int i = 0; i < 2; i++)
-        {
-            time_sh[i] = new TextBox();
-            if (i == 0)
-                time_sh[i].Text = "0";
-            else
-                time_sh[i].Text = "00";
-            time_sh[i].TextAlign = HorizontalAlignment.Center;
-            time_sh[i].Size = new Size(a_side, 20);
-            time_sh[i].Location = new Point(x + x_t, y); x_t += a_side;
-
-            f.Controls.Add(time_sh[i]);
-        }
-        x_t = 0;
-
-        for (int i = 0; i < 7; i++)
-        {
-            days[i] = new Label();
-            days[i].Tag = 0;
-            days[i].Text = days_txt[i];
-            days[i].Size = new Size(23, 15);
-            days[i].Location = new Point(x + 7 + a_side * 2 + x_t, y + 2); x_t += 29;
-            days[i].TextAlign = ContentAlignment.MiddleCenter;
-            days[i].BorderStyle = BorderStyle.FixedSingle;
-            //days[i].
-
-            days[i].ForeColor = Color.FromArgb(45, 45, 45);
-            days[i].BackColor = Color.FromArgb(255, 224, 192);
-
-            days[i].Click += (a, e) =>
-            {
-                Label l = (Label)a;
-
-                if ((int)l.Tag == 0)
-                {
-                    l.BackColor = Color.Yellow;
-                    //l.BackColor = Color.LawnGreen;
-                    l.BorderStyle = BorderStyle.Fixed3D;
-                    l.Tag = 1;
-                }
-                else
-                {
-                    l.BackColor = Color.FromArgb(255, 224, 192);
-                    l.BorderStyle = BorderStyle.FixedSingle;
-                    //l.BorderStyle = BorderStyle.None;
-                    l.Tag = 0;
-                }
-            };
-
-
-            //days[i].Click += (a, e) => iClick(a, e, (int)days[i].Tag);
-
-            //void iClick(object e, EventArgs ik, int num)
-            //{
-            //    days[num].BackColor = Color.Cyan;
-            //};
-
-            f.Controls.Add(days[i]);
-        }
-    }
-}
-
-//[Serializable]
-public partial class file_line
-{
-    public List<TextBox> line_xml_file;
-    public List<TextBox> line_csv_folder;
-    public List<Options_up> options_csv;
-    public List<TextBox> line_csv_save_file;
-    public List<CheckBox> line_old_itms_remove;
-    public List<TextBox> line_data_Live;
-    public List<ListBox> line_modification_categories_file;
-    public List<string> line_modification_categories;
-    Button bt;
-    int line_count, line_step = 30, x_start = 12;
-
-    public file_line(Form1 f)
-    {
-        line_xml_file = new List<TextBox>();
-        line_csv_folder = new List<TextBox>();
-        options_csv = new List<Options_up>();
-        line_csv_save_file = new List<TextBox>();
-        line_old_itms_remove = new List<CheckBox>();
-        line_data_Live = new List<TextBox>();
-        line_modification_categories_file = new List<ListBox>();
-        line_modification_categories = new List<string>();
-        line_count = 0;
-
-        bt = new Button();
-        bt.Location = new Point(x_start, 273);
-        bt.Text = "Добавить";
-        bt.Click += (a, e) =>
-        {
-            add_line(f);
-        };
-        f.Controls.Add(bt);
-
-        add_line(f);
-        add_line(f);
-        add_line(f);
-
-    }
-    public void add_line(Form1 f)
-    {
-        TextBox[] tb_main = new TextBox[3];
-        int x = x_start, y = 275 + line_count * line_step, i = 0;
-
-        for (int index = 0; index < 3; index++) tb_main[index] = new TextBox();
-
-        foreach (TextBox tb_i in tb_main)
-        {
-            tb_i.Location = new Point(x, y); x += 220; // y = 273
-            tb_i.Size = new Size(216, 20);
-            tb_i.AllowDrop = true;
-
-            tb_i.DragDrop += (a, e) =>
-            {
-                string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-                tb_i.Text = file_name[0];
-                //f.global_xml = file_name[0];
-            };
-
-            tb_i.Leave += (a, e) =>
-            {
-                tb_i.Tag = tb_i.Text;
-            };
-
-
-            tb_i.DragEnter += (a, e) =>
-            {
-                e.Effect = DragDropEffects.All;
-            };
-
-            if (i == 0)
-                line_xml_file.Add(tb_i);
-            else if (i == 1)
-                line_csv_folder.Add(tb_i);
-            else
-                line_csv_save_file.Add(tb_i);
-            i++;
-
-            f.Controls.Add(tb_i);
-        }
-
-        CheckBox cb = new CheckBox();
-        TextBox tb = new TextBox();
-
-
-        x = 725; i = 0;
-        for (int index = 0; index < 2; index++)
-        {
-            if (i == 0)
-            {
-                cb.Location = new Point(x, y + 2); x += 75; // y = 277
-                cb.Size = new Size(14, 14);
-                line_old_itms_remove.Add(cb);
-            }
-            else
-            {
-                tb.Location = new Point(x, y);    // y = 273
-                tb.Size = new Size(27, 20);
-                line_data_Live.Add(tb);
-            }
-
-            f.Controls.Add(cb);
-            f.Controls.Add(tb);
-            i++;
-        }
-
-        ListBox lb = new ListBox();
-        lb.Location = new Point(867, y);      // y = 265
-        lb.Size = new Size(153, 27);
-        lb.BorderStyle = BorderStyle.FixedSingle;
-        lb.AllowDrop = true;
-        lb.Tag = "";
-
-        lb.DragEnter += (a, e) => { e.Effect = DragDropEffects.All; };
-        lb.DragDrop += (a, e) => {
-            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
-            string name;
-            Regex short_name = new Regex(@"(.*)(\\)((.*)*$)");
-            Match rx_short_name = short_name.Match(file_name[0]);
-            name = rx_short_name.Groups[3].Value;
-            lb.Items.Clear();
-            lb.Items.Add(name);
-            lb.Tag = file_name[0];
-            //line_modification_categories.Add(file_name[0]);
-        };
-
-        line_modification_categories_file.Add(lb);
-        f.Controls.Add(lb);
-
-        bt.Location = new Point(x_start, Convert.ToInt32(bt.Location.Y.ToString()) + line_step);
-        f.Height += line_step;
-        line_count++;
-    }
-    public List<Options_up> take_options_csv(int index, Form1 f)
-    {
-        string name_xml = Path.GetFileNameWithoutExtension(line_xml_file[index].Text);
-        string name_csv = name_xml + ".csv";
-        functions fn = new functions(f);
-
-        string tmp = @"tmp\l";
-        if (f.full.ya)
-        {
-            DirectoryInfo di = new DirectoryInfo(tmp);
-            if (!di.Exists)
-                di = Directory.CreateDirectory(tmp);
-            // /csv//xml.csv
-            if(Regex.IsMatch(line_csv_folder[index].Text, @"/$"))
-                name_csv = line_csv_folder[index].Text + name_csv;
-            else
-                name_csv = line_csv_folder[index].Text + "/" + name_csv;
-
-            bool save = false; ;
-            if (line_csv_folder[index].Text != "")
-                save = fn.ya_dl(name_csv, tmp);
-            if (!save && line_csv_folder[index].Text != "")
-                MessageBox.Show("Проверьте параметры аутентефикации и соответсвие ссылок для яндекс диска");
-        }
-        else
-        {
-            if (line_csv_folder[index].Text == "")
-                name_csv = Path.GetDirectoryName(line_xml_file[index].Text) + "\\" + name_csv;
-            else
-                name_csv = line_csv_folder[index].Text.ToString() + "\\" + name_csv;
-                // name_csv = line_csv_folder[index].Text.ToString();
-        }
-
-        try
-        {
-            string r;
-            if (f.full.ya)
-                r = tmp + @"\" + Path.GetFileName(name_csv);
-            else
-                r = name_csv;
-
-                using (var reader = new StreamReader(r, Encoding.GetEncoding(1251)))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-                {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HeaderValidated = null;
-                    csv.Configuration.MissingFieldFound = null;
-                    csv.Configuration.Encoding = Encoding.GetEncoding(1251);
-                    var info = new List<string>();
-                    csv.Configuration.BadDataFound = data => { 
-                        info.Add(data.RawRecord);
-                    };
-
-                    var l = csv.GetRecords<Options_up>();
-                    options_csv = l.ToList();
-                }
-
-            List<int> offer_ids = new List<int>();
-            string xml = "";
-
-            if (f.full.ya)
-            {
-                try { xml = File.ReadAllText(@"tmp\" + Path.GetFileName(f.line.line_xml_file[index].Text), Encoding.UTF8); }
-                catch { MessageBox.Show("Ошибка чтения xml файла с яндекс диска, проверьте аутентификационные и указывающие путь к файлу данные"); }
-            }
-            else
-            {
-                try { xml = File.ReadAllText(f.line.line_xml_file[index].Text.ToString(), Encoding.UTF8); }
-                catch {
-                    try
-                    {
-                        xml = new WebClient().DownloadString(f.line.line_xml_file[index].Text.ToString());
-                    }
-                    catch { MessageBox.Show("Ошибка чтения xml файла по url"); }
-                    MessageBox.Show("Ошибка чтения xml файла");
-                }
-            }
-            offer_ids = f.offer_get_id(new StringReader(xml)).ToList();
-
-            //DateTimeOffset dto = DateTimeOffset.Now; long start = dto.ToUnixTimeSeconds();
-
-            //foreach (Options_up item in options_csv)
-            //{
-            //    Regex id_tmpl = new Regex(@"(\d*)$");
-            //    Match id_m = id_tmpl.Match(item.ID);
-            //    item.id = Convert.ToInt32(id_m.Groups[0].Value);
-            //}
-
-            List<Options_up> clear_csv = new List<Options_up>();
-
-            clear_csv = options_csv.FindAll((op) =>
-            {
-                foreach (int item in offer_ids)
-                {
-                    if (Convert.ToInt32(op.ARTNUMBER) == item)
-                        return true;
-                }
-                return false;
-            }
-            );
-
-            return clear_csv;
-        }
-        catch/*(BadDataException i)*/ {
-            //MessageBox.Show(i.ToString());
-            return null;
-        }
-    }
-}
-
-public class option_csv
-{
-    public string ID { get; set; }
-    public int id;
-    public string proizvoditel { get; set; }
-    public string MATERIAL { get; set; }
-    public string DESCRIPTION { get; set; }
-    public string LENGTH_PACK { get; set; }
-    public string WIDTH_PACK { get; set; }
-    public string HEIGHT_PACK { get; set; }
-    public string WEIGHT_V { get; set; }
-    public string DELIVERY_PACKAGE_TYPE { get; set; }
-    public string DELIVERY_PACKAGE { get; set; }
-    public string WEIGHT { get; set; }
-    public string PRODUCT_COLOR { get; set; }
-}
-
-//[Serializable]
-//[DataContract]
-public class save
-{
-    public tre_save tre_conf { get; set; }
-    public configure e { get; set; }
-    public configure f { get; set; }
-    public Ssh ssh { get; set; }
-    public save(/*file_line line, */configure easy, configure full, Ssh ssh_conf, tre_save t_s)
-    {
-        /*l = line; */e = easy; f = full; ssh = ssh_conf; tre_conf = t_s;
-    }
-
-    public void load()
-    {
-        //
-    }
-}
 
 public class dl_url { public string href { get; set; } }

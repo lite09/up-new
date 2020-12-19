@@ -189,12 +189,12 @@ namespace up
             if (data_in_csv.Checked)
             {
                 f.full.data_in_csv = true;
-                use_xml_description.Enabled = true;
+                //use_xml_description.Enabled = true;
             }
             else
             {
                 f.full.data_in_csv = false;
-                use_xml_description.Enabled = false;
+                //use_xml_description.Enabled = false;
             }
         }
 
