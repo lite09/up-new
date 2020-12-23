@@ -40,6 +40,7 @@
             this.праToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.структураПапокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиSshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.описаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.открытьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.токенToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -130,6 +131,7 @@
             this.праToolStripMenuItem,
             this.структураПапокToolStripMenuItem,
             this.настройкиSshToolStripMenuItem,
+            this.описаниеToolStripMenuItem,
             this.открытьToolStripMenuItem,
             this.токенToolStripMenuItem,
             this.выходToolStripMenuItem});
@@ -164,6 +166,13 @@
             this.настройкиSshToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
             this.настройкиSshToolStripMenuItem.Text = "Настройки ssh";
             this.настройкиSshToolStripMenuItem.Click += new System.EventHandler(this.настройкиSshToolStripMenuItem_Click);
+            // 
+            // описаниеToolStripMenuItem
+            // 
+            this.описаниеToolStripMenuItem.Name = "описаниеToolStripMenuItem";
+            this.описаниеToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.описаниеToolStripMenuItem.Text = "Описание";
+            this.описаниеToolStripMenuItem.Click += new System.EventHandler(this.описаниеToolStripMenuItem_Click);
             // 
             // открытьToolStripMenuItem
             // 
@@ -555,6 +564,7 @@
         public System.Windows.Forms.CheckBox cb_ssh;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ToolStripMenuItem структураПапокToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem описаниеToolStripMenuItem;
     }
 }
 

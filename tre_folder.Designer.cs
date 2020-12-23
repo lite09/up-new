@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.tb_easy_del_old_itm = new System.Windows.Forms.TextBox();
-            this.tb_save_ids_dir = new System.Windows.Forms.TextBox();
             this.list_mod_catalog = new System.Windows.Forms.ListBox();
             this.options_lb = new System.Windows.Forms.ListBox();
             this.tre_folder = new System.Windows.Forms.TextBox();
@@ -42,7 +41,6 @@
             this.bool_mod_catalog = new System.Windows.Forms.CheckBox();
             this.label22 = new System.Windows.Forms.Label();
             this.options_label = new System.Windows.Forms.Label();
-            this.lb_save_ids = new System.Windows.Forms.Label();
             this.label_mod_catalog = new System.Windows.Forms.Label();
             this.hi = new System.Windows.Forms.Button();
             this.clear = new System.Windows.Forms.Button();
@@ -57,18 +55,6 @@
             this.tb_easy_del_old_itm.Size = new System.Drawing.Size(191, 20);
             this.tb_easy_del_old_itm.TabIndex = 77;
             this.tb_easy_del_old_itm.Leave += new System.EventHandler(this.tb_easy_del_old_itm_Leave);
-            // 
-            // tb_save_ids_dir
-            // 
-            this.tb_save_ids_dir.AllowDrop = true;
-            this.tb_save_ids_dir.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.tb_save_ids_dir.Location = new System.Drawing.Point(531, 19);
-            this.tb_save_ids_dir.Name = "tb_save_ids_dir";
-            this.tb_save_ids_dir.Size = new System.Drawing.Size(191, 20);
-            this.tb_save_ids_dir.TabIndex = 76;
-            this.tb_save_ids_dir.DragDrop += new System.Windows.Forms.DragEventHandler(this.tb_save_ids_dir_DragDrop);
-            this.tb_save_ids_dir.DragEnter += new System.Windows.Forms.DragEventHandler(this.tb_save_ids_dir_DragEnter);
-            this.tb_save_ids_dir.Leave += new System.EventHandler(this.tb_save_ids_dir_Leave);
             // 
             // list_mod_catalog
             // 
@@ -102,7 +88,7 @@
             this.tre_folder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.tre_folder.Location = new System.Drawing.Point(169, 31);
             this.tre_folder.Name = "tre_folder";
-            this.tre_folder.Size = new System.Drawing.Size(191, 20);
+            this.tre_folder.Size = new System.Drawing.Size(565, 20);
             this.tre_folder.TabIndex = 73;
             this.tre_folder.DragDrop += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragDrop);
             this.tre_folder.DragEnter += new System.Windows.Forms.DragEventHandler(this.tre_folder_DragEnter);
@@ -117,11 +103,9 @@
             this.groupBox7.Controls.Add(this.tre_folder_label);
             this.groupBox7.Controls.Add(this.tb_easy_del_old_itm);
             this.groupBox7.Controls.Add(this.cb_easy_del_old_itm);
-            this.groupBox7.Controls.Add(this.tb_save_ids_dir);
             this.groupBox7.Controls.Add(this.bool_mod_catalog);
             this.groupBox7.Controls.Add(this.label22);
             this.groupBox7.Controls.Add(this.options_label);
-            this.groupBox7.Controls.Add(this.lb_save_ids);
             this.groupBox7.Controls.Add(this.label_mod_catalog);
             this.groupBox7.Location = new System.Drawing.Point(12, 12);
             this.groupBox7.Name = "groupBox7";
@@ -215,16 +199,6 @@
             this.options_label.TabIndex = 55;
             this.options_label.Text = "Таблица свойств";
             // 
-            // lb_save_ids
-            // 
-            this.lb_save_ids.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lb_save_ids.ForeColor = System.Drawing.Color.DarkGreen;
-            this.lb_save_ids.Location = new System.Drawing.Point(371, 26);
-            this.lb_save_ids.Name = "lb_save_ids";
-            this.lb_save_ids.Size = new System.Drawing.Size(121, 16);
-            this.lb_save_ids.TabIndex = 58;
-            this.lb_save_ids.Text = "Папка сохранения id";
-            // 
             // label_mod_catalog
             // 
             this.label_mod_catalog.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -269,6 +243,8 @@
             this.Controls.Add(this.tre_folder);
             this.Controls.Add(this.groupBox7);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "tre_folder_form";
             this.Text = "Структура папок";
             this.groupBox7.ResumeLayout(false);
@@ -281,7 +257,6 @@
         #endregion
 
         public System.Windows.Forms.TextBox tb_easy_del_old_itm;
-        public System.Windows.Forms.TextBox tb_save_ids_dir;
         public System.Windows.Forms.ListBox list_mod_catalog;
         public System.Windows.Forms.ListBox options_lb;
         public System.Windows.Forms.TextBox tre_folder;
@@ -291,7 +266,6 @@
         public System.Windows.Forms.CheckBox bool_mod_catalog;
         private System.Windows.Forms.Label options_label;
         public System.Windows.Forms.Label label22;
-        public System.Windows.Forms.Label lb_save_ids;
         public System.Windows.Forms.Label label_mod_catalog;
         private System.Windows.Forms.Button hi;
         public System.Windows.Forms.TextBox tb_full_del_old_itm;

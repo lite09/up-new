@@ -262,6 +262,8 @@
             this.Controls.Add(this.exception_rules_xml);
             this.Controls.Add(this.gr_box);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form2";
             this.ShowInTaskbar = false;
             this.Text = "Упрощенный режим";

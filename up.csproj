@@ -130,6 +130,12 @@
     <Compile Include="classes\tre_save.cs" />
     <Compile Include="classes\file_line.cs" />
     <Compile Include="classes\configure.cs" />
+    <Compile Include="description.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="description.Designer.cs">
+      <DependentUpon>description.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
       <DependentUpon>tre_folder.cs</DependentUpon>
     </Compile>
     <Compile Include="classes\xml_offer.cs" />
+    <EmbeddedResource Include="description.resx">
+      <DependentUpon>description.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

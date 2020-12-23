@@ -128,25 +128,25 @@ namespace up
             form1.tre_conf.tre_list_categoryes.RemoveAt(0);
         }
 
-        private void tb_save_ids_dir_Leave(object sender, EventArgs e)
-        {
-            form1.tre_conf.save_ids_dir = tb_save_ids_dir.Text;
-        }
+        //private void tb_save_ids_dir_Leave(object sender, EventArgs e)
+        //{
+        //    form1.tre_conf.save_ids_dir = tb_save_ids_dir.Text;
+        //}
 
-        private void tb_save_ids_dir_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
+        //private void tb_save_ids_dir_DragEnter(object sender, DragEventArgs e)
+        //{
+        //    e.Effect = DragDropEffects.All;
+        //}
 
-        private void tb_save_ids_dir_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+        //private void tb_save_ids_dir_DragDrop(object sender, DragEventArgs e)
+        //{
+        //    string[] file_name = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
-            if (Directory.Exists(file_name[0]))
-                tb_save_ids_dir.Text = form1.tre_conf.save_ids_dir = file_name[0];
-            else
-                tb_save_ids_dir.Text = form1.tre_conf.save_ids_dir = Path.GetDirectoryName(file_name[0]);
-        }
+        //    if (Directory.Exists(file_name[0]))
+        //        tb_save_ids_dir.Text = form1.tre_conf.save_ids_dir = file_name[0];
+        //    else
+        //        tb_save_ids_dir.Text = form1.tre_conf.save_ids_dir = Path.GetDirectoryName(file_name[0]);
+        //}
 
         private void hi_Click(object sender, EventArgs e)
         {

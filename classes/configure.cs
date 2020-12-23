@@ -58,6 +58,7 @@ namespace up
         public string gred_file;                        // файл с размерными сетками
         public string file_coefficient_package_mass;    // файл с коэффициентами габаритов и массы
         public string file_colors;                      // фаил с заменой цветов
+        public string description;                      // описание
 
         // Коэффициенты для габаритов и массы
         public List<cfg_data.coefficient_of_package>
@@ -76,8 +77,10 @@ namespace up
         public bool output_base_price;                  // вывод базовой цены в результирующий файл
                                                         // public bool quantity_change;                 // замена слов на цифры
         public bool no_watermark;
-        public bool use_xml_description;                // вкл - описание берется из xml и csv, выкл - только csv
-                                                        //public bool use_xml_color;                    // отключенна
+        public bool use_option_description;             // описание берется из доп фаила
+        public bool use_xml_description;                // описание берется из xml
+        public bool none_description;                   // описание нет
+
         public bool transform_packing_size;             // Изменение данных упаковки из xml, корректировка не полных габаритов
         public bool del_not_full_packing_size;          // Удаление не полных габаритов
 

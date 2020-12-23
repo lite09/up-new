@@ -166,6 +166,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label22);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Ssh_form";
             this.Text = "Настройки ssh";
             this.ResumeLayout(false);

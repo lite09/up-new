@@ -20,7 +20,7 @@ namespace up
                                                                            // ------------------------------ config for folder tre ------------------------------
 
         // --------------------------- сохранение id для easy mode ---------------------------
-        public string save_ids_dir;
+        //public string save_ids_dir;
         public string get_ids_dir;
         // --------------------------- сохранение id для easy mode ---------------------------
     }

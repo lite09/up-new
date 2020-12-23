@@ -218,12 +218,6 @@ namespace up
             else f.full.add_articule_to_short_name = false;
         }
 
-        private void Use_xml_description_CheckedChanged(object sender, EventArgs e)
-        {
-            if (use_xml_description.Checked) f.full.use_xml_description = true;
-            else f.full.use_xml_description = false;
-        }
-
         private void No_watermark_CheckedChanged(object sender, EventArgs e)
         {
             if (no_watermark.Checked) f.full.no_watermark = true;
@@ -438,6 +432,30 @@ namespace up
             }
 
             f.f.clear_configure("full");
+        }
+
+        private void none_description_Enter(object sender, EventArgs e)
+        {
+            f.full.use_xml_description = false;
+            f.full.use_option_description = false;
+            f.full.none_description = true;
+            richTextBox1.Text = "none";
+        }
+
+        private void use_xml_description_Enter(object sender, EventArgs e)
+        {
+            f.full.use_xml_description = true;
+            f.full.use_option_description = false;
+            f.full.none_description = false;
+            richTextBox1.Text = "xml";
+        }
+
+        private void use_option_description_Enter(object sender, EventArgs e)
+        {
+            f.full.use_xml_description = false;
+            f.full.use_option_description = true;
+            f.full.none_description = false;
+            richTextBox1.Text = "option";
         }
     }
 }

@@ -287,33 +287,41 @@ namespace up
 
             if (data.f.data_in_csv)
             {
-                try { f3.data_in_csv.Checked = true; } catch { }
-                f3.use_xml_description.Enabled = true;
+                try { f3.data_in_csv.Checked = true; } catch {}
             }
 
             if (data.f.use_xml_description)
-                try { f3.use_xml_description.Checked = true; } catch { }
+                try { f3.use_xml_description.Checked = true; } catch {}
+            else if (data.f.use_option_description)
+                try { f3.use_option_description.Checked = true; } catch {}
+            else
+            {
+                try { f3.none_description.Checked = true; } catch {}
+                data.f.none_description = true;
+                data.f.use_xml_description = false;
+                data.f.use_option_description = false;
+            }
 
             if (data.f.no_watermark)
-                try { f3.no_watermark.Checked = true; } catch { }
+                try { f3.no_watermark.Checked = true; } catch {}
 
             if (data.f.use_short_name)
             {
-                try { f3.use_short_name.Checked = true; } catch { }
+                try { f3.use_short_name.Checked = true; } catch {}
                 f3.add_articule_to_short_name.Enabled = true;
             }
 
             if (data.f.add_articule_to_short_name)
-                try { f3.add_articule_to_short_name.Checked = true; } catch { }
+                try { f3.add_articule_to_short_name.Checked = true; } catch {}
 
             if (data.f.check_delivery_options)
-                try { f3.exclude_in_other_store.Checked = true; } catch { }
+                try { f3.exclude_in_other_store.Checked = true; } catch {}
 
             if (data.f.get_min_sale)
-                try { f3.correction_of_quantity.Checked = true; } catch { }
+                try { f3.correction_of_quantity.Checked = true; } catch {}
 
             if (data.f.output_base_price)
-                try { f3.use_base_price.Checked = true; } catch { }
+                try { f3.use_base_price.Checked = true; } catch {}
 
             if (data.f.file_to_create_new_price != null && data.f.coefficient.Count > 0)
             {
@@ -328,7 +336,7 @@ namespace up
             }
 
             if (data.f.gred)
-                try { f3.gred.Checked = true; } catch { }
+                try { f3.gred.Checked = true; } catch {}
 
             if (data.f.gred_file != null && data.f.gls != null)
             {
@@ -339,11 +347,11 @@ namespace up
             if (data.f.transform_packing_size)
             {
                 f3.del_not_full_packing_size.Enabled = true;
-                try { f3.transform_packing_size.Checked = true; } catch { }
+                try { f3.transform_packing_size.Checked = true; } catch {}
             }
 
             if (data.f.del_not_full_packing_size)
-                try { f3.del_not_full_packing_size.Checked = true; } catch { }
+                try { f3.del_not_full_packing_size.Checked = true; } catch {}
 
             if (data.f.type_of_package != null)
                 f3.type_of_package.Text = data.f.type_of_package;
@@ -425,8 +433,10 @@ namespace up
             if (data.tre_conf.tre_full_del_old_itm_count != "")
                 tre_form_obj.tb_full_del_old_itm.Text = data.tre_conf.tre_full_del_old_itm_count;
             // ---------------------------------------- tree del_old_itm -----------------------------------------
-            if (data.tre_conf.save_ids_dir != null)
-                tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
+            //if (data.tre_conf.save_ids_dir != null)
+            //    tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
+            if (data.f.description.Length > 0)
+                f.description_form.tb_description.Text = data.f.description;
             // ---------------------------------------------------------- full ----------------------------------------------------------
 
         }
@@ -492,20 +502,32 @@ namespace up
             cfg_data cfg = new cfg_data();
             cfg.options = f.tre_conf.head_options;
             cfg.prepositions = Form1.prepositions;
-            cfg.stop_words = Form1.stop_words;
+            //cfg.stop_words = Form1.stop_words;
             cfg.coefficients = f.full.coefficient;
             cfg.coefficients_volume_and_mass = f.full.coefficient_package_mass;
 
-            string[] files_xml = Directory.GetDirectories(f.tre_conf.tre_folder + "\\XML");
+            string[] files_xml = {};
+            try
+            {
+                files_xml = Directory.GetDirectories(f.tre_conf.tre_folder + "\\XML");
+            }
+            catch { MessageBox.Show("Не правильный путь к основной папке"); }
 
             bool th = ThreadPool.SetMaxThreads(f.threads, f.threads);
 
 
             foreach (string dir in files_xml)
             {
-                object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg" };
-                ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
-                Thread.Sleep(63);
+                object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.tb_description.Text };
+                try
+                {
+                    ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
+                }
+                catch
+                {
+                    MessageBox.Show("hi me");
+                }
+                Thread.Sleep(14000);
             }
         }
         public void tre_threads_offer(string type)

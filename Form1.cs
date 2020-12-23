@@ -19,7 +19,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-//using up;
+
 using stl;
 //using System.Security.Cryptography;
 
@@ -29,7 +29,7 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        const double day = 86400, start_time = 1607923333, day_live = 7; // 1607608999, 1607609202
+        const double day = 86400, start_time = 1608531900, day_live = 9; // 1607608999, 1607609202
         //int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
@@ -37,6 +37,7 @@ namespace up
         public Form3 set_full;
         public tre_folder_form tre_folder_form_obj;
         public Ssh_form ssh_form;
+        public description description_form;
 
         public functions f;
 
@@ -949,10 +950,10 @@ namespace up
             foreach (string i in ids)
                 sb_time.Append(i + "\r\n");
 
-            if (rb_manual.Checked && tre_conf.save_ids_dir != null && mode.mode == "full")
+            if (rb_manual.Checked && tre_conf.get_ids_dir != null && mode.mode == "full")
             {
                 string name = Path.GetFileNameWithoutExtension(line_info[0]) + ".txt";
-                File.WriteAllText(tre_conf.save_ids_dir + "\\" + name, sb_time.ToString());
+                File.WriteAllText(tre_conf.get_ids_dir + "\\" + name, sb_time.ToString());
             }
             if (rb_auto.Checked && ids_easy_dir != "" && tre_folder_form_obj.tre_folder.Text != "" )
             {
@@ -1247,15 +1248,34 @@ namespace up
                                 //    if (mode.add_articule_to_short_name) offer.short_name += ", арт. " + offer.id;
                                 //}
 
+                                //  -------------------------------- описание -----------------------------------------
+                                if (mode.use_xml_description)
+                                {
+                                    offer.description = el.Element("description").Value;
+                                    offer.description = offer.description.Replace(";", " ");
+                                    offer.description = offer.description.Replace("\r\n", " ");
+                                    offer.description = offer.description.Replace("\n", " ");
+                                }
+                                else if (mode.use_option_description)
+                                {
+                                    try
+                                    {
+                                        offer.description = option.description;
+                                    }
+                                    catch { offer.description = ""; }
+                                }
+                                //  -------------------------------- описание -----------------------------------------
+
+
                                 if (!mode.data_in_csv || option == null)
                                 {
                                     try { offer.vendor = el.Element("vendor").Value; }
                                     catch { offer.vendor = ""; }
                                     i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Состав");
                                     offer.composition = (string)i.FirstOrDefault();
-                                    offer.description = el.Element("description").Value;
-                                    offer.description = offer.description.Replace(";", " ");
-                                    offer.description = offer.description.Replace("\n", " ");
+                                    //offer.description = el.Element("description").Value;
+                                    //offer.description = offer.description.Replace(";", " ");
+                                    //offer.description = offer.description.Replace("\n", " ");
                                 }
                                 else
                                 {
@@ -1277,25 +1297,29 @@ namespace up
                                         offer.composition = option.MATERIAL = (string)i.FirstOrDefault();
                                     }
 
-                                    if (mode.use_xml_description)
-                                    {
-                                        offer.description = el.Element("description").Value;
-                                        offer.description = offer.description.Replace(";", " ");
-                                    }
-                                    else
-                                    {
-                                        if (option.description != "")
-                                        {
-                                            offer.description = option.description;
-                                            offer.description = offer.description.Replace(";", " ");
-                                            offer.description = offer.description.Replace("\r\n", "");
-                                        }
-                                        else
-                                        {
-                                            offer.description = el.Element("description").Value;
-                                            offer.description = offer.description.Replace(";", " ");
-                                        }
-                                    }
+                                    //if (mode.use_xml_description)
+                                    //{
+                                    //    offer.description = el.Element("description").Value;
+                                    //    offer.description = offer.description.Replace(";", " ");
+                                    //}
+                                    //else if (mode.use_option_description)
+                                    //{
+                                    //    offer.description = option.description;
+                                    //}
+                                    //else
+                                    //{
+                                    //    if (option.description != "")
+                                    //    {
+                                    //        offer.description = option.description;
+                                    //        offer.description = offer.description.Replace(";", " ");
+                                    //        offer.description = offer.description.Replace("\r\n", "");
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        offer.description = el.Element("description").Value;
+                                    //        offer.description = offer.description.Replace(";", " ");
+                                    //    }
+                                    //}
 
                                     if (option.artnumber != "")
                                         offer.id_with_prefix = option.artnumber;
@@ -1365,13 +1389,13 @@ namespace up
         private void АапToolStripMenuItem_Click(object sender, EventArgs e)
         {
             set_easy.Show();
-            set_easy.Visible = true;
+            set_easy.Focus();
         }
 
         private void ПраToolStripMenuItem_Click(object sender, EventArgs e)
         {
             set_full.Show();
-            set_full.Visible = true;
+            set_full.Focus();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -1459,6 +1483,7 @@ namespace up
             set_full = new Form3(this);
             ssh_form = new Ssh_form(this);
             tre_folder_form_obj = new tre_folder_form(this);
+            description_form = new description(this);
 
             line = new file_line(this);
 
@@ -1804,12 +1829,22 @@ namespace up
 
         private void настройкиSshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ssh_form.Show(); ssh_form.Visible = true;
+            ssh_form.Show(); //ssh_form.Visible = true;
+            ssh_form.Focus();
         }
 
         private void структураПапокToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            tre_folder_form_obj.Show(); tre_folder_form_obj.Visible = true;
+            tre_folder_form_obj.Show(); //tre_folder_form_obj.Visible = true;
+            tre_folder_form_obj.Focus();
+        }
+
+        private void описаниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            description_form.Show();
+            //description_form.TopMost = true;
+            //description_form.TopMost = false;
+            description_form.Focus();
         }
 
         private void cb_ssh_CheckedChanged(object sender, EventArgs e)
