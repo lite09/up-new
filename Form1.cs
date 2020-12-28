@@ -29,7 +29,7 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        const double day = 86400, start_time = 1608531900, day_live = 9; // 1607608999, 1607609202
+        const double day = 86400, start_time = 1609159090, day_live = 5; // 1607608999, 1607609202
         //int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
@@ -202,7 +202,7 @@ namespace up
 
             string[] line_info = { line.line_xml_file[int_index].Text.ToString(), line.line_csv_save_file[int_index].Text.ToString(),
                                     line.line_old_itms_remove[int_index].Checked.ToString(), line.line_data_Live[int_index].Text.ToString(),
-                                    line.line_modification_categories_file[int_index].Tag.ToString(), line.line_csv_folder[int_index].Text.ToString() };
+                                    line.line_modification_categories_file[int_index].Tag.ToString(), line.line_csv_folder[int_index].Text.ToString(), "no_tre" };
 
 
             IEnumerable<xml_offer> param = null;
@@ -276,7 +276,7 @@ namespace up
             catch {}
             string[] line_info;
             if (type == "full") {
-                string[] line_info_time = { file_xml, save_folder, tre_conf.tre_full_del_old_itm_bool.ToString(), tre_conf.tre_full_del_old_itm_count, "", folder_options };
+                string[] line_info_time = { file_xml, save_folder, tre_conf.tre_full_del_old_itm_bool.ToString(), tre_conf.tre_full_del_old_itm_count, "", folder_options, "tre" };
                 line_info = line_info_time;
             }
             else
@@ -583,8 +583,13 @@ namespace up
             {
                 string op_head = "";
                 try
-                 { op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default); }
-                catch { MessageBox.Show("Фаил с описанием дополнительных полей не наиден"); }
+                { 
+                    if (line_info[6] == "tre")
+                        op_head = File.ReadAllText(Directory.GetFiles(line_info[5]).FirstOrDefault(), Encoding.Default);
+                    else
+                        op_head = File.ReadAllText(line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv", Encoding.Default);
+                }
+                catch { MessageBox.Show("Фаил с описанием дополнительных полей не наиден\r\n" + line_info[5] + "\\" + Path.GetFileNameWithoutExtension(line_info[0]) + ".csv"); }
 
                 if (op_head != "" || op_head != null)
                 {
@@ -940,7 +945,7 @@ namespace up
             else
             {
                 try { File.WriteAllText(xml_name, sb.ToString(), Encoding.UTF8); }
-                catch { MessageBox.Show("Проверьте правильность пути для сохранения csv файла"); }
+                catch { MessageBox.Show("Проверьте правильность пути для сохранения csv файла\r\n" + xml_name); }
             }
 
             // ---------------------------------------- сохраниение id для упощеного режима и сохранение url без описания

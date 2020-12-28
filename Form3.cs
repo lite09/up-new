@@ -439,7 +439,7 @@ namespace up
             f.full.use_xml_description = false;
             f.full.use_option_description = false;
             f.full.none_description = true;
-            richTextBox1.Text = "none";
+            //richTextBox1.Text = "none";
         }
 
         private void use_xml_description_Enter(object sender, EventArgs e)
@@ -447,7 +447,7 @@ namespace up
             f.full.use_xml_description = true;
             f.full.use_option_description = false;
             f.full.none_description = false;
-            richTextBox1.Text = "xml";
+            //richTextBox1.Text = "xml";
         }
 
         private void use_option_description_Enter(object sender, EventArgs e)
@@ -455,7 +455,7 @@ namespace up
             f.full.use_xml_description = false;
             f.full.use_option_description = true;
             f.full.none_description = false;
-            richTextBox1.Text = "option";
+            //richTextBox1.Text = "option";
         }
     }
 }

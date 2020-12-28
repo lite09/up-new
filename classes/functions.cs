@@ -521,13 +521,16 @@ namespace up
                 object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.tb_description.Text };
                 try
                 {
-                    ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
+                    object i = new object();
+                    lock(i) {
+                        ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("hi me");
+                    MessageBox.Show("Ошибка формирования доп файла, файл xml:" + Convert.ToString(hi[0]));
                 }
-                Thread.Sleep(14000);
+                //Thread.Sleep(14000);
             }
         }
         public void tre_threads_offer(string type)
