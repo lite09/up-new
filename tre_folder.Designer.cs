@@ -193,9 +193,9 @@
             // 
             this.options_label.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.options_label.ForeColor = System.Drawing.Color.DarkGreen;
-            this.options_label.Location = new System.Drawing.Point(9, 66);
+            this.options_label.Location = new System.Drawing.Point(9, 63);
             this.options_label.Name = "options_label";
-            this.options_label.Size = new System.Drawing.Size(100, 17);
+            this.options_label.Size = new System.Drawing.Size(102, 17);
             this.options_label.TabIndex = 55;
             this.options_label.Text = "Таблица свойств";
             // 
