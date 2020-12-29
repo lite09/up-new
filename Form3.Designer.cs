@@ -109,9 +109,9 @@
             // 
             this.label3.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label3.Location = new System.Drawing.Point(9, 12);
+            this.label3.Location = new System.Drawing.Point(8, 12);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(93, 19);
+            this.label3.Size = new System.Drawing.Size(94, 19);
             this.label3.TabIndex = 36;
             this.label3.Text = "Префикс для id";
             // 
@@ -195,7 +195,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(126, 31);
             this.label1.TabIndex = 52;
-            this.label1.Text = "Таблица множителей габаритов и массы";
+            this.label1.Text = "Таблица множителей\r\n габаритов и массы";
             // 
             // coefficient_package_mass
             // 
@@ -273,9 +273,9 @@
             this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label8.Location = new System.Drawing.Point(6, 57);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(141, 52);
+            this.label8.Size = new System.Drawing.Size(137, 31);
             this.label8.TabIndex = 55;
-            this.label8.Text = "Таблица стандартизации цветов";
+            this.label8.Text = "Таблица\r\n стандартизации цветов";
             // 
             // color
             // 
@@ -356,9 +356,9 @@
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label4.Location = new System.Drawing.Point(4, 75);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 32);
+            this.label4.Size = new System.Drawing.Size(94, 32);
             this.label4.TabIndex = 43;
-            this.label4.Text = "Формирование розничных цен";
+            this.label4.Text = "Формирование\r\n розничных цен";
             // 
             // label5
             // 
@@ -366,9 +366,9 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label5.Location = new System.Drawing.Point(12, 406);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(139, 30);
+            this.label5.Size = new System.Drawing.Size(102, 30);
             this.label5.TabIndex = 44;
-            this.label5.Text = "Преобразование количества";
+            this.label5.Text = "Преобразование\r\n количества";
             // 
             // add_articule_to_short_name
             // 
@@ -535,13 +535,13 @@
             // 
             // label2
             // 
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 11.25F);
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 9.75F);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label2.Location = new System.Drawing.Point(9, 39);
+            this.label2.Location = new System.Drawing.Point(8, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 34);
+            this.label2.Size = new System.Drawing.Size(83, 34);
             this.label2.TabIndex = 73;
-            this.label2.Text = "Фильтр исключений";
+            this.label2.Text = "Фильтр\r\n исключений";
             // 
             // groupBox5
             // 
@@ -588,7 +588,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(139, 52);
             this.label9.TabIndex = 57;
-            this.label9.Text = "Соотнесение таблиц размеров для ID категорий";
+            this.label9.Text = "Соотнесение таблиц\r\n размеров для ID\r\n категорий";
             // 
             // groupBox3
             // 

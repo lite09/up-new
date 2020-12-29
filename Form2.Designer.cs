@@ -50,23 +50,23 @@
             // 
             // label5
             // 
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 9.75F);
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label5.Location = new System.Drawing.Point(6, 278);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(113, 42);
             this.label5.TabIndex = 30;
-            this.label5.Text = "Преобразование количества";
+            this.label5.Text = "Преобразование\r\n количества";
             // 
             // label4
             // 
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 9.75F);
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
             this.label4.Location = new System.Drawing.Point(6, 225);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(110, 39);
             this.label4.TabIndex = 29;
-            this.label4.Text = "Формирование розничных цен";
+            this.label4.Text = "Формирование\r\n розничных цен";
             // 
             // correction_quantity
             // 
@@ -129,7 +129,7 @@
             this.exclude_in_other_store.Name = "exclude_in_other_store";
             this.exclude_in_other_store.Size = new System.Drawing.Size(334, 34);
             this.exclude_in_other_store.TabIndex = 24;
-            this.exclude_in_other_store.Text = "Исключить товары с других складов              ";
+            this.exclude_in_other_store.Text = "Исключить товары с других складов";
             this.exclude_in_other_store.UseVisualStyleBackColor = true;
             this.exclude_in_other_store.CheckedChanged += new System.EventHandler(this.Exclude_in_other_store_CheckedChanged);
             // 
@@ -147,21 +147,21 @@
             // 
             this.label3.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.ForeColor = System.Drawing.Color.DarkGreen;
-            this.label3.Location = new System.Drawing.Point(6, 16);
+            this.label3.Location = new System.Drawing.Point(9, 16);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 18);
+            this.label3.Size = new System.Drawing.Size(79, 18);
             this.label3.TabIndex = 22;
             this.label3.Text = "Префикс для id";
             // 
             // label2
             // 
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 11.25F);
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 9.75F);
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.label2.Location = new System.Drawing.Point(6, 46);
+            this.label2.Location = new System.Drawing.Point(9, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(113, 35);
+            this.label2.Size = new System.Drawing.Size(79, 30);
             this.label2.TabIndex = 21;
-            this.label2.Text = "Фильтр исключений";
+            this.label2.Text = "Фильтр\r\n исключений";
             // 
             // exception_rules_xml
             // 
