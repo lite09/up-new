@@ -1542,6 +1542,8 @@ namespace up
             get_stop_words();
             for (int i = 1; i <= CPU; ++i)
                 CPU_get.Items.Add(i);
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         }
 
 

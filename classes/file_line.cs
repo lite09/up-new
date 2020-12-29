@@ -221,7 +221,7 @@ namespace up
                             xml = new WebClient().DownloadString(f.line.line_xml_file[index].Text.ToString());
                         }
                         catch { MessageBox.Show("Ошибка чтения xml файла по url"); }
-                        MessageBox.Show("Ошибка чтения xml файла");
+                        //MessageBox.Show("Ошибка чтения xml файла");
                     }
                 }
                 offer_ids = f.offer_get_id(new StringReader(xml)).ToList();
