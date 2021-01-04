@@ -29,7 +29,7 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        const double day = 86400, start_time = 1609159090, day_live = 5; // 1607608999, 1607609202
+        const double day = 86400, start_time = 1609636339, day_live = 14; // 1607608999, 1607609202
         //int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
@@ -939,12 +939,12 @@ namespace up
 
             if (mode.ya)
             {
-                File.WriteAllText("tmp\\" + xml_name, sb.ToString(), Encoding.UTF8);
+                File.WriteAllText("tmp\\" + xml_name, sb.ToString(), new UTF8Encoding(false));
                 f.ya_up("tmp\\" + xml_name, lf);
             }
             else
             {
-                try { File.WriteAllText(xml_name, sb.ToString(), Encoding.UTF8); }
+                try { File.WriteAllText(xml_name, sb.ToString(), new UTF8Encoding(false)); }
                 catch { MessageBox.Show("Проверьте правильность пути для сохранения csv файла\r\n" + xml_name); }
             }
 
