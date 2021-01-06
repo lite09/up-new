@@ -257,6 +257,8 @@ namespace up
 
             // хмл, фаил с опциями, режим
             object[] inf = info as object[];
+            if (inf[0] == null)
+                return;
             string file_xml     = Convert.ToString(inf[0]);
             string file_options = Convert.ToString(inf[1]);
             string type         = Convert.ToString(inf[2]);

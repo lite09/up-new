@@ -518,9 +518,11 @@ namespace up
 
             foreach (string dir in files_xml)
             {
-                object[] hi = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.tb_description.Text };
+                object[] hi = { "" };
                 try
                 {
+                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.tb_description.Text };
+                    hi = hi_tmp;
                     object i = new object();
                     lock(i) {
                         ThreadPool.QueueUserWorkItem(f.stl.make_op, hi);
@@ -548,7 +550,12 @@ namespace up
             string[] tre_ops = new string[tre_xml_dirs.Length];
             for (int i = 0; i < tre_xml_dirs.Length; i++)
             {
-                tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
+                try
+                {
+                    tre_xmls[i] = Directory.GetFiles(tre_xml_dirs[i])[0];
+                }
+                catch { continue; }
+
                 tre_ops[i] = tre_xml_dirs[i] + "\\Dop_file\\";
                 try { tre_ops[i] += Path.GetFileName(Directory.GetFiles(tre_ops[i])[0]); }
                 catch { tre_ops[i] = ""; }
