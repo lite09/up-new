@@ -258,22 +258,6 @@ namespace up
             }
             if (data.tre_conf.get_ids_dir != null)
                 e.tb_ids_folder.Text = data.tre_conf.get_ids_dir;
-            //// ---------------------------------------- tree del_old_itm -----------------------------------------
-            //if (data.tre_conf.tre_easy_del_old_itm_bool)
-            //{
-            //    tre_form_obj.label22.Enabled = true;
-            //    tre_form_obj.tb_easy_del_old_itm.Enabled = true;
-            //    try { tre_form_obj.cb_easy_del_old_itm.Checked = true; } catch {}
-            //}
-            //else
-            //{
-            //    tre_form_obj.label22.Enabled = false;
-            //    tre_form_obj.tb_easy_del_old_itm.Enabled = false;
-            //    try { tre_form_obj.cb_easy_del_old_itm.Checked = false; } catch {}
-            //}
-            //if (data.tre_conf.tre_easy_del_old_itm_count != "")
-            //    tre_form_obj.tb_easy_del_old_itm.Text = data.tre_conf.tre_easy_del_old_itm_count;
-            //// ---------------------------------------- tree del_old_itm -----------------------------------------
             // ---------------------------------------------------------- easy ----------------------------------------------------------
             // ---------------------------------------------------------- full ----------------------------------------------------------
             if (data.f.prefix_for_id != "")
@@ -637,6 +621,28 @@ namespace up
             url = get_url.Match(url).Groups[1].Value;
 
             return url;
+        }
+        public void live(object obj)
+        {
+            object[] inf = obj as object[];
+            Form1 this_form = (Form1)inf[2];
+            string time;
+            double u_time, hi;
+            const double day = 86400;
+            double start_time = Convert.ToDouble(inf[0]), day_live = Convert.ToDouble(inf[1]);
+            Regex reg_u_time = new Regex("unixtime:\\s*(\\d*)");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            WebClient wc = new WebClient();
+            try
+            {
+                time = wc.DownloadString("http://worldtimeapi.org/api/timezone/Asia/Kamchatka.txt");
+                u_time = Convert.ToInt32(reg_u_time.Match(time).Groups[1].Value);
+                hi = (u_time - start_time) / day;
+
+                if (hi > day_live || u_time < start_time)
+                    this_form.Invoke((MethodInvoker)(() => this_form.Close()));
+            }
+            catch { /*return true;*/ }
         }
     }
 }

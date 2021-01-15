@@ -29,7 +29,7 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        const double day = 86400, start_time = 1609636339, day_live = 14; // 1607608999, 1607609202
+        const double day = 86400, start_time = 1610633390, day_live = 2; // 1607608999, 1607609202
         //int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
@@ -1866,23 +1866,10 @@ namespace up
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-
-            string time;
-            double u_time;
-            Regex reg_u_time = new Regex("unixtime:\\s*(\\d*)");
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            WebClient wc = new WebClient();
-            try
-            {
-                time = wc.DownloadString("http://worldtimeapi.org/api/timezone/Asia/Kamchatka.txt");
-                u_time = Convert.ToInt32(reg_u_time.Match(time).Groups[1].Value);
-
-                //u_time -= 7 * day;
-                double hi = (u_time - start_time) / day;
-                if (hi > day_live || u_time < start_time)
-                    Close();
-            }
-            catch {}
+            object[] hi = { start_time, day_live, this };
+            functions fs = new functions();
+            ThreadPool.QueueUserWorkItem(fs.live, hi);
+            //if (!functions.live(start_time, day_live)) Close();
         }
 
         private void Shed_Click(object sender, EventArgs e)
