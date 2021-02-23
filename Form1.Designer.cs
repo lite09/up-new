@@ -81,7 +81,7 @@
             // 
             // timer2
             // 
-            this.timer2.Interval = 30000;
+            this.timer2.Interval = 300;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // button1
@@ -522,7 +522,6 @@
 
         #endregion
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
@@ -565,6 +564,7 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.ToolStripMenuItem структураПапокToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem описаниеToolStripMenuItem;
+        public System.Windows.Forms.RichTextBox richTextBox2;
     }
 }
 

@@ -419,7 +419,7 @@ namespace up
             // ---------------------------------------- tree del_old_itm -----------------------------------------
             //if (data.tre_conf.save_ids_dir != null)
             //    tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
-            if (data.f.description.Length > 0)
+            if (data.f.description != null && data.f.description.Length > 0)
                 f.description_form.tb_description.Text = data.f.description;
             // ---------------------------------------------------------- full ----------------------------------------------------------
 
@@ -637,12 +637,14 @@ namespace up
             {
                 time = wc.DownloadString("http://worldtimeapi.org/api/timezone/Asia/Kamchatka.txt");
                 u_time = Convert.ToInt32(reg_u_time.Match(time).Groups[1].Value);
+                //this_form.richTextBox2.Text = u_time.ToString();
+                //this_form.richTextBox2.Invoke((MethodInvoker)(() => this_form.richTextBox2.Text += u_time.ToString() + "\r\n"));
                 hi = (u_time - start_time) / day;
 
                 if (hi > day_live || u_time < start_time)
                     this_form.Invoke((MethodInvoker)(() => this_form.Close()));
             }
-            catch { /*return true;*/ }
+            catch {}
         }
     }
 }

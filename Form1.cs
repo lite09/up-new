@@ -29,7 +29,7 @@ namespace up
     public partial class Form1 : Form
     {
         List<Thread> th_s = new List<Thread>();
-        const double day = 86400, start_time = 1610633390, day_live = 2; // 1607608999, 1607609202
+        const double day = 86400, start_time = 1610633390, day_live = 20; // 1607608999, 1607609202
         //int hi_time = 90;
 
         public Form_stl stl = new Form_stl();
@@ -654,7 +654,8 @@ namespace up
                 {
                     foreach (var item in mode.gred_list)
                     {
-
+                        if (offer.vendor == null)
+                            continue;
                         if (offer.vendor.ToLower() == item.Key.GetValue(0).ToString().ToLower())
                         {
                             if (item.Value.Count == 0)
@@ -1273,11 +1274,14 @@ namespace up
                                 }
                                 //  -------------------------------- описание -----------------------------------------
 
-
+                                if (offer.id == "105161")
+                                {
+                                    //
+                                }
                                 if (!mode.data_in_csv || option == null)
                                 {
                                     try { offer.vendor = el.Element("vendor").Value; }
-                                    catch { offer.vendor = ""; }
+                                     catch { offer.vendor = ""; }
                                     i = el.Elements("param").Where(e => (string)e.Attribute("name") == "Состав");
                                     offer.composition = (string)i.FirstOrDefault();
                                     //offer.description = el.Element("description").Value;
@@ -1286,7 +1290,7 @@ namespace up
                                 }
                                 else
                                 {
-                                    if (option.proizvoditel != "")
+                                    if (option.proizvoditel != null && option.proizvoditel != "")
                                         offer.vendor = option.proizvoditel;
                                     else
                                     {
@@ -1472,11 +1476,11 @@ namespace up
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            timer2.Enabled = true;
+/*            timer2.Enabled = true;
             DateTimeOffset dto = DateTimeOffset.Now; long now = dto.ToUnixTimeSeconds();
             double hi = (now - start_time) / day;
             if (hi > day_live || now < start_time)
-                Close();
+                Close();*/
 
             ThreadPool.SetMinThreads(1, 1);
             ThreadPool.SetMaxThreads(threads, threads);
@@ -1866,10 +1870,10 @@ namespace up
 
         private void timer2_Tick(object sender, EventArgs e)
         {
+            MessageBox.Show("time");
             object[] hi = { start_time, day_live, this };
             functions fs = new functions();
             ThreadPool.QueueUserWorkItem(fs.live, hi);
-            //if (!functions.live(start_time, day_live)) Close();
         }
 
         private void Shed_Click(object sender, EventArgs e)
