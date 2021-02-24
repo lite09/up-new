@@ -600,7 +600,7 @@ namespace up
                 return null;
 
             string url/*, id_op*/;
-            Regex r_url = new Regex(@"(.*/\d+)");
+            Regex r_url = new Regex(@"(.*/\d+)/");
 
             for (int i = 0; i < urls.Length; i++)
             {
