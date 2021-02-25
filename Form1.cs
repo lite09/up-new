@@ -848,10 +848,21 @@ namespace up
                     //  --------------------------   обновление картинок    --------------------------
 
 
+
                     //  --------------------------     вывод информации     --------------------------
                     Options_up op = new Options_up();     // строка из дополнительного фаила соответсвующии текущей записи из хмл фаила
                     try { op = options.Find(l => l.artnumber == offer.id); }
                     catch {}
+
+                    //  ------    Корректировка полеи name, full_name и eksport из доп фаила    ------
+                    if (op != null)
+                    {
+                        if (op.full_name != null && op.full_name != "") offer.name = op.full_name;
+                        if (op.name != null && op.name != "") offer.short_name = op.name;
+                        if (op.eksport != null && op.eksport != "") offer.eksport = op.eksport;
+                    }
+                    //  -------------------------------------------------------------------------------
+
                     if (op != null && op.torg_predl != "")
                         line_csv = offer.id_with_prefix + ";" + op.torg_predl + ";";
                     else

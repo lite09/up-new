@@ -21,10 +21,15 @@ public class Options_up
     public string WIDTH_PACK { get { return width_pack; } set { width_pack = value; } }
     public string height_pack;
     public string HEIGHT_PACK { get { return height_pack; } set { height_pack = value; } }
+    public string name;
+    public string NAME { get { return name; } set { name = value; } }
+    public string full_name;
+    public string FULL_NAME { get { return full_name; } set { full_name = value; } }
+    public string eksport;
+    public string EKSPORT { get { return eksport; } set { eksport = value; } }
 
     //public string ;
     //public string  { get { return ; } set {  = value; } }
-
 
     public string max_oboroty_ob_min;
     public string MAX_OBOROTY_OB_MIN { get { return max_oboroty_ob_min; } set { max_oboroty_ob_min = value; } }

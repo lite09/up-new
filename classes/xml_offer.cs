@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -22,7 +23,8 @@ namespace up
             weight,                         // вес
             in_stock,                       // на складе
             type_of_package,                // Тип упаковки, DELIVERY_PACKAGE_TYPE
-            composition_of_package;         // Состав упаковки, DELIVERY_PACKAGE
+            composition_of_package,         // Состав упаковки, DELIVERY_PACKAGE
+            eksport;                        // парамерт из доп фаила, правильное название export 
         public List<string> pictures;
 
         public List<string> pictures_to_str(IEnumerable<XElement> pics)
@@ -99,5 +101,24 @@ namespace up
             return name;
         }
 
+        public string get_property(string property, xml_offer op)
+        {
+            if (property == "")
+            {
+            }
+            try
+            {
+                FieldInfo i = typeof(xml_offer).GetField(property.ToLower());
+                if (i == null)
+                    return "";
+
+                object value = i.GetValue(op);
+                if (value == null)
+                    return "";
+
+                return value.ToString();
+            }
+            catch { return ""; }
+        }
     }
 }
