@@ -646,5 +646,18 @@ namespace up
             }
             catch {}
         }
+        public static int get_id(string url)
+        {
+            Regex r_id = new Regex("(.*)\\/(\\d*)");
+            try
+            {
+                Match m_id = r_id.Match(url);
+
+                return Convert.ToInt32(m_id.Groups[2].Value);
+            }
+            catch{}
+
+            return 0;
+        }
     }
 }

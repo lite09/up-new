@@ -851,7 +851,19 @@ namespace up
 
                     //  --------------------------     вывод информации     --------------------------
                     Options_up op = new Options_up();     // строка из дополнительного фаила соответсвующии текущей записи из хмл фаила
-                    try { op = options.Find(l => l.artnumber == offer.id); }
+                    try
+                    {
+                        op = options.Find(
+                            delegate (Options_up l)
+                            {
+                                if (l.artnumber == null || l.artnumber == "")
+                                    l.artnumber = functions.get_id(l.id).ToString();
+
+                                return l.artnumber == offer.id;
+                            }
+                        );
+                        //l => l.artnumber == offer.id);
+                    }
                     catch {}
 
                     //  ------    Корректировка полеи name, full_name и eksport из доп фаила    ------
@@ -1100,6 +1112,7 @@ namespace up
                                     //option = ops_csv.Find(op => op.id == Convert.ToInt32(offer.id));
                                     foreach (var item in ops_csv)
                                     {
+                                        if (item.artnumber == null || item.artnumber == "") item.artnumber = functions.get_id(item.id).ToString();      //  получение id
                                         if (offer.id == item.artnumber)
                                         {
                                             option = new Options_up();
