@@ -241,6 +241,8 @@ namespace up
                 {
                     foreach (int item in offer_ids)
                     {
+                        if (op.artnumber == null || op.artnumber == "")
+                            op.artnumber = functions.get_id(op.id).ToString();
                         if (Convert.ToInt32(op.ARTNUMBER) == item)
                             return true;
                     }

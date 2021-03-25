@@ -605,14 +605,21 @@ namespace up
 
                     //op_head = op_head.Remove(op_head.Length - 3, 3);
                     var l = tmp_head_op.Except(tmp_head_xml);
-                    op_head_list = l.ToList();
-                    //  получение полей заголовка фаила описания (доп фаила)
+                    op_head_list = l.ToList();                                          //  получение полей заголовка фаила описания (доп фаила)
+                    // ---------------------------- удаление лишних полеи ----------------------------
+                    List<string> ex_heads = new List<string> { "torg_predl" };
+
+                    foreach (string ex_hd in ex_heads)
+                        op_head_list.Remove(ex_hd.ToUpper());
+                    //----------------------------- удаление лишних полеи ----------------------------
+
                     op_head = "";
-                    foreach (string item in l)
+                    foreach (string item in op_head_list)
                         op_head += item + ";";
 
                     line_head += ";" + op_head.Remove(op_head.Length - 1, 1);
                 }
+
             }
             // ------------------------------ добавление полей заголовка из дополнительного фаила ------------------------------
 
@@ -853,7 +860,7 @@ namespace up
                     Options_up op = new Options_up();     // строка из дополнительного фаила соответсвующии текущей записи из хмл фаила
                     try
                     {
-                        op = options.Find(
+                        /*op = options.Find(
                             delegate (Options_up l)
                             {
                                 if (l.artnumber == null || l.artnumber == "")
@@ -861,6 +868,13 @@ namespace up
 
                                 return l.artnumber == offer.id;
                             }
+                        );*/
+                        op = options.Find((l) => {
+                            if (l.artnumber == null || l.artnumber == "")
+                                l.artnumber = functions.get_id(l.id).ToString();
+
+                            return l.artnumber == offer.id;
+                        }
                         );
                         //l => l.artnumber == offer.id);
                     }
@@ -930,6 +944,7 @@ namespace up
                         line_csv += ";" + date + ";" + line_info[3];
 
                     line_csv += ";";
+
                     if (op != null)
                     {
                         foreach (string tl in op_head_list)
