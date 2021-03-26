@@ -823,11 +823,21 @@ namespace up
                     //  --------------------------   обновление категорий   --------------------------
                     if (rb_auto.Checked && tre_conf.tre_list_categoryes.Count > 0)
                     {
-                        if (!mod_cat(ref tre_conf.tre_list_categoryes, offer)) offer.categoryId = "999999";
+                        if (!mod_cat(ref tre_conf.tre_list_categoryes, offer))
+                            continue;
                     }
-                    else if (categories)
+                    else if (rb_manual.Checked)
                     {
-                        if (!mod_cat(ref mod_catalog, offer)) offer.categoryId = "999999";
+                        if (categories)
+                        {
+                            if (!mod_cat(ref mod_catalog, offer))
+                                offer.categoryId = "999999";
+                        }
+                        else if (tre_conf.tre_list_categoryes.Count > 0)
+                        {
+                            if (!mod_cat(ref tre_conf.tre_list_categoryes, offer))
+                                offer.categoryId = "999999";
+                        }
                     }
                     //  --------------------------   обновление категорий   --------------------------
 
