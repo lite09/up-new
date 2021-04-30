@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -187,18 +188,20 @@ namespace up
                 else
                     r = name_csv;
 
-                using (var reader = new StreamReader(r, Encoding.GetEncoding(1251)))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    csv.Configuration.Delimiter = ";";
-                    csv.Configuration.HeaderValidated = null;
-                    csv.Configuration.MissingFieldFound = null;
-                    csv.Configuration.Encoding = Encoding.GetEncoding(1251);
-                    var info = new List<string>();
-                    csv.Configuration.BadDataFound = data => {
-                        info.Add(data.RawRecord);
-                    };
-
+                    Delimiter = ";",
+                    HeaderValidated = null,
+                    MissingFieldFound = null,
+                    Encoding = Encoding.GetEncoding(1251),
+                    //var info = new List<string>();
+                    BadDataFound = data => {
+                        //info.Add(data.RawRecord);
+                    },
+                };
+                using (var reader = new StreamReader(r, Encoding.GetEncoding(1251)))
+                using (var csv = new CsvReader(reader, config))
+                {
                     var l = csv.GetRecords<Options_up>();
                     options_csv = l.ToList();
                 }
