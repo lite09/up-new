@@ -421,7 +421,7 @@ namespace up
             //if (data.tre_conf.save_ids_dir != null)
             //    tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
             if (data.f.description != null && data.f.description.Length > 0)
-                f.description_form.tb_description.Text = data.f.description;
+                f.description_form.rtb_description.Text = data.f.description;
             // ---------------------------------------------------------- full ----------------------------------------------------------
 
         }
@@ -508,7 +508,7 @@ namespace up
                 object[] hi = { "" };
                 try
                 {
-                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.tb_description.Text };
+                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.rtb_description.Text };
                     hi = hi_tmp;
                     object i = new object();
                     lock(i) {

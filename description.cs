@@ -18,7 +18,7 @@ namespace up
 
         private void tb_description_Leave(object sender, System.EventArgs e)
         {
-            form1.full.description = tb_description.Text;
+            form1.full.description = rtb_description.Text;
         }
     }
 }

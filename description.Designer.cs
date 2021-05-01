@@ -28,18 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tb_description = new System.Windows.Forms.TextBox();
             this.ok = new System.Windows.Forms.Button();
+            this.rtb_description = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
-            // 
-            // tb_description
-            // 
-            this.tb_description.Location = new System.Drawing.Point(12, 12);
-            this.tb_description.Multiline = true;
-            this.tb_description.Name = "tb_description";
-            this.tb_description.Size = new System.Drawing.Size(540, 397);
-            this.tb_description.TabIndex = 0;
-            this.tb_description.Leave += new System.EventHandler(this.tb_description_Leave);
             // 
             // ok
             // 
@@ -51,6 +42,14 @@
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
+            // rtb_description
+            // 
+            this.rtb_description.Location = new System.Drawing.Point(12, 12);
+            this.rtb_description.Name = "rtb_description";
+            this.rtb_description.Size = new System.Drawing.Size(540, 397);
+            this.rtb_description.TabIndex = 3;
+            this.rtb_description.Text = "";
+            // 
             // description
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -58,20 +57,19 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
             this.ClientSize = new System.Drawing.Size(564, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.rtb_description);
             this.Controls.Add(this.ok);
-            this.Controls.Add(this.tb_description);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "description";
             this.Text = "Описание";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Button ok;
-        public System.Windows.Forms.TextBox tb_description;
+        protected internal System.Windows.Forms.RichTextBox rtb_description;
     }
 }

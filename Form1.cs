@@ -693,9 +693,11 @@ namespace up
                     offer.short_name = offer.name_short(offer.name);
                     if (mode.add_articule_to_short_name) offer.short_name += ", арт. " + offer.id;
                 }
+                else
+                    offer.short_name = offer.name;
                 //  -----------------------------  Сокращение имени  -----------------------------
 
-                //  ----------------------------  Сокращение состава  ----------------------------
+                    //  ----------------------------  Сокращение состава  ----------------------------
                 offer.composition = f.clear_Composition(offer.composition);
                 //  ----------------------------  Сокращение состава  ----------------------------
 
@@ -1495,7 +1497,9 @@ namespace up
 
         private void get_stop_words()
         {
-            string stop_wrd = File.ReadAllText("stop words.csv", Encoding.Default);
+            string stop_wrd = "";
+            try     { stop_wrd = File.ReadAllText("stop words.csv", Encoding.Default); }
+            catch   { /*MessageBox.Show("Укажите фаил stop words.csv");*/ }
             //richTextBox1.Text = stop_wrd;
 
             Regex short_name = new Regex("(.*)\r\n");
