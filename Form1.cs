@@ -51,6 +51,8 @@ namespace up
 
         public Ssh ssh_conf = new Ssh();
 
+        public description_save desc_save = new description_save();
+
         public string token = null;
         readonly int CPU = Environment.ProcessorCount;
         public int threads = Environment.ProcessorCount;
@@ -1462,7 +1464,7 @@ namespace up
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            save save_obj = new save(easy, full, ssh_conf, tre_conf);
+            save save_obj = new save(easy, full, ssh_conf, tre_conf, desc_save);
             string json = JsonConvert.SerializeObject(save_obj, Newtonsoft.Json.Formatting.Indented);
             File.WriteAllText("save.json", json);
 
@@ -1636,7 +1638,7 @@ namespace up
 
             name = saveFile.FileName;
 
-            save save_obj = new save(easy, full, ssh_conf, tre_conf);
+            save save_obj = new save(easy, full, ssh_conf, tre_conf, desc_save);
             string json = JsonConvert.SerializeObject(save_obj, Newtonsoft.Json.Formatting.Indented);
 
             File.WriteAllText(name, json);
