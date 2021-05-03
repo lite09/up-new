@@ -17,7 +17,7 @@ namespace up
     public class functions
     {
         public Form1 f = new Form1();
-        public functions() { }
+        public functions() {}
         public functions(Form1 form)
         {
             f = form;
@@ -211,7 +211,7 @@ namespace up
 
             return true;
         }
-        public void set_settings(Ssh_form ssh, Form2 e, Form3 f3, save data, tre_folder_form tre_form_obj)
+        public void set_settings(Ssh_form ssh, Form2 e, Form3 f3, save data, tre_folder_form tre_form_obj, description description_form)
         {
             // ---------------------------------------------------------- ssh -----------------------------------------------------------
             if (data.ssh != null)
@@ -418,14 +418,16 @@ namespace up
             if (data.tre_conf.tre_full_del_old_itm_count != "")
                 tre_form_obj.tb_full_del_old_itm.Text = data.tre_conf.tre_full_del_old_itm_count;
             // ---------------------------------------- tree del_old_itm -----------------------------------------
-            //if (data.tre_conf.save_ids_dir != null)
-            //    tre_form_obj.tb_save_ids_dir.Text = data.tre_conf.save_ids_dir;
-            if (data.f.description != null && data.f.description.Length > 0)
-                f.description_form.rtb_description.Text = data.f.description;
+            // -------------------------------------------- описание ---------------------------------------------
+            if (data.d_s.description_teplate != null && data.d_s.description_teplate.Length > 0)
+                f.description_form.rtb_description.Text = string.Join("\r\n", data.d_s.description_teplate);
+            if (data.d_s.file_name_options != null && data.d_s.file_name_options != "")
+                description_form.l_bo.Items.Add(data.d_s.file_name_options);
+            // -------------------------------------------- описание ---------------------------------------------
             // ---------------------------------------------------------- full ----------------------------------------------------------
 
         }
-        public void clear_configure(string mode)
+        static public void clear_configure(string mode, Form1 f)
         {
             configure time_easy = f.easy, time_full = f.full;
 
@@ -443,6 +445,9 @@ namespace up
             }
             if (mode == "tre_folder")
                 f.tre_conf = new tre_save();
+            if (mode == "desc")
+                f.desc_save = new description_save();
+
         }
         private bool is_xml(string xml)
         {
@@ -661,6 +666,59 @@ namespace up
             catch{}
 
             return 0;
+        }
+
+        // clear form
+        static public void ctrl(Control cont)
+        {
+            if (cont is TextBox)
+            {
+                TextBox textBox = (TextBox)cont;
+                textBox.Text = "";
+                return;
+            }
+
+            if (cont is ComboBox)
+            {
+                ComboBox comboBox = (ComboBox)cont;
+                if (comboBox.Items.Count > 0)
+                    comboBox.SelectedIndex = 0;
+                return;
+            }
+
+            if (cont is CheckBox)
+            {
+                CheckBox checkBox = (CheckBox)cont;
+                checkBox.Checked = false;
+                return;
+            }
+
+            if (cont is ListBox)
+            {
+                ListBox listBox = (ListBox)cont;
+                listBox.Items.Clear();
+                return;
+            }
+
+            if (cont is RichTextBox)
+            {
+                RichTextBox listBox = (RichTextBox)cont;
+                listBox.Text = "";
+                return;
+            }
+        }
+        static public void ctrls(Control.ControlCollection cont)
+        {
+            foreach (Control control in cont)
+            {
+                ctrl(control);
+                if (control is GroupBox)
+                {
+                    GroupBox gb = (GroupBox)control;
+                    foreach (Control item in gb.Controls)
+                        ctrl(item);
+                }
+            }
         }
     }
 }

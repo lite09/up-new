@@ -58,7 +58,6 @@ namespace up
         public string gred_file;                        // файл с размерными сетками
         public string file_coefficient_package_mass;    // файл с коэффициентами габаритов и массы
         public string file_colors;                      // фаил с заменой цветов
-        public string description;                      // описание
 
         // Коэффициенты для габаритов и массы
         public List<cfg_data.coefficient_of_package>
@@ -150,14 +149,6 @@ namespace up
                         l.Tag = 0;
                     }
                 };
-
-
-                //days[i].Click += (a, e) => iClick(a, e, (int)days[i].Tag);
-
-                //void iClick(object e, EventArgs ik, int num)
-                //{
-                //    days[num].BackColor = Color.Cyan;
-                //};
 
                 f.Controls.Add(days[i]);
             }

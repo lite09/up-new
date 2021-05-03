@@ -205,16 +205,16 @@ namespace up
         {
             foreach (Control control in Controls)
             {
-                form1.ctrl(control);
+                functions.ctrl(control);
                 if (control is GroupBox)
                 {
                     GroupBox gb = (GroupBox)control;
                     foreach (Control item in gb.Controls)
-                        form1.ctrl(item);
+                        functions.ctrl(item);
                 }
             }
 
-            form1.f.clear_configure("tre_folder");
+            functions.clear_configure("tre_folder", form1);
         }
     }
 }

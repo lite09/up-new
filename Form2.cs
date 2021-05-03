@@ -187,16 +187,16 @@ namespace up
         {
             foreach (Control control in f1.set_easy.Controls)
             {
-                f1.ctrl(control);
+                functions.ctrl(control);
                 if (control is GroupBox)
                 {
                     GroupBox gb = (GroupBox)control;
                     foreach (Control item in gb.Controls)
-                        f1.ctrl(item);
+                        functions.ctrl(item);
                 }
             }
 
-            f1.f.clear_configure("easy");
+            functions.clear_configure("easy", f1);
 
 
             //foreach (Control control in f1.set_easy.Controls)

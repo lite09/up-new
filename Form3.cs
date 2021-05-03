@@ -420,18 +420,18 @@ namespace up
 
         private void Clear_Click(object sender, EventArgs e)
         {
-            foreach (Control control in f.set_full.Controls)
+            foreach (Control control in Controls)
             {
-                f.ctrl(control);
+                functions.ctrl(control);
                 if (control is GroupBox)
                 {
                     GroupBox gb = (GroupBox)control;
                     foreach (Control item in gb.Controls)
-                        f.ctrl(item);
+                        functions.ctrl(item);
                 }
             }
 
-            f.f.clear_configure("full");
+            functions.clear_configure("full", f);
         }
 
         private void none_description_Enter(object sender, EventArgs e)

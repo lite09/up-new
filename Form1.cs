@@ -51,7 +51,7 @@ namespace up
 
         public Ssh ssh_conf = new Ssh();
 
-        public description_save desc_save = new description_save();
+        public description_save desc_save;
 
         public string token = null;
         readonly int CPU = Environment.ProcessorCount;
@@ -1559,6 +1559,8 @@ namespace up
             easy = new configure("easy", this);
             conf_options = new configure("options", this);
 
+            desc_save = new description_save();
+
             string save_json;
             try     { save_json = File.ReadAllText("save.json"); }
             catch   { save_json = "";  }
@@ -1582,8 +1584,9 @@ namespace up
                         full.time_sh = time_full.time_sh;
 
                         tre_conf = save_obj.tre_conf;
+                        desc_save = save_obj.d_s;
 
-                        f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj);
+                        f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj, description_form);
 
                         if (easy.ya == true || full.ya == true)
                         {
@@ -1669,7 +1672,7 @@ namespace up
                         // e_time = clone.Clone(easy); f_time = clone.Clone(full);
                         save_obj.f.load_gred();
 
-                        ctrls(set_easy.Controls); ctrls(set_full.Controls);
+                        functions.ctrls(set_easy.Controls); functions.ctrls(set_full.Controls);
 
                         easy = save_obj.e;
                         easy.time_sh = e_time.time_sh;
@@ -1681,7 +1684,7 @@ namespace up
 
                         tre_conf = save_obj.tre_conf;
 
-                        f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj);
+                        f.set_settings(ssh_form, set_easy, set_full, save_obj, tre_folder_form_obj, description_form);
                         if (easy.ya == true || full.ya == true)
                         {
                             ya.Checked = true;
@@ -1692,59 +1695,6 @@ namespace up
                 }
             }
             catch (ArgumentException err) { MessageBox.Show(err.ToString()); }
-        }
-
-        // clear form
-        public void ctrl(Control cont)
-        {
-            if (cont is TextBox)
-            {
-                TextBox textBox = (TextBox)cont;
-                textBox.Text = "";
-                return;
-            }
-
-            if (cont is ComboBox)
-            {
-                ComboBox comboBox = (ComboBox)cont;
-                if (comboBox.Items.Count > 0)
-                    comboBox.SelectedIndex = 0;
-                return;
-            }
-
-            if (cont is CheckBox)
-            {
-                CheckBox checkBox = (CheckBox)cont;
-                checkBox.Checked = false;
-                return;
-            }
-
-            if (cont is ListBox)
-            {
-                ListBox listBox = (ListBox)cont;
-                listBox.Items.Clear();
-                return;
-            }
-
-            if (cont is RichTextBox)
-            {
-                RichTextBox listBox = (RichTextBox)cont;
-                listBox.Text = "";
-                return;
-            }
-        }
-        public void ctrls(Control.ControlCollection cont)
-        {
-            foreach (Control control in cont)
-            {
-                ctrl(control);
-                if (control is GroupBox)
-                {
-                    GroupBox gb = (GroupBox)control;
-                    foreach (Control item in gb.Controls)
-                        ctrl(item);
-                }
-            }
         }
 
         private void ТокенToolStripMenuItem_Click(object sender, EventArgs e)
