@@ -49,7 +49,7 @@
             // 
             this.rtb_description.Location = new System.Drawing.Point(12, 12);
             this.rtb_description.Name = "rtb_description";
-            this.rtb_description.Size = new System.Drawing.Size(550, 397);
+            this.rtb_description.Size = new System.Drawing.Size(550, 414);
             this.rtb_description.TabIndex = 3;
             this.rtb_description.Text = "";
             this.rtb_description.Leave += new System.EventHandler(this.rtb_description_Leave);
@@ -58,9 +58,9 @@
             // 
             this.lb.Font = new System.Drawing.Font("Times New Roman", 9.75F);
             this.lb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(120)))), ((int)(((byte)(90)))));
-            this.lb.Location = new System.Drawing.Point(12, 421);
+            this.lb.Location = new System.Drawing.Point(12, 432);
             this.lb.Name = "lb";
-            this.lb.Size = new System.Drawing.Size(114, 30);
+            this.lb.Size = new System.Drawing.Size(114, 17);
             this.lb.TabIndex = 4;
             this.lb.Text = "Свойства замены";
             this.lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -70,9 +70,9 @@
             this.l_bo.AllowDrop = true;
             this.l_bo.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.l_bo.FormattingEnabled = true;
-            this.l_bo.Location = new System.Drawing.Point(137, 421);
+            this.l_bo.Location = new System.Drawing.Point(137, 432);
             this.l_bo.Name = "l_bo";
-            this.l_bo.Size = new System.Drawing.Size(425, 30);
+            this.l_bo.Size = new System.Drawing.Size(425, 17);
             this.l_bo.TabIndex = 5;
             this.l_bo.DragDrop += new System.Windows.Forms.DragEventHandler(this.l_bo_DragDrop);
             this.l_bo.DragEnter += new System.Windows.Forms.DragEventHandler(this.l_bo_DragEnter);
