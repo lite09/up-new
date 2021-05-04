@@ -513,7 +513,7 @@ namespace up
                 object[] hi = { "" };
                 try
                 {
-                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.rtb_description.Text };
+                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.rtb_description.Text, f.desc_save.options };
                     hi = hi_tmp;
                     object i = new object();
                     lock(i) {
