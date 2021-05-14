@@ -419,8 +419,8 @@ namespace up
                 tre_form_obj.tb_full_del_old_itm.Text = data.tre_conf.tre_full_del_old_itm_count;
             // ---------------------------------------- tree del_old_itm -----------------------------------------
             // -------------------------------------------- описание ---------------------------------------------
-            if (data.d_s.description_teplate != null && data.d_s.description_teplate.Length > 0)
-                f.description_form.rtb_description.Text = string.Join("\r\n", data.d_s.description_teplate);
+            if (data.d_s.lines_description != null && data.d_s.lines_description.Count > 0)
+                f.description_form.rtb_description.Text = string.Join("\r\n", data.d_s.lines_description);
             if (data.d_s.file_name_options != null && data.d_s.file_name_options != "")
                 description_form.l_bo.Items.Add(data.d_s.file_name_options);
             // -------------------------------------------- описание ---------------------------------------------
@@ -513,7 +513,7 @@ namespace up
                 object[] hi = { "" };
                 try
                 {
-                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.description_form.rtb_description.Text, f.desc_save.options };
+                    object[] hi_tmp = { Directory.GetFiles(dir).First(), dir + "\\Tmp_files", dir + "\\Dop_file", cfg, "cfg", f.desc_save.lines_description, f.desc_save.options };
                     hi = hi_tmp;
                     object i = new object();
                     lock(i) {

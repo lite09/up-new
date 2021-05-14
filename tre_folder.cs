@@ -51,7 +51,7 @@ namespace up
             form1.tre_conf.file_head_options = file_name[0];
             options_lb.Items.Add(Path.GetFileName(form1.tre_conf.file_head_options));
 
-            string fileText = System.IO.File.ReadAllText(file_name[0], Encoding.Unicode);
+            string fileText = System.IO.File.ReadAllText(file_name[0], Encoding.Default);
 
             Regex get_line = new Regex("(.*)\r\n");
             MatchCollection words = get_line.Matches(fileText);

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace up
@@ -39,7 +41,12 @@ namespace up
 
         private void rtb_description_Leave(object sender, System.EventArgs e)
         {
-            form1.desc_save.description_teplate = rtb_description.Lines;
+            string[] description_teplate = rtb_description.Lines;
+            form1.desc_save.lines_description = description_teplate.ToList();
+
+            //Regex getline = new Regex(@"(<.[^/]*/\S[^<]+>*)");
+            //MatchCollection lines = Regex.Matches(description_teplate, getline.ToString(), RegexOptions.Multiline);
+            //form1.desc_save = lines.Cast<Match>().Select(m => m.Value.Trim()).ToList();
         }
 
         private void clear_Click(object sender, System.EventArgs e)

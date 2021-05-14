@@ -1,9 +1,11 @@
-﻿namespace up
+﻿using System.Collections.Generic;
+
+namespace up
 {
     public class description_save
     {
         public string[] options;
         public string file_name_options;
-        public string []description_teplate;
+        public List<string> lines_description;
     }
 }
