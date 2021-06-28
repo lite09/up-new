@@ -674,18 +674,26 @@ namespace up
             {
                 string txt = File.ReadAllText(file, Encoding.UTF8); txt += "\r\n";
                 string[] lines = Regex.Matches(txt, "(.*)\\r\\n").Cast<Match>().Select(l => l.Value.Trim()).ToArray();
-                string[,] sim_to_ch = new string[lines.Length, 2];
                 string[] ch = new string[2];
+                int sum = 0;
+                List <string[]> l_sim_to_ch = new List<string[]>();
 
-                foreach (var line in lines)
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    if (line == "") continue;
-                    ch[0] = Regex.Match(line, "(^\\S)*|").Groups[1].Value;
-                    ch[1] = Regex.Match(line, @"\S*\|(\S+)$").Groups[1].Value;
-                    //lines[i] = Regex.Match(lines[i], @"detail\/[^\/]+\/([^\/|\?]+)").Groups[1].Value;
+                    if (lines[i] == "") continue;
+                    sum++;
+                    ch[0] = Regex.Match(lines[i], "(^\\S*)\\|").Groups[1].Value;
+                    ch[1] = Regex.Match(lines[i], @"\S*\|(\S+)$").Groups[1].Value;
+                    l_sim_to_ch.Add(new string[] { ch[0], ch[1] });
+                    //sim_to_ch[i, 0] = ch[0]; sim_to_ch[i, 1] = ch[1];
                 }
 
-                lines = lines.Distinct().ToArray();
+                string[,] sim_to_ch = new string[sum, 2];
+                for (int i = 0; i < l_sim_to_ch.Count; i++)
+                {
+                    sim_to_ch[i, 0] = l_sim_to_ch[i][0];
+                    sim_to_ch[i, 1] = l_sim_to_ch[i][1];
+                }
 
                 return sim_to_ch;
             }
