@@ -21,7 +21,10 @@ using System.Xml;
 using System.Xml.Linq;
 
 using stl;
+using CsvHelper.Configuration;
+using CsvHelper;
 //using System.Security.Cryptography;
+using stl.classes;
 
 namespace up
 {
@@ -1004,9 +1007,27 @@ namespace up
             }
 
             // ---------------------------------------- сохраниение id для упощеного режима и сохранение url без описания
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = ";",
+                HeaderValidated = null,
+                MissingFieldFound = null,
+                Encoding = Encoding.GetEncoding(1251),
+                BadDataFound = data => {},
+            };
+            List<Options_up> output_csv = new List<Options_up>();
+            StreamReader reader = new StreamReader(new MemoryStream(Encoding.GetEncoding(1251).GetBytes(sb.ToString())), Encoding.GetEncoding(1251));
+            using (var csv = new CsvReader(reader, config))
+            {
+                var li = csv.GetRecords<Options_up>();
+                output_csv = li.ToList();
+            }
+
+
             functions fn = new functions();
-            string[] ids = fn.get_ids(offers);
+            string[] ids = fn.get_options_ids(output_csv);
             StringBuilder sb_time = new StringBuilder();
+            //tre_conf.get_ids_dir = @"C:\Users\и\Desktop\tre_folder\save_id";
             foreach (string i in ids)
                 sb_time.Append(i + "\r\n");
 
@@ -1558,8 +1579,10 @@ namespace up
             full = new configure("full", this);
             easy = new configure("easy", this);
             conf_options = new configure("options", this);
+            string [,] sim_to_ch = functions.get_sim_to_ch("cfg\\Список подстановки.txt");
 
             desc_save = new description_save();
+
 
             string save_json;
             try     { save_json = File.ReadAllText("save.json"); }

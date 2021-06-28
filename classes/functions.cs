@@ -668,6 +668,30 @@ namespace up
             return 0;
         }
 
+        public static string[,] get_sim_to_ch(string file)
+        {
+            try
+            {
+                string txt = File.ReadAllText(file, Encoding.UTF8); txt += "\r\n";
+                string[] lines = Regex.Matches(txt, "(.*)\\r\\n").Cast<Match>().Select(l => l.Value.Trim()).ToArray();
+                string[,] sim_to_ch = new string[lines.Length, 2];
+                string[] ch = new string[2];
+
+                foreach (var line in lines)
+                {
+                    if (line == "") continue;
+                    ch[0] = Regex.Match(line, "(^\\S)*|").Groups[1].Value;
+                    ch[1] = Regex.Match(line, @"\S*\|(\S+)$").Groups[1].Value;
+                    //lines[i] = Regex.Match(lines[i], @"detail\/[^\/]+\/([^\/|\?]+)").Groups[1].Value;
+                }
+
+                lines = lines.Distinct().ToArray();
+
+                return sim_to_ch;
+            }
+            catch { MessageBox.Show("Не удалось прочитать символы подстановки"); return null; }
+        }
+
         // clear form
         static public void ctrl(Control cont)
         {
