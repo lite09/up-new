@@ -22,7 +22,6 @@ namespace up
         {
             f = form;
         }
-        //public functions(){}
         public string clear_Composition(string comp)
         {
             if (comp != null)
@@ -685,7 +684,6 @@ namespace up
                     ch[0] = Regex.Match(lines[i], "(^\\S*)\\|").Groups[1].Value;
                     ch[1] = Regex.Match(lines[i], @"\S*\|(\S+)$").Groups[1].Value;
                     l_sim_to_ch.Add(new string[] { ch[0], ch[1] });
-                    //sim_to_ch[i, 0] = ch[0]; sim_to_ch[i, 1] = ch[1];
                 }
 
                 string[,] sim_to_ch = new string[sum, 2];
@@ -698,6 +696,14 @@ namespace up
                 return sim_to_ch;
             }
             catch { MessageBox.Show("Не удалось прочитать символы подстановки"); return null; }
+        }
+
+        public static string utf_to_asci(string s, string [,] temls)
+        {
+            for (int i = 0; i < temls.Length / 2; i++)
+                s = s.Replace(temls[i, 0], temls[i, 1]);
+
+            return s;
         }
 
         // clear form

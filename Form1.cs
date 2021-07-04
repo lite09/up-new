@@ -1579,8 +1579,8 @@ namespace up
             full = new configure("full", this);
             easy = new configure("easy", this);
             conf_options = new configure("options", this);
-            string [,] sim_to_ch = functions.get_sim_to_ch("cfg\\Список подстановки.txt");
-
+            //string [,] sim_to_ch = functions.get_sim_to_ch("cfg\\Список подстановки.txt");
+            //string s = functions.utf_to_asci("", sim_to_ch);
             desc_save = new description_save();
 
 
